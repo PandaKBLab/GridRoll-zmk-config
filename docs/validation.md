@@ -30,15 +30,19 @@ Internal circuit and module-pad tables have been removed from current documentat
 
 ## Physical verification
 
-The user reported that Bluetooth was not discoverable and that trackball directions were rotated. Software changes have not yet been physically verified.
+On 2026-11-06, the user confirmed that both halves' keys and the right trackball work with right USB connected and the left half on battery. This verifies basic split input over BLE and right USB input; encoder behavior and corrected trackball orientation have not been rechecked separately.
+
+During host-discovery troubleshooting, the user powered off the left half and reset the USB-powered right half: a phone could then discover **GridRoll**. With the right half left running, switching the left half back on did not prevent discovery. These observations show that host advertising can work alongside the split link. The original failure has not been reproduced or assigned a confirmed cause. No firmware code, configuration or dependency changes were made during this diagnostic sequence. Host pairing and input with both halves on battery remain to be verified.
 
 | Check | Required observation | Status |
 |---|---|---|
-| Keys and encoder | Correct input on both halves and no duplicate presses | Pending |
-| Trackball | Up/down/left/right match physical movement | Pending |
+| Keys | Input on both halves, right USB and left battery | User-reported working; duplicate-press test pending |
+| Encoder | Correct rotation and press behavior | Pending |
+| Trackball | Up/down/left/right match physical movement | USB input user-reported working; direction test pending |
 | Mouse layer | Consistent horizontal and vertical scrolling | Pending |
-| Bluetooth | Right half is discoverable as GridRoll on an open profile and pairs | Pending |
-| Split | Both halves reconnect after power cycling and sleep | Pending |
+| Bluetooth discovery | Phone discovers the right half as GridRoll, with the left off and on | User-reported working after right reset |
+| Bluetooth host input | Pair a computer and use both halves on battery | Pending |
+| Split | Both halves reconnect after power cycling and sleep | Basic split input user-reported working; cycle/sleep tests pending |
 | ZMK Studio | Right USB connects; unlock, edit, save and reconnect work | Pending |
 | DYA | Pointer and scroll parameters persist after power cycling | Pending |
 | Power | Measure active, idle and battery deep-sleep current | Pending |
