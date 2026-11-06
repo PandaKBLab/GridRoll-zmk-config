@@ -11,9 +11,9 @@ Dieses Repository enthält Firmware, Build-Werkzeuge und Anleitungen. PCB-Projek
 ## Download und Aktualisierung
 
 1. Öffnen Sie einen erfolgreichen Lauf unter [Build GridRoll firmware](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/workflows/build.yml).
-2. Laden Sie **GridRoll-left** und **GridRoll-right** herunter. Jede ZIP enthält die passende UF2-Datei. **GridRoll-firmware** enthält zusätzlich Diagnose- und Rücksetz-Firmware, Protokolle und Build-Konfigurationen.
+2. Laden Sie nur die ZIP **GridRoll-firmware** herunter. Sie enthält genau drei Dateien: **GridRoll-left.uf2**, **GridRoll-right.uf2** und **GridRoll-settings-reset.uf2**.
 3. Starten Sie den Bootloader auf beiden Hälften. Kopieren Sie GridRoll-left.uf2 auf die linke und GridRoll-right.uf2 auf die rechte Hälfte. Die Rücksetz-Firmware ist nicht für den normalen Betrieb gedacht.
-4. Ohne installierten GridRoll-Bootloader ist zunächst die [Erstinstallation](docs/first-flash.md) nötig.
+4. Ohne installierten GridRoll-Bootloader ist zunächst die [Erstinstallation](docs/first-flash.md) nötig. Das Erstinstallationspaket muss separat gebaut werden und ist nicht in dieser ZIP enthalten.
 
 Artefakte werden 30 Tage gespeichert. Ein erfolgreicher Build bestätigt Softwareprüfungen, aber keine bestandenen Gerätetests.
 

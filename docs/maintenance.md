@@ -60,7 +60,9 @@ GridRoll 的 PAW3222 安装方向在驱动输出时固定校正为 `X=-rawY`、`
 
 ## 诊断
 
-`GridRoll-right-diagnostics.uf2` 保留正常功能和 Studio，通过 SEGGER RTT 输出传感器日志。接 SWD 探针，用 RTT 客户端查看启动 ID、初始化 CPI 及总线错误；日志不与 Studio USB 串口混用。无传感器／探测失败时仅停止轨迹球，键盘与分体应继续工作。
+标准 Actions 下载只有一个 GridRoll-firmware 包，且仅包含左手、右手和 settings-reset 三个 UF2；不包含诊断固件、启动程序、HEX、日志或配置文件。
+
+需要诊断时，可从源码单独构建 `GridRoll-right-diagnostics.uf2`。它保留正常功能和 Studio，通过 SEGGER RTT 输出传感器日志。接 SWD 探针，用 RTT 客户端查看启动 ID、初始化 CPI 及总线错误；日志不与 Studio USB 串口混用。无传感器／探测失败时仅停止轨迹球，键盘与分体应继续工作。
 
 GPIO 总线采用 mode 3、MSB 优先，默认半周期 5µs、读转向等待 100µs、事务间隔 50µs，均可在右侧传感器节点中调整。读取前 SDIO 转为输入；所有 GPIO 失败路径均尝试 CS 释放、SCLK 恢复高、SDIO 释放。初始化最多 3 次尝试；运行错误最多 3 次快速重试，随后降至 1Hz，避免持续占用工作队列。
 
@@ -68,7 +70,7 @@ GPIO 总线采用 mode 3、MSB 优先，默认半周期 5µs、读转向等待 1
 
 ## 固定依赖与兼容处理
 
-`config/west.yml` 固定 ZMK custom-studio 分支、Zephyr 4.1 修复版和两个 DYA 模块的完整提交 SHA，传递依赖由这些固定 manifest 决定；Actions 还保存 `west-frozen.yml`。Python 工具锁定于 `ci/requirements.lock`。固件构建镜像固定 digest；启动程序固定 Adafruit 0.11.0 SHA、Git 子模块 SHA 和 Arm GNU 12.3.rel1 下载 SHA256。
+`config/west.yml` 固定 ZMK custom-studio 分支、Zephyr 4.1 修复版和两个 DYA 模块的完整提交 SHA，传递依赖由这些固定 manifest 决定；构建过程生成的 `west-frozen.yml` 不进入标准下载包。Python 工具锁定于 `ci/requirements.lock`。固件构建镜像固定 digest；启动程序固定 Adafruit 0.11.0 SHA、Git 子模块 SHA 和 Arm GNU 12.3.rel1 下载 SHA256。
 
 右侧使用完整 Newlib 数学库、GNU 静态初始化及较大的输入／RPC 线程栈；本地模块为所固定的上游 Studio C 源码补充 stdio 声明，并提供 Arm GNU 14 Newlib 所需的弱 `_fini` 结束钩子，不编辑下载依赖。升级时应重新确认这些兼容处理是否仍需要。固件编译使用镜像内固定的 Python 工具集；`ci/requirements.lock` 用于启动程序和本地环境。
 

@@ -6,18 +6,19 @@ The firmware uses GridRoll for its keyboard, BLE and USB name, corrects the repo
 
 Software checks cover firmware-required GPIO reservations and keymap structure, SDIO error recovery, all four trackball directions and signed limits, compiled names and roles, BLE/Studio flags, sleep timeouts, and HEX/UF2 address consistency.
 
-The inherited fork workflow was backed up, removed and re-registered through the GitHub API. A subsequent **push** automatically started [run 42160071055](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42160071055), which completed successfully for both the firmware and bootloader jobs. The firmware source commit is **5cb5d0e5ae8b94204a9ccdfae394eb3443c62c4c**. No browser automation or new login credentials were used for this recovery.
+## Download package
 
-The hardware/keymap guard, SDIO failure-recovery tests, physical-direction regression test, all four application builds, first-flash builds and HEX/UF2 address checks passed. Downloaded ZIP checksums matched GitHub's artifact digests. The individual left/right UF2 files also matched the full bundle byte for byte.
+Each successful Actions run publishes exactly one **GridRoll-firmware** ZIP. It contains only:
 
-| Firmware | Download | UF2 SHA-256 |
-|---|---|---|
-| Left | [GridRoll-left ZIP](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42160071055/artifacts/13476481914) | 83988b091d57b19b6f2f23f48b8696a3b45eeb76d29611a64e6629397ec0bdbd |
-| Right | [GridRoll-right ZIP](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42160071055/artifacts/13476736347) | dfbe164607a4e915c8b672e54108cafac174283d4f2bb8f9e5f3064d0fe0ebf8 |
+- GridRoll-left.uf2
+- GridRoll-right.uf2
+- GridRoll-settings-reset.uf2
 
-Final compiled configurations were independently read from the downloaded bundle: both sides use the GridRoll name, BLE, 30-second idle and 15-minute battery sleep; the right is central and includes ZMK Studio RPC, its USB serial transport, DYA runtime RPC and 1M PHY compatibility. Both device trees retain matrix-key wake. Artifacts expire on 2026-12-06.
+Diagnostic images, bootloader images, HEX files, logs, device trees and build configurations are not uploaded in the standard package. The upload runs only after all application builds and package-content checks succeed. Build diagnostics remain in the Actions job logs.
 
-All 58 files in the tested source tree matched the reviewed local files. The current tree contains firmware, tools and documentation, with English/Chinese/Japanese/German README files and no PCB, schematic or routing files. Internal circuit and module-pad tables were removed from current documents; existing Git history was not rewritten.
+The previous [successful software build](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42160071055) verified firmware commit 5cb5d0e5ae8b94204a9ccdfae394eb3443c62c4c. This packaging update does not change firmware code or configuration. The new three-file package is being verified in a fresh Actions run.
+
+Internal circuit and module-pad tables have been removed from current documentation. Existing Git history has not been rewritten.
 
 ## Physical verification
 

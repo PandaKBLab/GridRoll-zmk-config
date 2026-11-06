@@ -11,9 +11,9 @@ This repository contains firmware, build tools and user documentation. It does n
 ## Download and flash
 
 1. Open [Build GridRoll firmware](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/workflows/build.yml) and select a successful run.
-2. Download **GridRoll-left** and **GridRoll-right**; each ZIP contains the matching UF2. The **GridRoll-firmware** bundle also contains diagnostic/reset images, logs and build configuration.
+2. Download the single **GridRoll-firmware** ZIP. It contains exactly three files: **GridRoll-left.uf2**, **GridRoll-right.uf2** and **GridRoll-settings-reset.uf2**.
 3. Enter each half's bootloader and copy GridRoll-left.uf2 to the left, GridRoll-right.uf2 to the right. A settings-reset image is not normal keyboard firmware.
-4. Controllers without the GridRoll bootloader first need the [first-flash procedure](docs/first-flash.md).
+4. Controllers without the GridRoll bootloader first need the [first-flash procedure](docs/first-flash.md). Bootloader packages are built separately and are not included in this download.
 
 Artifacts are retained for 30 days. A successful build is software validation, not a hardware test.
 

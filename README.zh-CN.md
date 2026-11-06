@@ -11,9 +11,9 @@ PandaKB GridRoll 分体键盘的 ZMK 固件：47 键、左侧旋钮、右侧 PAW
 ## 下载与烧录
 
 1. 打开 [Build GridRoll firmware](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/workflows/build.yml)，选择成功运行。
-2. 下载 **GridRoll-left** 和 **GridRoll-right**；两个 ZIP 分别包含对应侧 UF2。**GridRoll-firmware** 完整包另外包含诊断版、设置清除版、日志和构建配置。
+2. 只下载一个 **GridRoll-firmware** ZIP，包内仅三个文件：**GridRoll-left.uf2**、**GridRoll-right.uf2** 和 **GridRoll-settings-reset.uf2**。
 3. 分别进入两侧启动程序，将 GridRoll-left.uf2 复制到左侧，GridRoll-right.uf2 复制到右侧。设置清除版不能用作正常键盘固件。
-4. 没有 GridRoll 启动程序的主控需要先按[首次烧录流程](docs/first-flash.md)安装。
+4. 没有 GridRoll 启动程序的主控需要先按[首次烧录流程](docs/first-flash.md)安装；首次包需单独构建，不包含在本下载包中。
 
 产物保留 30 天。编译通过属于软件验证，不代表实物测试通过。
 

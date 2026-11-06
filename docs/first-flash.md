@@ -2,6 +2,8 @@
 
 全新模块没有 USB 启动程序；直接拖入 UF2 无法首次安装。左右使用相同 `GridRoll-first-flash.hex`，然后分别安装左右应用。
 
+标准 Actions 只提供一个 GridRoll-firmware ZIP，其中仅包含左手、右手和 settings-reset 三个 UF2。以下首次烧录 HEX 需单独从源码构建，不包含在标准下载包中；已有启动程序的键盘只需使用标准包中的左右 UF2。
+
 ## 首次包内容
 
 `GridRoll-first-flash.hex` 包含 Adafruit nRF52 Bootloader 0.11.0 的 GridRoll 板定义、S140 6.1.1 和匹配 MBR、启动地址及 REGOUT0=3.3V 初始化记录。旁边的 `licenses/` 和第三方声明应与文件一起保存。
@@ -59,5 +61,5 @@ nrfjprog -f NRF52 --reset
 
 - 没有 GRIDROLL 磁盘：检查数据线、启动程序是否完整安装和 UICR 启动地址；必要时按产品维修说明通过 SWD 重写。
 - 右侧有键盘而左侧无输入：确认侧别文件、同时重置两侧设置后刷回，再检查左电源和矩阵。
-- 轨迹球无输入而按键正常：确认传感器型号匹配；安装右侧诊断固件，通过 SEGGER RTT 读取探测日志。首次传感器 ID 应为 `0x30`。硬件检修请使用单独提供的维修说明。
+- 轨迹球无输入而按键正常：确认传感器型号匹配；需要时从源码单独构建右侧诊断固件，通过 SEGGER RTT 读取探测日志。标准包不含诊断版。首次传感器 ID 应为 `0x30`。硬件检修请使用单独提供的维修说明。
 - Studio 连不上：使用右侧正常／诊断应用、Chrome／Edge、USB 数据线，进入 System 按 Studio 解锁；关闭占用同一串口的其他页面。

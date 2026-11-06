@@ -11,9 +11,9 @@ PandaKB GridRoll 分割キーボード用の ZMK ファームウェアです。4
 ## ダウンロードと書き込み
 
 1. [Build GridRoll firmware](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/workflows/build.yml) で成功した実行を開きます。
-2. **GridRoll-left** と **GridRoll-right** をダウンロードします。各 ZIP に対応する UF2 が入っています。**GridRoll-firmware** には診断用・設定初期化用イメージ、ログ、ビルド設定も含まれます。
+2. ダウンロードする ZIP は **GridRoll-firmware** 一つだけです。内容は **GridRoll-left.uf2**、**GridRoll-right.uf2**、**GridRoll-settings-reset.uf2** の三つだけです。
 3. 各側をブートローダーモードにし、左側に GridRoll-left.uf2、右側に GridRoll-right.uf2 をコピーします。設定初期化用イメージは通常使用には使えません。
-4. GridRoll ブートローダーが未導入の場合は、[初回書き込み手順](docs/first-flash.md)を参照してください。
+4. GridRoll ブートローダーが未導入の場合は、[初回書き込み手順](docs/first-flash.md)を参照してください。初回書き込みパッケージは別途ビルドするもので、この ZIP には含まれません。
 
 成果物の保存期間は 30 日です。ビルド成功はソフトウェア検証であり、実機試験の合格を意味しません。
 
