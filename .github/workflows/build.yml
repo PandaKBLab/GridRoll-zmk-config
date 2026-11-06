@@ -38,12 +38,28 @@ jobs:
           west manifest --freeze > "$GITHUB_WORKSPACE/artifacts/west-frozen.yml"
       - name: Build left, right, diagnostic and settings-reset firmware
         run: python3 scripts/build_firmware.py --workspace /tmp/gridroll-workspace --out artifacts
-      - name: Upload private firmware and build logs
+      - name: Upload firmware and build logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: GridRoll-firmware
           path: artifacts/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload left UF2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: GridRoll-left
+          path: artifacts/GridRoll-left.uf2
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload right UF2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: GridRoll-right
+          path: artifacts/GridRoll-right.uf2
           if-no-files-found: error
           retention-days: 30
 
@@ -67,7 +83,7 @@ jobs:
           git -C /tmp/gridroll-bootloader submodule update --init --depth 1
       - name: Build first-flash package and upstream regression boards
         run: python scripts/build_bootloader.py --source /tmp/gridroll-bootloader --out artifacts
-      - name: Upload private first-flash package and build logs
+      - name: Upload first-flash package and build logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
