@@ -25,6 +25,8 @@ jobs:
           python3 scripts/check_hardware.py
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_sdio.c drivers/input/paw3222_sdio.c -o /tmp/test-sdio
           /tmp/test-sdio
+          cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_orientation.c -o /tmp/test-orientation
+          /tmp/test-orientation
       - name: Fetch locked firmware dependencies
         run: |
           mkdir -p /tmp/gridroll-workspace/config

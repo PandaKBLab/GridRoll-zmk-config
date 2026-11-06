@@ -2,6 +2,8 @@
 
 软件验证与实物验收分开记录。2026-10-01 软件验收完成，实物未测试。
 
+2026-11-06 更新：显式将键盘／蓝牙／USB 产品名设为 GridRoll，固定右侧 BLE／USB 与 1M PHY 设置，并依据用户报告的四个方向校正 PAW3222 安装轴向。增加四方向、对角线及有符号边界测试，构建后检查实际名称、分体角色和蓝牙启用状态；本次 Actions 结果以对应提交的运行记录为准。用户报告蓝牙当前搜不到、轨迹球方向错误；修改后的搜索、配对和四方向尚未实物复测，不能由编译结果认定已经修好。
+
 成功的 [Actions 第 3 次运行](https://github.com/WELL-XX/GridRoll/actions/runs/36884396598) 对应固件源码提交 `3383f02c6f06fa871cdd6ed0074df1d201d55c5b`。firmware 与 bootloader 两项任务均为 success；两个 ZIP 产物均已通过 GitHub 下载接口实际获取验证。后续文档记录提交不改变这些固件源码。
 
 下载 `GridRoll-firmware`（左右、诊断、设置清除 UF2／HEX、各侧配置／设备树／日志和 west-frozen.yml）及 `GridRoll-first-flash`（首次 HEX、许可和三个板的构建日志）。产物在私有仓库保留 30 天，过期可手动重新构建。

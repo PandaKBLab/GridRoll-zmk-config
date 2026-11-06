@@ -6,6 +6,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include "paw3222_sdio.h"
+#include "paw3222_orientation.h"
 
 LOG_MODULE_REGISTER(gridroll_paw3222, CONFIG_GRIDROLL_PAW3222_LOG_LEVEL);
 
@@ -79,8 +80,10 @@ static void motion_work(struct k_work *work) {
             /* 8-bit signed deltas, matching the verified PAW3222 register path.
              * Non-blocking input enqueue keeps the system work queue available. */
             if (x || y) {
-                rc = input_report_rel(dev, INPUT_REL_X, (int8_t)x, false, K_NO_WAIT);
-                if (rc == 0) rc = input_report_rel(dev, INPUT_REL_Y, (int8_t)y, true, K_NO_WAIT);
+                const struct paw3222_motion motion =
+                    paw3222_board_motion((int8_t)x, (int8_t)y);
+                rc = input_report_rel(dev, INPUT_REL_X, motion.x, false, K_NO_WAIT);
+                if (rc == 0) rc = input_report_rel(dev, INPUT_REL_Y, motion.y, true, K_NO_WAIT);
             }
         }
     }

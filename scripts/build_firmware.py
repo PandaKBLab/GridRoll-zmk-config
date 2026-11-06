@@ -27,14 +27,24 @@ for name,entry in TARGETS.items():
     if rc:
         print(log.read_text()[-6000:]); sys.exit(rc)
     config=(build/"zephyr/.config").read_text()
+    if name in ("left", "right", "right-diagnostics"):
+        for flag in ['CONFIG_ZMK_KEYBOARD_NAME="GridRoll"',
+                     'CONFIG_BT_DEVICE_NAME="GridRoll"',
+                     "CONFIG_ZMK_BLE=y", "CONFIG_ZMK_SPLIT=y"]:
+            assert flag in config.splitlines(), f"{name}: missing {flag}"
     if name in ("right","right-diagnostics"):
         for flag in ["CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y","CONFIG_ZMK_STUDIO=y",
-                     "CONFIG_GRIDROLL_PAW3222=y","CONFIG_ZMK_RUNTIME_INPUT_PROCESSOR_STUDIO_RPC=y"]:
+                     "CONFIG_GRIDROLL_PAW3222=y","CONFIG_ZMK_RUNTIME_INPUT_PROCESSOR_STUDIO_RPC=y",
+                     "CONFIG_ZMK_USB=y", 'CONFIG_USB_DEVICE_PRODUCT="GridRoll"',
+                     "# CONFIG_BT_CTLR_PHY_2M is not set"]:
             assert flag in config, f"{name}: missing {flag}"
     if name=="left":
         assert "CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y" not in config
         assert "CONFIG_ZMK_STUDIO=y" not in config
         assert "CONFIG_GRIDROLL_PAW3222=y" not in config
+    if name=="settings-reset":
+        assert "CONFIG_ZMK_BLE=y" not in config
+        assert "CONFIG_ZMK_SETTINGS_RESET_ON_START=y" in config
     for ext in ["uf2","hex"]: shutil.copyfile(build/f"zephyr/zmk.{ext}",out/f"{stem}.{ext}")
     shutil.copyfile(build/"zephyr/.config",out/f"{stem}.config")
     shutil.copyfile(build/"zephyr/zephyr.dts",out/f"{stem}.dts")
