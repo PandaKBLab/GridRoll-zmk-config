@@ -1,44 +1,29 @@
-# 验证记录
+# Validation status
 
-软件验证与实物验收分开记录。2026-10-01 软件验收完成，实物未测试。
+## Current update — 2026-11-06
 
-2026-11-06 更新：显式将键盘／蓝牙／USB 产品名设为 GridRoll，固定右侧 BLE／USB 与 1M PHY 设置，并依据用户报告的四个方向校正 PAW3222 安装轴向。增加四方向、对角线及有符号边界测试，构建后检查实际名称、分体角色和蓝牙启用状态；本次 Actions 结果以对应提交的运行记录为准。用户报告蓝牙当前搜不到、轨迹球方向错误；修改后的搜索、配对和四方向尚未实物复测，不能由编译结果认定已经修好。
+The firmware uses GridRoll for its keyboard, BLE and USB name, corrects the reported PAW3222 mounting orientation before DYA processing, and enables 30-second idle / 15-minute battery deep sleep. The right half retains ZMK Studio and the USB RPC transport. Both halves retain matrix-key wake.
 
-成功的 [Actions 第 3 次运行](https://github.com/WELL-XX/GridRoll/actions/runs/36884396598) 对应固件源码提交 `3383f02c6f06fa871cdd6ed0074df1d201d55c5b`。firmware 与 bootloader 两项任务均为 success；两个 ZIP 产物均已通过 GitHub 下载接口实际获取验证。后续文档记录提交不改变这些固件源码。
+Software checks cover firmware-required GPIO reservations and keymap structure, SDIO error recovery, all four trackball directions and signed limits, compiled names and roles, BLE/Studio flags, sleep timeouts, and HEX/UF2 address consistency.
 
-下载 `GridRoll-firmware`（左右、诊断、设置清除 UF2／HEX、各侧配置／设备树／日志和 west-frozen.yml）及 `GridRoll-first-flash`（首次 HEX、许可和三个板的构建日志）。产物在私有仓库保留 30 天，过期可手动重新构建。
+The latest successful GitHub Actions run and its exact commit are the source of truth for downloadable firmware. Do not infer a successful build from a commit or a queued run. Current checks are being rerun for the PandaKBLab repository.
 
-## 软件检查
+## Physical verification
 
-| 项目 | 状态 |
-|---|---|
-| GPIO 数组顺序、极性、上下拉、预留引脚与冲突 | 已通过本地检查 |
-| 47 键行优先映射、无 RC(3,8)、按压无重复、物理布局／四层 47 绑定 | 已通过本地检查 |
-| 四个预留 Studio 层 | 已通过结构检查 |
-| SDIO 命令方向、释放输入、每个 GPIO 失败位置均执行恢复 | 已通过主机 C 测试 |
-| GridRoll 启动程序与 feather_nrf52840_express／feather_nrf52832 回归 | 已通过本地构建 |
-| 首次 HEX 包含 MBR／S140／启动程序、UICR 3.3V 与正确启动地址 | 已通过实际 HEX 检查 |
-| 左／右／诊断／设置清除固件与 HEX／UF2 地址对应 | 均已通过本地完整构建和实际 HEX／UF2 检查 |
-| GitHub 私有权限 | 已读取确认为 private，WELL-XX 为所有者 |
-| GitHub 协作者 | 已读取设置页面确认 0 位协作者 |
-| 完整 Actions 与可下载产物 | 第 3 次完整运行通过，两个私有 ZIP 下载已验证 |
+The user reported that Bluetooth was not discoverable and that trackball directions were rotated. Software changes have not yet been physically verified.
 
-KSCAN 弃用提示和部分上游未使用函数提示不代表 Kconfig／设备树错误；最终构建日志随产物保存。未实测时不声称波形和供电已通过。
-
-## 实物验收（待用户烧录后填写）
-
-| 项目 | 测试方法／预期 | 结果 |
+| Check | Required observation | Status |
 |---|---|---|
-| UICR 与供电 | 读回地址与 REGOUT0；实测 NRF_VDDR、PAW3222 VCC 约 3.3V | 未测试 |
-| 47 键 | 逐键记录全局坐标，空位无键，长按无异常重复 | 未测试 |
-| 旋钮按压 | RC(3,3) 只产生一次按压／释放 | 未测试 |
-| 旋钮旋转 | 慢／快每圈均 16–40 事件，方向正确 | 未测试 |
-| 轨迹球识别 | RTT 产品 ID=0x30，断开传感器时键盘仍工作 | 未测试 |
-| 指针／滚动 | XY 方向、Mouse 层水平／垂直滚动及三键点击 | 未测试 |
-| DYA 保存 | 调速度／反向／XY 转滚动，保存后断电重上电保持 | 未测试 |
-| Studio | 解锁、修改 47 键、保存和重新连接 | 未测试 |
-| 分体 | 两侧断电、单侧断电、USB／BLE 主机切换后恢复 | 未测试 |
-| 延迟与供电 | 连续输入／轨迹球并发，无卡顿或电源跌落 | 未测试 |
-| 更新与恢复 | SWD 首次安装、各侧 UF2、设置清除和异常恢复 | 未测试 |
+| Keys and encoder | Correct input on both halves and no duplicate presses | Pending |
+| Trackball | Up/down/left/right match physical movement | Pending |
+| Mouse layer | Consistent horizontal and vertical scrolling | Pending |
+| Bluetooth | Right half is discoverable as GridRoll on an open profile and pairs | Pending |
+| Split | Both halves reconnect after power cycling and sleep | Pending |
+| ZMK Studio | Right USB connects; unlock, edit, save and reconnect work | Pending |
+| DYA | Pointer and scroll parameters persist after power cycling | Pending |
+| Power | Measure active, idle and battery deep-sleep current | Pending |
+| Wake | Press keys on each sleeping half; verify reconnect and input | Pending |
+| USB | USB-powered half stays awake during Studio use | Pending |
+| Recovery | Correct-side UF2 update and settings-reset recovery | Pending |
 
-填写时记录固件提交 SHA、构建运行号、PCB 版本、供电、电压、旋钮型号和测量结果；问题附对应日志，方便后续维护。
+Record the firmware commit and run number when reporting results. This repository contains firmware validation only; PCB design, circuit checks and manufacturing approval are outside its scope.

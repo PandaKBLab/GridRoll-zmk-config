@@ -36,4 +36,5 @@ for layer in ["base","fn","mouse","system"]:
     assert len(re.findall(r"&\w+",bindings))==47, layer
 assert len(re.findall(r'status = "reserved"',keymap))==4
 assert 'diode-direction = "col2row"' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
+assert 'wakeup-source;' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
 print("GPIO order/flags, pin reservations/conflicts, 47-key transform, physical layout and 8 layers passed")

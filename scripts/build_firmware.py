@@ -30,7 +30,9 @@ for name,entry in TARGETS.items():
     if name in ("left", "right", "right-diagnostics"):
         for flag in ['CONFIG_ZMK_KEYBOARD_NAME="GridRoll"',
                      'CONFIG_BT_DEVICE_NAME="GridRoll"',
-                     "CONFIG_ZMK_BLE=y", "CONFIG_ZMK_SPLIT=y"]:
+                     "CONFIG_ZMK_BLE=y", "CONFIG_ZMK_SPLIT=y",
+                     "CONFIG_ZMK_SLEEP=y", "CONFIG_ZMK_IDLE_TIMEOUT=30000",
+                     "CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000"]:
             assert flag in config.splitlines(), f"{name}: missing {flag}"
     if name in ("right","right-diagnostics"):
         for flag in ["CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y","CONFIG_ZMK_STUDIO=y",

@@ -1,31 +1,11 @@
-# 接线与硬件约束
+# Firmware compatibility
 
-E73-2G4M08S1CX（nRF52840）。全局坐标以行优先计数，左右各扫描 4×6；右侧全局 `RC(3,8)` 无键，因此物理布局与每层绑定均为 47 个。
+This firmware targets GridRoll E73/nRF52840 keyboards with 47 keys, a left encoder and a right PAW3222 trackball. The right half is the computer-facing central; the left is its wireless peripheral.
 
-| 行 | 左侧网络／GPIO／模块焊盘 | 右侧网络／GPIO／模块焊盘 |
-|---|---|---|
-| 0 | ROW0／P0.29／8 | ROW0R／P1.04／40 |
-| 1 | ROW1／P0.31／9 | ROW1R／P0.30／10 |
-| 2 | ROW2／P1.06／42 | ROW2R／P0.29／8 |
-| 3 | ROW3／P0.26／12 | ROW3R／P0.31／9 |
+Features include USB/BLE keyboard and pointer output, ZMK Studio over the right USB connection, DYA runtime mouse/scroll settings, idle power management and timed deep sleep with matrix-key wake.
 
-| 本地列 | 左侧网络／GPIO／模块焊盘 | 右侧网络／GPIO／模块焊盘 |
-|---|---|---|
-| 0 | COL0／P1.11／1 | COL6／P0.24／35 |
-| 1 | COL1／P1.10／2 | COL7／P1.06／42 |
-| 2 | COL2／P0.03／3 | COL8／P0.03／3 |
-| 3 | COL3／P0.28／4 | COL9／P1.11／1 |
-| 4 | COL4／P1.13／6 | COL10／P1.10／2 |
-| 5 | COL5／P0.30／10 | COL11／P0.28／4 |
+Firmware-required GPIO and layout definitions are maintained in boards/. Do not flash this image onto another keyboard solely because it uses the same controller or sensor.
 
-列偏移左 0、右 6。二极管方向为 `COL → 开关 → A（2）→ K（1）→ ROW`，即 `col2row`；列 `GPIO_ACTIVE_HIGH`，行 `GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN`。上表顺序是固件数组顺序，不能按引脚号重新排序。
+PCB projects, schematics, routing, netlists, module-pad maps and internal circuit documentation are not distributed here. For service or assembly, use the product's separately supplied instructions.
 
-左 EC11：A=P0.13，B=P0.24，两相内部上拉；按压在矩阵 `RC(3,3)`。右 PAW3222：SCLK=P0.12，SDIO=P1.09，NCS=P0.13（低有效），MOTION=P0.15（低有效、上拉）。没有定义共享 MOSI／MISO 的 SPI 节点；SDIO 在读数据时转为输入。
-
-两侧 P0.09／P0.10 不使用；P0.05 留给后续电池采样控制。本版不启用 ADC、电池分压、显示屏、未知 LED、未知 DFU 按钮或外部电源开关。
-
-两侧 USB D+／D−／VBUS 按现有 PCB 接线；左侧正常应用关闭 USB 输出，但其启动程序仍可通过 USB 更新。右侧 PAW3222 电源为 EXT_VCCR／E73 焊盘 19 NRF_VDDR。硬件使用 VDDH 输入、内部稳压输出；首次包和启动程序将 REGOUT0 设置为 3.3V。未确认 DC/DC 外部电感，因此启动程序和应用均使用 LDO。
-
-SWD 接 SWDIO、SWCLK、GND 和探针 VTref；VTref 应感测实际 MCU 电源，避免两个电源同时强行供电。SWD 引脚／焊盘位置和 RESET 是否引出须以实际 PCB／E73 资料为准，本仓库不猜测未提供的焊盘编号。
-
-首次烧录后核验 UICR，并实测 NRF_VDDR 与 PAW3222 VCC 为约 3.3V，再进行传感器测试。软件记录不能替代测量。
+See [first flash](first-flash.md), [maintenance](maintenance.md) and [validation](validation.md). Software checks do not replace physical radio, power and wake tests.
