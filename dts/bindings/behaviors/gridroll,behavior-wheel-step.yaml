@@ -9,4 +9,5 @@ properties:
   step:
     type: int
     required: true
-    enum: [-1, 1]
+    # Devicetree cells encode -1 as unsigned 0xFFFFFFFF; the driver casts int32_t.
+    enum: [0xFFFFFFFF, 1]
