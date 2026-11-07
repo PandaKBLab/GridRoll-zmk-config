@@ -9,3 +9,13 @@ config GRIDROLL_PAW3222_LOG_LEVEL
     range 0 4
     default 3
     depends on GRIDROLL_PAW3222
+
+config GRIDROLL_PAW3222_BLE_REPORT_INTERVAL_MS
+    int "Minimum interval between trackball BLE reports (ms)"
+    range 8 30
+    default 8
+    depends on GRIDROLL_PAW3222
+    help
+      Accumulate relative motion between BLE reports instead of filling the
+      HID queue. The first movement after inactivity is immediate. USB output
+      bypasses the interval; idle does not start a periodic report timer.

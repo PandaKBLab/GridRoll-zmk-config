@@ -20,13 +20,15 @@ jobs:
         run: |
           python3 -c 'import intelhex, yaml, grpc_tools; print("Pinned build tooling ready")'
           west --version
-      - name: Verify hardware and SDIO error recovery
+      - name: Verify input and motion regression tests
         run: |
           python3 scripts/check_hardware.py
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_sdio.c drivers/input/paw3222_sdio.c -o /tmp/test-sdio
           /tmp/test-sdio
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_orientation.c -o /tmp/test-orientation
           /tmp/test-orientation
+          cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_batch.c -o /tmp/test-batch
+          /tmp/test-batch
       - name: Fetch locked firmware dependencies
         run: |
           mkdir -p /tmp/gridroll-workspace/config

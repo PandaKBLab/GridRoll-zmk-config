@@ -31,5 +31,6 @@ For [ZMK Studio](https://zmk.studio/) or [DYA Studio](https://studio.dya.cormora
 - **15 minutes** without input on battery: deep sleep. Press a key on each sleeping half to wake it; allow time for Bluetooth reconnection. Trackball or encoder motion is not a promised deep-sleep wake source.
 - USB-powered halves stay awake for USB/Studio use. Save Studio changes before battery sleep; unsaved RAM changes are lost.
 - The trackball uses motion interrupts and its existing sensor sleep configuration. Current draw and wake reliability still require physical testing.
+- BLE trackball motion is combined into reports at least **8 ms** apart, retaining total displacement; USB output remains immediate. The right half requests a **7.5 ms** host connection interval with zero peripheral latency. The host decides the actual interval, and connected-idle battery consumption may increase. This change still needs a physical smoothness and power test.
 
 See [maintenance](docs/maintenance.md), [firmware compatibility](docs/hardware.md) and [validation](docs/validation.md). Dependencies are pinned in config/west.yml. Original code is MIT; see [third-party notices](THIRD_PARTY_NOTICES.md) for dependency licenses.

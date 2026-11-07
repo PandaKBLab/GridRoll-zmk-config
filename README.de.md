@@ -31,5 +31,6 @@ Für [ZMK Studio](https://zmk.studio/) oder [DYA Studio](https://studio.dya.corm
 - Im Akkubetrieb beginnt nach **15 Minuten** ohne Eingabe der Tiefschlaf. Drücken Sie auf jeder schlafenden Hälfte eine Taste und warten Sie auf die Bluetooth-Verbindung. Trackball- oder Drehgeberbewegungen sind keine zugesicherten Weckquellen.
 - USB-versorgte Hälften bleiben für USB/Studio wach. Speichern Sie Studio-Änderungen vor dem Schlafmodus, da ungesicherte RAM-Inhalte verloren gehen.
 - Der Trackball nutzt MOTION-Interrupts und vorhandene Ruhemodi des Sensors. Stromaufnahme und Aufwachverhalten müssen am Gerät geprüft werden.
+- Bei BLE werden Bewegungen unter Erhalt der gesamten Strecke zu Berichten mit mindestens **8 ms** Abstand zusammengefasst. USB bleibt unmittelbar. Die rechte Hälfte fordert **7,5 ms** Verbindungsintervall ohne Peripheral Latency an; die tatsächlichen Werte bestimmt der Host. Der Verbrauch im verbundenen Leerlauf kann steigen. Bewegungsqualität und Stromaufnahme müssen noch am Gerät geprüft werden.
 
 Siehe [Wartung](docs/maintenance.md), [Firmware-Kompatibilität](docs/hardware.md) und [Prüfstatus](docs/validation.md). Abhängigkeiten sind in config/west.yml festgeschrieben. Eigener Code steht unter MIT; Lizenzen der Abhängigkeiten stehen in den [Drittanbieterhinweisen](THIRD_PARTY_NOTICES.md).

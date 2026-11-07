@@ -38,8 +38,13 @@ for name,entry in TARGETS.items():
         for flag in ["CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y","CONFIG_ZMK_STUDIO=y",
                      "CONFIG_GRIDROLL_PAW3222=y","CONFIG_ZMK_RUNTIME_INPUT_PROCESSOR_STUDIO_RPC=y",
                      "CONFIG_ZMK_USB=y", 'CONFIG_USB_DEVICE_PRODUCT="GridRoll"',
-                     "# CONFIG_BT_CTLR_PHY_2M is not set"]:
-            assert flag in config, f"{name}: missing {flag}"
+                     "# CONFIG_BT_CTLR_PHY_2M is not set",
+                     "CONFIG_BT_PERIPHERAL_PREF_MIN_INT=6",
+                     "CONFIG_BT_PERIPHERAL_PREF_MAX_INT=6",
+                     "CONFIG_BT_PERIPHERAL_PREF_LATENCY=0",
+                     "CONFIG_ZMK_STUDIO_TRANSPORT_BLE_PREF_LATENCY=0",
+                     "CONFIG_GRIDROLL_PAW3222_BLE_REPORT_INTERVAL_MS=8"]:
+            assert flag in config.splitlines(), f"{name}: missing {flag}"
     if name=="left":
         assert "CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y" not in config
         assert "CONFIG_ZMK_STUDIO=y" not in config

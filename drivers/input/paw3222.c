@@ -5,8 +5,10 @@
 #include <zephyr/input/input.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
+#include <zmk/endpoints.h>
 #include "paw3222_sdio.h"
 #include "paw3222_orientation.h"
+#include "paw3222_batch.h"
 
 LOG_MODULE_REGISTER(gridroll_paw3222, CONFIG_GRIDROLL_PAW3222_LOG_LEVEL);
 
@@ -24,6 +26,8 @@ struct paw_data {
     struct paw_sdio_io bus;
     struct gpio_callback callback;
     struct k_work_delayable work;
+    struct k_work_delayable report_work;
+    struct paw3222_batch batch;
     struct k_mutex lock;
     unsigned int errors;
 };
@@ -67,6 +71,30 @@ static int write_reg(const struct device *dev, uint8_t reg, uint8_t value) {
     return rc;
 }
 
+static int report_axis(void *ctx, bool y_axis, int16_t value) {
+    return input_report_rel(ctx, y_axis ? INPUT_REL_Y : INPUT_REL_X, value,
+                            y_axis, K_NO_WAIT);
+}
+
+/* Both work items run on the system work queue, so batch state is serialized.
+ * A one-shot tail flush also delivers the final motion after MOTION deasserts. */
+static void flush_motion(struct paw_data *d) {
+    unsigned int interval = zmk_endpoint_get_selected().transport == ZMK_TRANSPORT_BLE
+                                ? CONFIG_GRIDROLL_PAW3222_BLE_REPORT_INTERVAL_MS : 0;
+    int64_t now = k_uptime_get();
+    int rc = paw3222_batch_flush(&d->batch, now, interval, report_axis, (void *)d->dev);
+    if (paw3222_batch_pending(&d->batch)) {
+        unsigned int wait = rc < 0 ? 1 : paw3222_batch_delay(&d->batch, now, interval);
+        k_work_reschedule(&d->report_work, K_MSEC(wait));
+    }
+}
+
+static void report_work(struct k_work *work) {
+    struct paw_data *d = CONTAINER_OF(k_work_delayable_from_work(work), struct paw_data,
+                                    report_work);
+    flush_motion(d);
+}
+
 static void motion_work(struct k_work *work) {
     struct paw_data *d = CONTAINER_OF(k_work_delayable_from_work(work), struct paw_data, work);
     const struct device *dev = d->dev;
@@ -77,13 +105,13 @@ static void motion_work(struct k_work *work) {
         rc = read_reg(dev, REG_X, &x);
         if (rc == 0) rc = read_reg(dev, REG_Y, &y);
         if (rc == 0) {
-            /* 8-bit signed deltas, matching the verified PAW3222 register path.
-             * Non-blocking input enqueue keeps the system work queue available. */
+            /* Read each sensor delta, but batch BLE input to avoid filling the
+             * HID-over-GATT queue with a separate report for every IRQ. */
             if (x || y) {
                 const struct paw3222_motion motion =
                     paw3222_board_motion((int8_t)x, (int8_t)y);
-                rc = input_report_rel(dev, INPUT_REL_X, motion.x, false, K_NO_WAIT);
-                if (rc == 0) rc = input_report_rel(dev, INPUT_REL_Y, motion.y, true, K_NO_WAIT);
+                paw3222_batch_add(&d->batch, motion.x, motion.y);
+                flush_motion(d);
             }
         }
     }
@@ -143,6 +171,7 @@ static int paw_init(const struct device *dev) {
     d->dev = dev;
     k_mutex_init(&d->lock);
     k_work_init_delayable(&d->work, motion_work);
+    k_work_init_delayable(&d->report_work, report_work);
     if (c->cpi < 608 || c->cpi > 4826 || c->cpi % 38 || !c->half_us || !c->poll_ms)
         return -EINVAL;
     if (!gpio_is_ready_dt(&c->sclk) || !gpio_is_ready_dt(&c->sdio) ||

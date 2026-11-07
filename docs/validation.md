@@ -1,12 +1,16 @@
 # Validation status
 
-## Current update — 2026-11-06
+## Current update — 2026-11-07
 
 The firmware uses GridRoll for its keyboard, BLE and USB name, corrects the reported PAW3222 mounting orientation before DYA processing, and enables 30-second idle / 15-minute battery deep sleep. The right half retains ZMK Studio and the USB RPC transport. Both halves retain matrix-key wake.
 
 Software checks cover firmware-required GPIO reservations and keymap structure, SDIO error recovery, all four trackball directions and signed limits, compiled names and roles, BLE/Studio flags, sleep timeouts, and HEX/UF2 address consistency.
 
-## Download package
+The user subsequently confirmed that a computer can connect with the right half on battery, then reported continuous trackball stutter and trailing motion over BLE while USB movement feels responsive. This update batches relative motion into BLE input frames at least 8 ms apart, retaining displacement and flushing the final movement after the sensor becomes idle. USB bypasses pacing. Input-queue retry handling retains a partially queued X/Y frame without duplicating an accepted X event. No periodic report timer runs when there is no pending motion.
+
+The right half now requests a 7.5 ms host connection interval with peripheral latency 0; the Studio BLE latency preference is also 0. These are requested parameters, not measured host-negotiated values. Left split-link parameters, 1M PHY, radio transmit power, GPIOs, mounting correction, Studio/DYA and sleep/wake configuration are unchanged. Connected-idle current may increase and must be measured. The unit tests simulate a 1 kHz input stream, final-tail delivery, idle, USB bypass, signed limits and queue backpressure; physical latency and current are still pending.
+
+## Download package (previous verified build; awaiting this update's CI)
 
 Each successful Actions run publishes exactly one **GridRoll-firmware** ZIP. It contains only:
 
@@ -41,7 +45,8 @@ During host-discovery troubleshooting, the user powered off the left half and re
 | Trackball | Up/down/left/right match physical movement | USB input user-reported working; direction test pending |
 | Mouse layer | Consistent horizontal and vertical scrolling | Pending |
 | Bluetooth discovery | Phone discovers the right half as GridRoll, with the left off and on | User-reported working after right reset |
-| Bluetooth host input | Pair a computer and use both halves on battery | Pending |
+| Bluetooth host input | Pair a computer and use both halves on battery | Battery-powered host connection user-reported; complete input test pending |
+| BLE trackball latency | Compare continuous motion, stop response and scrolling with USB | User reports stutter in previous build; updated firmware pending |
 | Split | Both halves reconnect after power cycling and sleep | Basic split input user-reported working; cycle/sleep tests pending |
 | ZMK Studio | Right USB connects; unlock, edit, save and reconnect work | Pending |
 | DYA | Pointer and scroll parameters persist after power cycling | Pending |
