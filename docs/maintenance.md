@@ -10,7 +10,9 @@
 
 ## DYA Studio 与轨迹球
 
-用桌面 Chrome／Edge 打开 [DYA Studio](https://studio.dya.cormoran.works/)，右侧通过 USB 连接，选择 GridRoll 串口。Fn+Mouse→System，按顶行第一个键解锁。网页的权限选择由用户在浏览器确认。
+用桌面 Chrome／Edge 打开 [DYA Studio](https://studio.dya.cormoran.works/) 或 [ZMK Studio](https://zmk.studio/)，右侧通过 USB 连接，选择 USB 输出及 GridRoll 串口。Studio 默认无锁，不需要按键解锁，也不因空闲或断连重新上锁；网页首次串口授权仍由用户选择。旧布局里的 studio_unlock 行为保留以兼容已保存键位，但不再是编辑的前提。
+
+后续固件默认 `CONFIG_ZMK_STUDIO_LOCKING=n`。仓库 AGENTS.md 和最终编译配置检查共同固定该要求；只有用户明确要求时才恢复编辑锁。DYA 与标准 ZMK Studio 共用基础键位协议；DYA 轨迹球扩展的字段编号、类型及样例读写由 `scripts/check_studio_protocols.py` 对固定前端快照核对，不能把源码协议检查当成已连接实物。
 
 固件提供 `mouse` 和 `scroll` 两个 runtime input processor，并启用 custom-settings RPC。Base／Fn 使用 mouse；Mouse 层覆盖为 scroll，默认把 XY 转为水平／垂直滚动，倍率 1/60。可以调整速度倍率、X/Y 反向、旋转和 XY 转滚动；硬件 CPI 默认 988，可在右侧 overlay 的 `res-cpi` 修改，范围 608–4826、步进 38。
 
@@ -74,15 +76,17 @@ GridRoll 的 PAW3222 安装方向在驱动输出时固定校正为 `X=-rawY`、`
 
 GPIO 总线采用 mode 3、MSB 优先，默认半周期 5µs、读转向等待 100µs、事务间隔 50µs，均可在右侧传感器节点中调整。读取前 SDIO 转为输入；所有 GPIO 失败路径均尝试 CS 释放、SCLK 恢复高、SDIO 释放。初始化最多 3 次尝试；运行错误最多 3 次快速重试，随后降至 1Hz，避免持续占用工作队列。
 
+输入队列暂时满时，轨迹球报告按 2、4、8、16、32ms 的有界退避重试，新传感器输入也须遵守同一截止时间，避免高频中断绕过重试限制。已经成功进入队列的 X 不重复发送，Y 同步帧和剩余位移保留。运动中断不会提前覆盖已有的采样／故障恢复计划，防止噪声触发快速重试。无待发位移时不周期重试。
+
 实际波形、模式／时序余量和轨迹球方向须在实物验证。诊断固件也没有改为上游的共享 MOSI/MISO SPI 实现。
 
 ## 固定依赖与兼容处理
 
 `config/west.yml` 固定 ZMK custom-studio 分支、Zephyr 4.1 修复版和两个 DYA 模块的完整提交 SHA，传递依赖由这些固定 manifest 决定；构建过程生成的 `west-frozen.yml` 不进入标准下载包。Python 工具锁定于 `ci/requirements.lock`。固件构建镜像固定 digest；启动程序固定 Adafruit 0.11.0 SHA、Git 子模块 SHA 和 Arm GNU 12.3.rel1 下载 SHA256。
 
-右侧使用完整 Newlib 数学库、GNU 静态初始化及较大的输入／RPC 线程栈；本地模块为所固定的上游 Studio C 源码补充 stdio 声明，并提供 Arm GNU 14 Newlib 所需的弱 `_fini` 结束钩子，不编辑下载依赖。升级时应重新确认这些兼容处理是否仍需要。固件编译使用镜像内固定的 Python 工具集；`ci/requirements.lock` 用于启动程序和本地环境。
+右侧使用完整 Newlib 数学库、GNU 静态初始化及较大的输入／RPC 线程栈：Studio RPC 6144B、低优先级工作线程 4096B、系统工作队列 4096B。本地模块为所固定的上游 Studio C 源码补充 stdio 声明，并提供 Arm GNU 14 Newlib 所需的弱 `_fini` 结束钩子，不编辑下载依赖。CI 输出实际 FLASH／RAM 使用量，避免仅加栈而不检查容量。固件编译使用镜像内固定的 Python 工具集；`ci/requirements.lock` 用于启动程序和本地环境。
 
-升级时一次只改一组依赖，检查完整 Actions、47 键、Studio 解锁／保存、DYA 参数保存、分体重连和供电。不要把 revision 改成 main 来绕过失败。
+升级时一次只改一组依赖，检查完整 Actions、47 键、Studio 无需解锁即可编辑／保存、DYA 参数保存、分体重连和供电。不要把 revision 改成 main 来绕过失败。
 
 ## 本地构建
 

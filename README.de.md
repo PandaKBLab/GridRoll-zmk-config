@@ -23,7 +23,9 @@ Koppeln Sie den Computer mit **GridRoll auf der rechten Hälfte**. Wenn die Tast
 
 In der Standardbelegung öffnet **Fn + Mouse** die System-Ebene: Die Position **Q** oben wählt Profil 0, **Backspace** löscht dieses Profil und **U** wählt BLE-Ausgabe. In Studio gespeicherte Belegungen können abweichen.
 
-Für [ZMK Studio](https://zmk.studio/) oder [DYA Studio](https://studio.dya.cormoran.works/) verbinden Sie die **rechte Hälfte per USB**, wählen USB-Ausgabe und entsperren die Bearbeitung mit der Taste oben links auf der System-Ebene. Schließen Sie andere Seiten mit demselben seriellen Anschluss und speichern Sie Änderungen. Updates erhalten Studio/DYA-Einstellungen. Entfernen Sie eine zuvor in DYA eingestellte Drehkorrektur des Trackballs: Die neue feste Montagekorrektur erfolgt vor der Zeiger- und Scrollverarbeitung.
+Für [ZMK Studio](https://zmk.studio/) oder [DYA Studio](https://studio.dya.cormoran.works/) verbinden Sie die **rechte Hälfte per USB** und wählen USB-Ausgabe sowie den seriellen Anschluss. **Die Bearbeitung ist standardmäßig entsperrt; eine Entsperrtaste ist nicht nötig. Leerlauf und Trennen sperren sie nicht erneut.** Schließen Sie andere Seiten mit demselben Anschluss und speichern Sie Änderungen. Updates erhalten Studio/DYA-Einstellungen. Entfernen Sie eine zuvor in DYA eingestellte Drehkorrektur: Die feste Montagekorrektur erfolgt vor der Zeiger- und Scrollverarbeitung.
+
+Beide Oberflächen unterstützen die Tastenbelegung; DYA bietet zusätzlich die vorhandenen mouse-/scroll-Einstellungen. CI prüft die festgeschriebenen DYA-Erweiterungsprotokolle und die entsperrte Build-Konfiguration. Nicht implementierte DYA-Hardwarefunktionen wie Sensorbilder sind nicht enthalten.
 
 ## Energiesparen und Aufwachen
 

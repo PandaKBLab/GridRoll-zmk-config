@@ -23,7 +23,9 @@ PandaKB GridRoll 分体键盘的 ZMK 固件：47 键、左侧旋钮、右侧 PAW
 
 默认键位下，同时按住 **Fn + Mouse** 进入 System：顶行 **Q** 位置选择槽 0，**Backspace** 清除该槽，**U** 切换 BLE 输出。Studio 保存过的布局可能不同。
 
-使用 [ZMK Studio](https://zmk.studio/) 或 [DYA Studio](https://studio.dya.cormoran.works/) 时，将**右侧通过 USB** 连接电脑并选择 USB 输出，再按 System 层左上角键解锁。关闭占用同一串口的其他网页，编辑后保存。更新会保留 Studio／DYA 设置。以前在 DYA 手动补偿过轨迹球旋转时，应取消额外补偿：新的安装方向校正在鼠标和滚动处理器之前执行。
+使用 [ZMK Studio](https://zmk.studio/) 或 [DYA Studio](https://studio.dya.cormoran.works/) 时，将**右侧通过 USB** 连接电脑，选择 USB 输出及对应串口。**Studio 默认保持解锁，无需按解锁键，空闲或断开连接后也不会重新锁定。** 关闭占用同一串口的其他网页，编辑后保存。更新会保留 Studio／DYA 设置。以前在 DYA 手动补偿过轨迹球旋转时，应取消额外补偿：安装方向校正在鼠标和滚动处理器之前执行。
+
+两个界面均支持键位编辑；DYA 还提供既有的 mouse／scroll 运行时参数。CI 核对固定 DYA 扩展协议及实际编译的无锁配置，不包含尚未实现的传感器图像等 DYA 专用硬件功能。
 
 ## 低功耗与唤醒
 

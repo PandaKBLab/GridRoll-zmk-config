@@ -1,0 +1,20 @@
+{
+  "dya_commit": "3a0259938c8a7a3c1abcf1e7e52e783f34f23e6f",
+  "protocols": [
+    {
+      "name": "runtime_input_processor",
+      "subsystem": "cormoran_rip",
+      "frontend_path": "proto/zmk/runtime_input_processor/runtime_input_processor.proto",
+      "frontend_blob": "52d604d1693256775212427d7b29372aa927c909",
+      "firmware_path": "zmk-module-runtime-input-processor/proto/cormoran/rip/custom.proto",
+      "firmware_blob": "760fb50fb85c8af96fbb607456c10b1dc0973eb1"
+    },
+    {
+      "name": "custom_settings",
+      "frontend_path": "proto/cormoran/zmk/custom_settings/custom_settings.proto",
+      "frontend_blob": "1974d4d0e3468f8f8f68bc39855159237e8b632f",
+      "firmware_path": "zmk-feature-custom-settings/proto/cormoran/zmk/custom_settings/custom_settings.proto",
+      "firmware_blob": "1974d4d0e3468f8f8f68bc39855159237e8b632f"
+    }
+  ]
+}

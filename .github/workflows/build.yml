@@ -38,6 +38,8 @@ jobs:
           cd /tmp/gridroll-workspace
           west update --narrow --fetch-opt=--filter=blob:none
           west manifest --freeze > "$GITHUB_WORKSPACE/artifacts/west-frozen.yml"
+      - name: Check pinned DYA Studio extension wire compatibility
+        run: python3 scripts/check_studio_protocols.py --workspace /tmp/gridroll-workspace
       - name: Build left, right, diagnostic and settings-reset firmware
         run: python3 scripts/build_firmware.py --workspace /tmp/gridroll-workspace --out artifacts
       - name: Prepare three-file firmware package

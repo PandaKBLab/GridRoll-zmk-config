@@ -23,7 +23,9 @@ Pair your computer with **GridRoll on the right half**. If it is invisible, sele
 
 With the stock keymap, hold **Fn + Mouse** to enter System: top-row **Q** selects profile 0, **Backspace** clears that profile, and **U** selects BLE output. Studio-saved layouts may differ.
 
-For [ZMK Studio](https://zmk.studio/) or [DYA Studio](https://studio.dya.cormoran.works/), connect the **right half by USB**, select USB output, then use System's top-left key to unlock editing. Close other pages using the same serial port and save your changes. Updates preserve Studio/DYA settings. If you previously compensated the trackball rotation in DYA, remove that extra compensation: mounting correction now runs before both pointer and scroll processing.
+For [ZMK Studio](https://zmk.studio/) or [DYA Studio](https://studio.dya.cormoran.works/), connect the **right half by USB**, select USB output and choose its serial port. **Studio editing is unlocked by default: no unlock key is required, and idle or disconnect does not relock it.** Close other pages using the same serial port and save your changes. Updates preserve Studio/DYA settings. If you previously compensated the trackball rotation in DYA, remove that extra compensation: mounting correction runs before both pointer and scroll processing.
+
+Both interfaces support keymap editing; DYA also exposes the existing mouse/scroll runtime settings. CI checks the pinned DYA extension wire protocols and the compiled unlocked configuration. DYA-specific sensor imaging and other unimplemented hardware features are not included.
 
 ## Power and wake
 

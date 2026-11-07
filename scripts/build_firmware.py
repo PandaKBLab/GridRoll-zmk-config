@@ -26,6 +26,9 @@ for name,entry in TARGETS.items():
         rc=subprocess.run(command,cwd=workspace,stdout=f,stderr=subprocess.STDOUT).returncode
     if rc:
         print(log.read_text()[-6000:]); sys.exit(rc)
+    for line in log.read_text().splitlines():
+        if line.strip().startswith(("Memory region", "FLASH:", "RAM:")):
+            print(f"{stem}: {line.strip()}", flush=True)
     config=(build/"zephyr/.config").read_text()
     if name in ("left", "right", "right-diagnostics"):
         for flag in ['CONFIG_ZMK_KEYBOARD_NAME="GridRoll"',
@@ -36,6 +39,13 @@ for name,entry in TARGETS.items():
             assert flag in config.splitlines(), f"{name}: missing {flag}"
     if name in ("right","right-diagnostics"):
         for flag in ["CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y","CONFIG_ZMK_STUDIO=y",
+                     "# CONFIG_ZMK_STUDIO_LOCKING is not set",
+                     "CONFIG_ZMK_STUDIO_RPC=y", "CONFIG_ZMK_STUDIO_TRANSPORT_UART=y",
+                     "CONFIG_ZMK_STUDIO_TRANSPORT_BLE=y",
+                     "CONFIG_ZMK_CUSTOM_SETTINGS=y", "CONFIG_ZMK_CUSTOM_SETTINGS_STUDIO_RPC=y",
+                     "CONFIG_ZMK_LOW_PRIORITY_THREAD_STACK_SIZE=4096",
+                     "CONFIG_ZMK_STUDIO_RPC_THREAD_STACK_SIZE=6144",
+                     "CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE=4096",
                      "CONFIG_GRIDROLL_PAW3222=y","CONFIG_ZMK_RUNTIME_INPUT_PROCESSOR_STUDIO_RPC=y",
                      "CONFIG_ZMK_USB=y", 'CONFIG_USB_DEVICE_PRODUCT="GridRoll"',
                      "# CONFIG_BT_CTLR_PHY_2M is not set",
@@ -45,6 +55,11 @@ for name,entry in TARGETS.items():
                      "CONFIG_ZMK_STUDIO_TRANSPORT_BLE_PREF_LATENCY=0",
                      "CONFIG_GRIDROLL_PAW3222_BLE_REPORT_INTERVAL_MS=8"]:
             assert flag in config.splitlines(), f"{name}: missing {flag}"
+        for flag in ["CONFIG_ZMK_STUDIO_LOCK_ON_DISCONNECT=y",
+                     "CONFIG_ZMK_STUDIO_LOCK_BLE_DIRECT_ADVERTISING_ON_UNLOCK=y"]:
+            assert flag not in config.splitlines(), f"{name}: unwanted {flag}"
+        assert not any(line.startswith("CONFIG_ZMK_STUDIO_LOCK_IDLE_TIMEOUT_SEC=")
+                       for line in config.splitlines()), f"{name}: Studio idle locking enabled"
     if name=="left":
         assert "CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y" not in config
         assert "CONFIG_ZMK_STUDIO=y" not in config

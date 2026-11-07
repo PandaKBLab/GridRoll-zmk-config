@@ -82,9 +82,9 @@ static void flush_motion(struct paw_data *d) {
     unsigned int interval = zmk_endpoint_get_selected().transport == ZMK_TRANSPORT_BLE
                                 ? CONFIG_GRIDROLL_PAW3222_BLE_REPORT_INTERVAL_MS : 0;
     int64_t now = k_uptime_get();
-    int rc = paw3222_batch_flush(&d->batch, now, interval, report_axis, (void *)d->dev);
+    paw3222_batch_flush(&d->batch, now, interval, report_axis, (void *)d->dev);
     if (paw3222_batch_pending(&d->batch)) {
-        unsigned int wait = rc < 0 ? 1 : paw3222_batch_delay(&d->batch, now, interval);
+        unsigned int wait = paw3222_batch_delay(&d->batch, now, interval);
         k_work_reschedule(&d->report_work, K_MSEC(wait));
     }
 }
@@ -133,7 +133,8 @@ static void motion_work(struct k_work *work) {
 static void motion_irq(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
     ARG_UNUSED(port); ARG_UNUSED(pins);
     struct paw_data *d = CONTAINER_OF(cb, struct paw_data, callback);
-    k_work_reschedule(&d->work, K_NO_WAIT);
+    /* Do not let noisy IRQs move an existing poll/recovery deadline. */
+    k_work_schedule(&d->work, K_NO_WAIT);
 }
 
 static int sensor_start(const struct device *dev) {
