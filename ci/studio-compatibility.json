@@ -2,6 +2,14 @@
   "dya_commit": "3a0259938c8a7a3c1abcf1e7e52e783f34f23e6f",
   "protocols": [
     {
+      "name": "runtime_sensor_rotate",
+      "subsystem": "cormoran_rsr",
+      "frontend_path": "proto/zmk/runtime_sensor_rotate/runtime_sensor_rotate.proto",
+      "frontend_blob": "93c500226042969f7f8417f1c3239f69ba1979d0",
+      "firmware_path": "zmk-behavior-runtime-sensor-rotate/proto/cormoran/rsr/custom.proto",
+      "firmware_blob": "859e85df9ea3adf6bc7e02929e3720b4746bec8a"
+    },
+    {
       "name": "runtime_input_processor",
       "subsystem": "cormoran_rip",
       "frontend_path": "proto/zmk/runtime_input_processor/runtime_input_processor.proto",

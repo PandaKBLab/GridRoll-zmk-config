@@ -30,11 +30,17 @@ assert mapping.count((3,3))==1
 assert len(re.findall(r"&key_physical_attrs",layout))==47
 keymap=(ROOT/"config/gridroll.keymap").read_text()
 layers=keymap.split('compatible = "zmk,keymap";',1)[1]
-for layer in ["base","fn","mouse","system"]:
+for layer in ["base","mouse","symbol","nav","function","scroll","wireless","system"]:
     content=re.search(rf"\b{layer}\s*\{{(.*?)\n\s*\}};",layers,re.S).group(1)
     bindings=re.search(r"\bbindings\s*=\s*<(.*?)>;",content,re.S).group(1)
     assert len(re.findall(r"&\w+",bindings))==47, layer
-assert len(re.findall(r'status = "reserved"',keymap))==4
+assert 'status = "reserved"' not in keymap
+assert len(re.findall(r'sensor-bindings = <&encoder_',keymap))==8
+assert 'layers = <SCROLL>;' in keymap
+assert 'cw-binding = <&msc SCRL_DOWN>;' in keymap
+assert 'ccw-binding = <&msc SCRL_UP>;' in keymap
+assert '&lt SYSTEM TAB' in keymap and '&mo MOUSE' in keymap and '&mo NAV' in keymap
+assert all(f'&lt {layer} ' in keymap for layer in ['SYMBOL', 'FUNCTION', 'SCROLL', 'WIRELESS'])
 assert 'diode-direction = "col2row"' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
 assert 'wakeup-source;' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
 print("GPIO order/flags, pin reservations/conflicts, 47-key transform, physical layout and 8 layers passed")

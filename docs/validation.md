@@ -1,6 +1,10 @@
 # Validation status
 
-## Current update — 2026-11-07
+## Current update — encoder, USB preference and eight layers
+
+This update enables cormoran_rsr runtime encoder rotation, eight fully populated LiNEA40-inspired layers, Base wheel scrolling, and automatic USB preference after HID enumeration / settings load. Manual BLE, charge-only use, sleep/wake and unlocked Studio remain available. Generated diagrams and all 376 bindings pass local consistency checks. A third DYA schema and encoder read/write samples are added to CI. New firmware compilation and physical tests are pending; the package below is the previous verified build until the new run completes.
+
+## Previous stability update — 2026-11-07
 
 This stability update disables Studio locking by default for all Studio-enabled GridRoll builds. Compiled checks require unlocked startup, no idle/disconnect relocking, USB serial and BLE Studio transports, standard Studio RPC, and DYA runtime-input/custom-settings RPC support. The existing unlock behavior remains available for saved-layout compatibility; pressing it is unnecessary. AGENTS.md records the default for future firmware work.
 
@@ -51,7 +55,9 @@ During host-discovery troubleshooting, the user powered off the left half and re
 | Keys | Input on both halves, right USB and left battery | User-reported working; duplicate-press test pending |
 | Encoder | Correct rotation and press behavior | Pending |
 | Trackball | Up/down/left/right match physical movement | USB input user-reported working; direction test pending |
-| Mouse layer | Consistent horizontal and vertical scrolling | Pending |
+| Scroll layer (L5) | Consistent horizontal and vertical trackball scrolling | Pending |
+| Encoder runtime RPC | DYA lists the encoder, reads eight layers and saves both directions | Pending new build and physical test |
+| USB default output | USB overrides saved BLE; charger retains BLE; manual BLE survives resume | Host policy test added; physical test pending |
 | Bluetooth discovery | Phone discovers the right half as GridRoll, with the left off and on | User-reported working after right reset |
 | Bluetooth host input | Pair a computer and use both halves on battery | Battery-powered host connection user-reported; complete input test pending |
 | BLE trackball latency | Compare continuous motion, stop response and scrolling with USB | Previous build stutter user-reported; new software checks passed, flash/physical test pending |

@@ -76,6 +76,8 @@ def check_wire(frontend, firmware):
                 assert lv <= rv, f"Unsupported enum values: {left_name} tag {lf.number}"
 
     for name in ("Request", "Response", "Notification"):
+        if name == "Notification" and "." + frontend[0] + "." + name not in frontend[2]:
+            continue
         compare("." + frontend[0] + "." + name, "." + firmware[0] + "." + name)
     return len(seen), field_count
 
@@ -106,6 +108,35 @@ def cross_decode_processor(frontend, firmware):
     assert (processor.id, processor.name, processor.scale_divisor) == (1, "mouse", 60)
 
 
+def cross_decode_encoder(frontend, firmware):
+    # The last of eight layers must remain addressable through DYA's RPC.
+    request = message(frontend, "Request")
+    write = request.set_layer_cw_binding
+    write.sensor_index, write.layer = 0, 7
+    write.binding.behavior_id, write.binding.param1, write.binding.tap_ms = 42, 65526, 20
+    decoded = message(firmware, "Request")
+    decoded.ParseFromString(request.SerializeToString())
+    write = decoded.set_layer_cw_binding
+    assert (write.sensor_index, write.layer, write.binding.param1, write.binding.tap_ms) == (0, 7, 65526, 20)
+    response = message(firmware, "Response")
+    for layer in range(8):
+        binding = response.get_all_layer_bindings.bindings.add()
+        binding.layer = layer
+        binding.cw_binding.behavior_id, binding.cw_binding.param1 = 42, 65526
+        binding.ccw_binding.behavior_id, binding.ccw_binding.param1 = 42, 10
+        binding.cw_binding.tap_ms = binding.ccw_binding.tap_ms = 20
+    decoded = message(frontend, "Response")
+    decoded.ParseFromString(response.SerializeToString())
+    bindings = decoded.get_all_layer_bindings.bindings
+    assert len(bindings) == 8 and bindings[-1].layer == 7
+    assert bindings[-1].cw_binding.param1 == 65526 and bindings[-1].ccw_binding.param1 == 10
+    response = message(firmware, "Response")
+    sensor = response.get_sensors.sensors.add()
+    sensor.index, sensor.name = 0, "encoder"
+    decoded.ParseFromString(response.SerializeToString())
+    assert decoded.get_sensors.sensors[0].name == "encoder"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--workspace", type=Path, required=True)
@@ -127,6 +158,11 @@ def main():
                 handler = (args.workspace / "zmk-module-runtime-input-processor"
                            / "src/studio/custom_handler.c").read_text()
                 assert "ZMK_RPC_CUSTOM_SUBSYSTEM(cormoran_rip," in handler
+            if entry["name"] == "runtime_sensor_rotate":
+                cross_decode_encoder(frontend, firmware)
+                handler = (args.workspace / "zmk-behavior-runtime-sensor-rotate"
+                           / "src/studio/custom_handler.c").read_text()
+                assert "ZMK_RPC_CUSTOM_SUBSYSTEM(cormoran_rsr," in handler
             print(f"DYA {entry['name']}: {messages} messages / {fields} fields compatible")
     print("DYA Studio protocol and processor read/write cross-decoding passed")
 

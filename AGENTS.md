@@ -4,7 +4,10 @@
   unlock key, idle relocking or relocking after disconnect unless the user
   explicitly requests locking. Keep this policy in compiled-config checks.
 - Preserve both standard ZMK Studio keymap editing and DYA Studio mouse/scroll
-  settings. Verify extension wire compatibility against pinned source snapshots;
+  settings plus runtime encoder rotation. Keep eight enabled default layers and
+  automatic USB preference on a new enumerated connection; allow manual BLE.
+  Generate keymap diagrams/tables from source and keep them checked in CI.
+  Verify extension wire compatibility against pinned source snapshots;
   do not claim every DYA-specific hardware feature is implemented.
 - Use GitHub Actions for full firmware builds. Publish exactly one
   `GridRoll-firmware` artifact containing only `GridRoll-left.uf2`,

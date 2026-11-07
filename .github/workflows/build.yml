@@ -23,6 +23,9 @@ jobs:
       - name: Verify input and motion regression tests
         run: |
           python3 scripts/check_hardware.py
+          python3 scripts/keymap_docs.py --check
+          cc -Wall -Wextra -Werror -std=c11 -Idrivers/usb tests/test_usb_output.c -o /tmp/test-usb-output
+          /tmp/test-usb-output
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_sdio.c drivers/input/paw3222_sdio.c -o /tmp/test-sdio
           /tmp/test-sdio
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_orientation.c -o /tmp/test-orientation

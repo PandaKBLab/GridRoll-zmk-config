@@ -22,5 +22,8 @@ manifest:
     - name: zmk-feature-custom-settings
       remote: cormoran
       revision: c6a7fef3a3be3d3ace5de9a4b0628c6418cd1f3f
+    - name: zmk-behavior-runtime-sensor-rotate
+      remote: cormoran
+      revision: 8b1125ed676c1f5e14145d217984f33d0ebdcef4
   self:
     path: config

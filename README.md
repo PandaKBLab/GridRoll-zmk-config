@@ -21,11 +21,49 @@ Artifacts are retained for 30 days. A successful build is software validation, n
 
 Pair your computer with **GridRoll on the right half**. If it is invisible, select an unused Bluetooth profile or clear the selected profile and forget the old pairing on your computer. Normal updates preserve saved bonds.
 
-With the stock keymap, hold **Fn + Mouse** to enter System: top-row **Q** selects profile 0, **Backspace** clears that profile, and **U** selects BLE output. Studio-saved layouts may differ.
+With the stock keymap, hold the **top-left Tab** key to enter System: top-row **Q** selects profile 0, **Backspace** clears it, **Y** selects USB and **U** selects BLE. A newly enumerated right USB connection automatically selects USB, even with a saved BLE preference. Charge-only connections do not force USB; unplugging falls back to a connected BLE host. You can manually select BLE until the next USB connection. Saved layouts may differ.
 
 For [ZMK Studio](https://zmk.studio/) or [DYA Studio](https://studio.dya.cormoran.works/), connect the **right half by USB**, select USB output and choose its serial port. **Studio editing is unlocked by default: no unlock key is required, and idle or disconnect does not relock it.** Close other pages using the same serial port and save your changes. Updates preserve Studio/DYA settings. If you previously compensated the trackball rotation in DYA, remove that extra compensation: mounting correction runs before both pointer and scroll processing.
 
-Both interfaces support keymap editing; DYA also exposes the existing mouse/scroll runtime settings. CI checks the pinned DYA extension wire protocols and the compiled unlocked configuration. DYA-specific sensor imaging and other unimplemented hardware features are not included.
+Both interfaces support keymap editing; DYA also exposes mouse/scroll settings and **per-layer encoder clockwise/counter-clockwise bindings** through `cormoran_rsr`. Base rotation defaults to mouse-wheel scrolling: clockwise down, counter-clockwise up. CI checks all three pinned DYA extension protocols and the compiled unlocked configuration. Sensor imaging and other unimplemented hardware features are not included.
+
+## Eight default layers
+
+Seven layers are adapted from the [LiNEA40 reference](https://github.com/keyfreaks/zmk-config-LiNEA40/blob/6953ccb2e2d6256ed57887fde692bcb1959f9052/config/LiNEA40.keymap), plus GridRoll's System layer. All eight are enabled. See [every exact binding, layer access, encoder defaults and combos](docs/keymap.md). Diagrams are generated from source and checked by CI.
+
+**Normal updates preserve Studio-saved layouts.** To adopt these defaults, export your old layout and use Studio's restore-defaults operation; do not flash settings-reset just to change keymaps. Japanese-layout symbol codes from the reference are retained; actual characters depend on the computer's keyboard layout.
+
+### L0 Base
+
+![L0 Base](docs/keymap/layer-0.svg)
+
+### L1 Mouse
+
+![L1 Mouse](docs/keymap/layer-1.svg)
+
+### L2 Symbol
+
+![L2 Symbol](docs/keymap/layer-2.svg)
+
+### L3 Navigation
+
+![L3 Navigation](docs/keymap/layer-3.svg)
+
+### L4 Function
+
+![L4 Function](docs/keymap/layer-4.svg)
+
+### L5 Scroll
+
+![L5 Scroll](docs/keymap/layer-5.svg)
+
+### L6 Wireless
+
+![L6 Wireless](docs/keymap/layer-6.svg)
+
+### L7 System
+
+![L7 System](docs/keymap/layer-7.svg)
 
 ## Power and wake
 
