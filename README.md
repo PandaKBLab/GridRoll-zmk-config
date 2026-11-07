@@ -73,6 +73,21 @@ The default is a conventional **Planck-style QWERTY / Lower / Raise** layout ada
 - Base encoder defaults now use **one discrete wheel step per sensor trigger**, clockwise down and counter-clockwise up. The previous 20 ms / 10 steps-per-second emulation could round down to no wheel movement.
 - **Saved DYA settings are separate from the saved keymap.** If old values remain, enable the mouse processor's Temp-layer with layer 1 / activation guard 200 ms / deactivation 1200 ms, and set Base encoder CW to **wheel down**, CCW to **wheel up**. Save those settings. Restoring only the Studio keymap does not clear old processor or encoder settings; no settings-reset flash is needed.
 
+## LEDs and battery
+
+| State | Red LED |
+|---|---|
+| Waiting for the selected computer Bluetooth connection | Right: 100 ms every 2 s, up to 30 s |
+| Connected | Right: on for 2 s, then off |
+| Local battery estimate ≤15% | Each half: 100 ms every 30 s; clears at ≥20% |
+| Normal USB output, idle or sleep | No Bluetooth waiting flashes; red off in idle/sleep |
+
+The left red LED reports only its own low battery. USB power suppresses low-battery flashes. Waiting timeout does not stop Bluetooth advertising. Wake/profile changes or disconnects can open a new waiting window. A connection confirmation takes priority briefly, then returns to any low-battery warning.
+
+Blue remains hardware-controlled: normal first charging cycle on, normal cycle end off. It is not a unique full-charge flag; software estimated 100% does not create a full-charge lamp. See [LED rules, battery sampling and limitations](docs/led-status.md).
+
+The native battery sampler runs once per 60 s while active and stops in idle; wake requests a fresh result. LEDs add no second ADC poller or artificial activity. Both halves need this update; flash left and right without using settings-reset. Existing Studio/DYA layouts, parameters and bonds are preserved.
+
 ## Power and wake
 
 - **30 seconds** without input: idle, with Bluetooth available.

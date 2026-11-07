@@ -17,7 +17,8 @@
 &gpiote { status = "okay"; };
 zephyr_udc0: &usbd { status = "okay"; };
 // REGOUT0 is provisioned to 3.3V by the first-flash HEX/UF2 bootloader.
-// No battery sensing, NFC pin reassignment, LEDs or external power switch.
+// Battery sensing and the red status LED are defined by the GridRoll shield.
+// No NFC reassignment or firmware-controlled external power switch.
 &flash0 {
     partitions {
         compatible = "fixed-partitions";

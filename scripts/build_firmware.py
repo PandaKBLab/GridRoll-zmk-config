@@ -35,7 +35,12 @@ for name,entry in TARGETS.items():
                      'CONFIG_BT_DEVICE_NAME="GridRoll"',
                      "CONFIG_ZMK_BLE=y", "CONFIG_ZMK_SPLIT=y",
                      "CONFIG_ZMK_SLEEP=y", "CONFIG_ZMK_IDLE_TIMEOUT=30000",
-                     "CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000"]:
+                     "CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000",
+                     "CONFIG_GRIDROLL_STATUS_LED=y", "CONFIG_ZMK_BATTERY_REPORTING=y",
+                     "CONFIG_ZMK_BATTERY_REPORT_INTERVAL=60",
+                     "CONFIG_ZMK_BATTERY_REPORTING_FETCH_MODE_STATE_OF_CHARGE=y",
+                     "CONFIG_ZMK_BATTERY_VOLTAGE_DIVIDER=y", "CONFIG_ADC_NRFX_SAADC=y",
+                     "CONFIG_BT_GATT_SERVICE_CHANGED=y"]:
             assert flag in config.splitlines(), f"{name}: missing {flag}"
     if name in ("right","right-diagnostics"):
         dts=(build/"zephyr/zephyr.dts").read_text()
@@ -69,10 +74,13 @@ for name,entry in TARGETS.items():
         assert not any(line.startswith("CONFIG_ZMK_STUDIO_LOCK_IDLE_TIMEOUT_SEC=")
                        for line in config.splitlines()), f"{name}: Studio idle locking enabled"
     if name=="left":
+        assert "CONFIG_ZMK_LOW_PRIORITY_THREAD_STACK_SIZE=2048" in config.splitlines()
+        assert "CONFIG_ZMK_USB=y" not in config.splitlines()
         assert "CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y" not in config
         assert "CONFIG_ZMK_STUDIO=y" not in config
         assert "CONFIG_GRIDROLL_PAW3222=y" not in config
     if name=="settings-reset":
+        assert "CONFIG_GRIDROLL_STATUS_LED=y" not in config.splitlines()
         assert "CONFIG_ZMK_BLE=y" not in config
         assert "CONFIG_ZMK_SETTINGS_RESET_ON_START=y" in config
     for ext in ["uf2","hex"]: shutil.copyfile(build/f"zephyr/zmk.{ext}",out/f"{stem}.{ext}")

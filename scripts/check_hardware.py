@@ -21,7 +21,7 @@ for side, pins in EXPECTED.items():
         all_pins+=found
     extras=[(0,13),(0,24)] if side=="left" else [(0,12),(1,9),(0,13),(0,15)]
     assert len(set(all_pins+extras))==len(all_pins+extras), f"{side}: pin conflict"
-    assert not set(all_pins+extras)&{(0,9),(0,10),(0,5)}, "reserved pin used"
+    assert not set(all_pins+extras)&{(0,9),(0,10),(0,4),(0,5),(0,8)}, "reserved pin used"
     assert f"col-offset = <{0 if side=='left' else 6}>" in text
 layout=(ROOT/"boards/shields/gridroll/gridroll-layouts.dtsi").read_text()
 mapping=[(int(r),int(c)) for r,c in re.findall(r"RC\((\d+),\s*(\d+)\)",layout)]
@@ -55,4 +55,10 @@ for wheel in ['wheel_down','wheel_up','wheel_left','wheel_right']:
     assert f'device = <&{wheel}>;' in right_overlay, f'Missing wheel input listener: {wheel}'
 assert 'diode-direction = "col2row"' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
 assert 'wakeup-source;' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
+shield=(ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
+for binding in ['zmk,battery = &vbat;', 'io-channels = <&adc 2>;',
+                'output-ohms = <1000000>;', 'full-ohms = <3000000>;',
+                'power-gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;',
+                'gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;']:
+    assert binding in shield, f'Battery/LED binding missing: {binding}'
 print("GPIO order/flags, pin reservations/conflicts, 47-key transform, physical layout and 8 layers passed")

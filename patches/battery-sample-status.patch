@@ -1,0 +1,44 @@
+--- a/app/src/battery.c
++++ b/app/src/battery.c
+@@ -119,8 +119,17 @@
+     return rc;
+ }
+ 
++#if IS_ENABLED(CONFIG_GRIDROLL_STATUS_LED)
++void gridroll_battery_sample_report(int err, uint8_t percent);
++#endif
++
+ static void zmk_battery_work(struct k_work *work) {
++    // A queued work item must not sample after activity has entered idle/sleep.
++    if (zmk_activity_get_state() != ZMK_ACTIVITY_ACTIVE) return;
+     int rc = zmk_battery_update(battery);
++#if IS_ENABLED(CONFIG_GRIDROLL_STATUS_LED)
++    gridroll_battery_sample_report(rc, last_state_of_charge);
++#endif
+ 
+     if (rc != 0) {
+         LOG_DBG("Failed to update battery value: %d.", rc);
+--- a/app/src/activity.c
++++ b/app/src/activity.c
+@@ -21,6 +21,9 @@
+ #include <zmk/pm.h>
+ 
+ #include <zmk/activity.h>
++#if IS_ENABLED(CONFIG_GRIDROLL_STATUS_LED)
++#include <hal/nrf_power.h>
++#endif
+ 
+ #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+ #include <zmk/usb.h>
+@@ -31,7 +34,10 @@
+ #endif
+ 
+ bool is_usb_power_present(void) {
+-#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
++#if IS_ENABLED(CONFIG_GRIDROLL_STATUS_LED)
++    // Left does not run a USB data stack, but its VBUS detector still works.
++    return nrf_power_usbregstatus_vbusdet_get(NRF_POWER);
++#elif IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+     return zmk_usb_is_powered();
+ #else
+     return false;

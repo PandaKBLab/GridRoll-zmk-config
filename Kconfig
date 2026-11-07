@@ -1,4 +1,12 @@
 # SPDX-License-Identifier: MIT
+config GRIDROLL_STATUS_LED
+    bool "GridRoll low-battery and host Bluetooth status"
+    depends on ZMK_BATTERY_REPORTING && GPIO && SOC_NRF52840
+    help
+      Use actual battery sample results, never the initial cached zero percent.
+      Red LEDs are off in idle/sleep. Right host connection indication is bounded;
+      the left red LED indicates only its own battery. No charge-complete estimate.
+
 config GRIDROLL_WHEEL_STEP
     bool "Discrete encoder wheel steps"
     depends on ZMK_POINTING && ZMK_RUNTIME_INPUT_PROCESSOR && ZMK_SPLIT_ROLE_CENTRAL

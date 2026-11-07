@@ -17,6 +17,10 @@
   `GridRoll-right.uf2`, and `GridRoll-settings-reset.uf2`.
 - Preserve GPIOs, matrix order, saved settings and battery sleep/key wake unless
   the user requests a change. Keep dependencies pinned and review RAM usage.
+- Preserve the LED policy in docs/led-status.md: right host Bluetooth indication,
+  each half's own low battery, bounded waiting, real-sample freshness and no
+  idle/sleep LED work. Use the native single battery sampler and switched input.
+  Do not turn estimated 100% into a claimed charge-complete signal.
 - This repository is firmware only. Do not add PCB projects, schematics,
   routing, netlists or internal circuit documents. Never claim hardware tests
   were performed from a successful build or protocol test alone.

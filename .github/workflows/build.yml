@@ -24,6 +24,8 @@ jobs:
         run: |
           python3 scripts/check_hardware.py
           python3 scripts/keymap_docs.py --check
+          cc -Wall -Wextra -Werror -std=c11 -Idrivers/status tests/test_status_policy.c -o /tmp/test-status-policy
+          /tmp/test-status-policy
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/usb tests/test_usb_output.c -o /tmp/test-usb-output
           /tmp/test-usb-output
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/input tests/test_sdio.c drivers/input/paw3222_sdio.c -o /tmp/test-sdio
@@ -48,6 +50,11 @@ jobs:
           git -C /tmp/gridroll-workspace/zmk-module-runtime-input-processor apply --check "$GITHUB_WORKSPACE/patches/runtime-temp-layer.patch"
           git -C /tmp/gridroll-workspace/zmk-module-runtime-input-processor apply "$GITHUB_WORKSPACE/patches/runtime-temp-layer.patch"
           python3 scripts/test_mouse_lifetimes.py --source /tmp/gridroll-workspace/zmk-module-runtime-input-processor/src/pointing/input_processor_runtime.c
+      - name: Observe and test actual battery sampling results
+        run: |
+          git -C /tmp/gridroll-workspace/zmk apply --check "$GITHUB_WORKSPACE/patches/battery-sample-status.patch"
+          git -C /tmp/gridroll-workspace/zmk apply "$GITHUB_WORKSPACE/patches/battery-sample-status.patch"
+          python3 scripts/test_battery_status_hook.py --source /tmp/gridroll-workspace/zmk/app/src/battery.c --activity /tmp/gridroll-workspace/zmk/app/src/activity.c
       - name: Build left, right, diagnostic and settings-reset firmware
         run: python3 scripts/build_firmware.py --workspace /tmp/gridroll-workspace --out artifacts
       - name: Prepare three-file firmware package
