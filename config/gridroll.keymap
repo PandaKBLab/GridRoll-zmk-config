@@ -40,7 +40,7 @@
                 &trans &trans &trans &trans &trans &trans &trans &wheel_up &wheel_down &wheel_left &wheel_right &trans
                 &to BASE &trans &trans &trans &trans &trans &mkp MCLK &mkp LCLK &mkp RCLK &mkp MB4 &mkp MB5 &trans
                 &trans &trans &trans &trans &trans &trans &trans &mo SCROLL &trans &trans &trans &trans
-                &precision_quarter &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &precision_quarter &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&encoder_scroll>;
         };
@@ -144,8 +144,8 @@
             compatible = "zmk,behavior-runtime-sensor-rotate";
             #sensor-binding-cells = <0>;
             tap-ms = <5>;
-            cw-binding = <&wheel_down>;
-            ccw-binding = <&wheel_up>;
+            cw-binding = <&wheel_up>;
+            ccw-binding = <&wheel_down>;
         };
         encoder_volume: encoder_volume {
             compatible = "zmk,behavior-runtime-sensor-rotate";

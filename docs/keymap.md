@@ -12,21 +12,21 @@ Auto Mouse defaults: the first nonzero ball movement activates L1 immediately if
 
 默认自动鼠标层：有效拨球立即进入 L1；最近 200ms 内按过键时暂不触发，避免打字误碰。停止拨球、滚轮及鼠标操作 1200ms 后退出；拖拽按住不退出。普通打字键立即退出，Esc 回基础层。J=左键、K=右键、H=中键、L=后退、分号=前进；U/I=滚轮上/下，O/P=横向左/右；按住 M 把轨迹球转为滚动。
 
-L1 Mouse left 41 means left row 4 / column 1 (one-based), the bottom-left Ctrl position, global position 36 / RC(3,0). Hold it for one quarter of the mouse processor's normal DYA speed; release restores normal speed. Base Ctrl is unchanged. Only mouse scaling changes: direction, scrolling, saved settings and sleep policy remain intact. The key adds no timer or flash writes; holding it protects the automatic Mouse layer from timeout.
+L1 Mouse left 46 means left row 4 / column 6 (one-based), the left-half bottom-right Space position, global position 41 / RC(3,5). Hold it for one quarter of the mouse processor's normal DYA speed; release restores normal speed. Base Space and Ctrl are unchanged; L1 left 41 returns to transparent Ctrl. The key adds no timer or flash writes; holding it protects the automatic Mouse layer from timeout. Encoder wheel defaults are reversed: CW up, CCW down in L0/L1/L2/L3/L5/L6; L4/L7 volume direction is unchanged.
 
-L1 左手 41（第 4 行第 1 列，最下排最左、基础层 Ctrl 位置）：按住为正常速度的 1/4，松开恢复；基础层仍是 Ctrl。已有 Studio 布局不会被刷机覆盖：在 L1 的这个位置选择 `Precision 0.25x (hold)` 并保存即可，无需恢复整套布局或刷 reset。
+L1 左手 46（第 4 行第 6 列，左手最下排最右、基础层空格位置）：按住为正常速度的 1/4，松开恢复；基础层仍是空格，原左手 41 恢复透明 Ctrl。已有 Studio 布局不会被刷机覆盖：将 L1 左手 46 设为 `Precision 0.25x (hold)`，原左手 41 设为透明并保存，无需恢复整套布局或刷 reset。旋钮滚轮默认方向改为 CW 上、CCW 下；音量层方向保留。
 
-Saved DYA values override firmware defaults independently of the saved keymap. For this update, set mouse Temp-layer enabled / layer 1 / activation guard 200 / deactivation 1200, and set Base encoder CW to wheel down and CCW to wheel up if older bindings remain. Save each change. Restoring only the Studio keymap does not reset DYA processor or encoder settings. Keep your speed/rotation settings and Bluetooth pairing.
+Saved DYA values override firmware defaults independently of the saved keymap. Keep mouse Temp-layer enabled / layer 1 / activation guard 200 / deactivation 1200. If older encoder overrides remain, set CW to wheel up and CCW to wheel down on each wheel layer (L0/L1/L2/L3/L5/L6) and save; leave volume layers L4/L7 unchanged. Restoring only the Studio keymap does not reset DYA processor or encoder settings. Keep your speed/rotation settings and Bluetooth pairing.
 
 | Layer | Purpose | Access from Base | Encoder CW / CCW |
 |---|---|---|---|
-| L0 Base | Planck-style QWERTY / 基础输入 | Power-on default | Wheel down / Wheel up |
-| L1 Mouse | Automatic mouse buttons / 自动鼠标层 | Move ball; or hold right Space | Wheel down / Wheel up |
-| L2 Lower | Symbols and F keys / 符号与功能键 | Hold Lower (left of left Space) | Wheel down / Wheel up |
-| L3 Nav | Navigation / 导航 | Lower + bottom-left Ctrl position | Wheel down / Wheel up |
+| L0 Base | Planck-style QWERTY / 基础输入 | Power-on default | Wheel up / Wheel down |
+| L1 Mouse | Automatic mouse buttons / 自动鼠标层 | Move ball; or hold right Space | Wheel up / Wheel down |
+| L2 Lower | Symbols and F keys / 符号与功能键 | Hold Lower (left of left Space) | Wheel up / Wheel down |
+| L3 Nav | Navigation / 导航 | Lower + bottom-left Ctrl position | Wheel up / Wheel down |
 | L4 Raise | Numbers and F keys / 数字与功能键 | Hold Raise (right of right Space) | Volume up / Volume down |
-| L5 Scroll | Trackball scrolling / 轨迹球滚动 | Mouse + M; or Lower + right Space | Wheel down / Wheel up |
-| L6 Wireless | Bluetooth profiles / 蓝牙槽位 | Raise + left Shift position | Wheel down / Wheel up |
+| L5 Scroll | Trackball scrolling / 轨迹球滚动 | Mouse + M; or Lower + right Space | Wheel up / Wheel down |
+| L6 Wireless | Bluetooth profiles / 蓝牙槽位 | Raise + left Shift position | Wheel up / Wheel down |
 | L7 System | Output and recovery / 输出与恢复 | Hold Lower + Raise | Volume up / Volume down |
 
 Right USB enumerated by a computer selects USB automatically. A charge-only cable does not force USB. You can manually choose BLE while plugged in: hold Lower + Raise (L7), press top-row U; Y selects USB and I toggles output. A new USB connection prefers USB again. Unplugging falls back to BLE when a host is connected.
@@ -55,7 +55,7 @@ Exact source bindings, viewed from the typing side; `—` is the trackball openi
 | 0 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&wheel_up` | `&wheel_down` | `&wheel_left` | `&wheel_right` | `&trans` |
 | 1 | `&to BASE` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&mkp MCLK` | `&mkp LCLK` | `&mkp RCLK` | `&mkp MB4` | `&mkp MB5` | `&trans` |
 | 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&mo SCROLL` | `&trans` | `&trans` | `&trans` | `&trans` |
-| 3 | `&precision_quarter` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&trans` | `&trans` |
+| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&precision_quarter` | `&trans` | `&trans` | — | `&trans` | `&trans` | `&trans` |
 
 ## L2 Lower
 

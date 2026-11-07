@@ -47,11 +47,11 @@ static int zmk_input_processor_runtime_set_scaling(
 static const struct precision_config config = {.processor_name = "mouse"};
 static struct precision_data data;
 static struct zmk_behavior_binding binding = {"precision"};
-static struct zmk_behavior_binding_event event = {.position = 36};
+static struct zmk_behavior_binding_event event = {.position = 41};
 static void reset(uint32_t multiplier, uint32_t divisor) {
     data.held_positions = 0; behavior.config = &config; behavior.data = &data;
     normal = (struct zmk_input_processor_runtime_config){multiplier, divisor, 37, true, true, false};
-    live = normal; missing = false; set_calls = set_error = get_error = 0; event.position = 36;
+    live = normal; missing = false; set_calls = set_error = get_error = 0; event.position = 41;
 }
 static int press(void) { return precision_pressed(&binding, event); }
 static int release(void) { return precision_released(&binding, event); }
@@ -78,7 +78,7 @@ int main(void) {
     /* Duplicate events and a second Studio-assigned key do not divide twice. */
     reset(1, 1); assert(!press()); assert(!press()); assert(set_calls == 1);
     event.position = 37; assert(!press()); assert(set_calls == 1);
-    event.position = 36; assert(!release()); assert(set_calls == 1);
+    event.position = 41; assert(!release()); assert(set_calls == 1);
     event.position = 37; assert(!release()); assert(set_calls == 2);
     assert(!release()); assert(set_calls == 2 && !data.held_positions);
 

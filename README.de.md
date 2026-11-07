@@ -25,7 +25,7 @@ In der Planck-Standardbelegung öffnet **Lower + Raise** die System-Ebene: Q wä
 
 Für [ZMK Studio](https://zmk.studio/) oder [DYA Studio](https://studio.dya.cormoran.works/) verbinden Sie die **rechte Hälfte per USB** und wählen USB-Ausgabe sowie den seriellen Anschluss. **Die Bearbeitung ist standardmäßig entsperrt; eine Entsperrtaste ist nicht nötig. Leerlauf und Trennen sperren sie nicht erneut.** Schließen Sie andere Seiten mit demselben Anschluss und speichern Sie Änderungen. Updates erhalten Studio/DYA-Einstellungen. Entfernen Sie eine zuvor in DYA eingestellte Drehkorrektur: Die feste Montagekorrektur erfolgt vor der Zeiger- und Scrollverarbeitung.
 
-Beide Oberflächen unterstützen die Tastenbelegung; DYA bietet mouse-/scroll-Einstellungen und **Drehgeber-Zuweisungen je Ebene und Drehrichtung**. Auf der Basisebene scrollt der Drehgeber im Uhrzeigersinn nach unten, gegen den Uhrzeigersinn nach oben. CI prüft drei festgeschriebene DYA-Protokolle und die entsperrte Konfiguration. Nicht implementierte Sensorbilder sind nicht enthalten.
+Beide Oberflächen unterstützen die Tastenbelegung; DYA bietet mouse-/scroll-Einstellungen und **Drehgeber-Zuweisungen je Ebene und Drehrichtung**. Auf der Basisebene scrollt der Drehgeber im Uhrzeigersinn nach oben, gegen den Uhrzeigersinn nach unten. CI prüft drei festgeschriebene DYA-Protokolle und die entsperrte Konfiguration. Nicht implementierte Sensorbilder sind nicht enthalten.
 
 ## Acht Standardebenen
 
@@ -37,11 +37,11 @@ Die erste gültige Ballbewegung aktiviert Mouse sofort, sofern in den letzten **
 
 **J=Linksklick, K=Rechtsklick, H=Mittelklick, L=Zurück, Semikolon=Vorwärts; U/I=Rad hoch/runter, O/P=horizontal.** M halten scrollt mit dem Ball; rechte Leertaste halten aktiviert Mouse manuell. Der Basis-Drehgeber sendet pro Sensorereignis einen diskreten Radschritt, statt der bisherigen zu kurzen 20-ms-Simulation.
 
-Gespeicherte DYA-Werte bleiben unabhängig erhalten: gegebenenfalls mouse Temp-layer aktivieren, Ebene 1, Aktivierungsschutz 200 ms, Deaktivierung 1200 ms sowie Basis-CW=wheel down und CCW=wheel up speichern. Das Zurücksetzen des Studio-Keymaps löscht diese Werte nicht; settings-reset ist unnötig.
+Gespeicherte DYA-Werte bleiben unabhängig erhalten: mouse Temp-layer aktiviert, Ebene 1, Aktivierungsschutz 200 ms und Deaktivierung 1200 ms beibehalten. Alte Drehgeberwerte für L0/L1/L2/L3/L5/L6 gegebenenfalls auf CW=wheel up und CCW=wheel down ändern und speichern; die Lautstärke-Ebenen L4/L7 bleiben unverändert. Das Zurücksetzen des Studio-Keymaps löscht diese Werte nicht; settings-reset ist unnötig.
 
 Normale Updates behalten Studio-Belegungen. Für neue Standardwerte zuerst exportieren und dann in Studio die Standardbelegung wiederherstellen. settings-reset ist dafür unnötig. Symbole verwenden übliche US-Keycodes; ausgegebene Zeichen hängen vom PC-Tastaturlayout ab.
 
-In **L1 Mouse** hält **links 41 (Zeile 4, Spalte 1: unten links, Ctrl auf Base)** die Zeigergeschwindigkeit auf einem Viertel des normalen DYA-Werts; Loslassen stellt den normalen Wert wieder her. Base-Ctrl, Richtung und Scroll-Einstellungen bleiben erhalten. Bei einer in Studio gespeicherten Belegung dieser L1-Position **Precision 0.25x (hold)** zuweisen und speichern; weder die ganze Belegung noch settings-reset zurücksetzen.
+In **L1 Mouse** hält **links 46 (Zeile 4, Spalte 6: unten rechts auf der linken Hälfte, Leertaste auf Base)** die Zeigergeschwindigkeit auf einem Viertel des normalen DYA-Werts; Loslassen stellt den normalen Wert wieder her. Base-Leertaste/Ctrl und Richtung bleiben erhalten. Bei einer in Studio gespeicherten Belegung L1 links 46 **Precision 0.25x (hold)** zuweisen, links 41 wieder auf transparent setzen und speichern; weder die ganze Belegung noch settings-reset zurücksetzen.
 
 ## LEDs und Akku
 

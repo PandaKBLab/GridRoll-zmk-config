@@ -1,6 +1,14 @@
 # Validation status
 
-## Current update — hold for precision movement (2026-11-08)
+## Current update — precision position and wheel direction (2026-11-08)
+
+L1 precision moves from left row 4 / column 1 to **left row 4 / column 6** (one-based), the left Space position, global position 41 / RC(3,5). The old position becomes transparent Ctrl again. Base Space/Ctrl and the quarter-speed behavior implementation are unchanged. Encoder wheel defaults reverse to CW up / CCW down in L0/L1/L2/L3/L5/L6; L4/L7 volume defaults and the U/I wheel keys are unchanged. GPIOs, trackball direction/scroll processing, LEDs, radio, sleep/key-wake, dependencies and both unlocked Studios are preserved.
+
+The source position/direction checks and generated diagrams have been updated; full Actions validation is pending. Existing host regressions now exercise precision at global position 41, including held-layer protection and normal expiry after release. No new polling or timer is introduced. Physical direction, precision feel and saved Studio/DYA edits require a device test.
+
+Saved layouts and encoder overrides intentionally survive flashing. In Studio, assign **Precision 0.25x (hold)** to L1 left row 4 / column 6 and restore the old left row 4 / column 1 to transparent. In DYA, change any saved wheel-layer overrides to CW=wheel up and CCW=wheel down in L0/L1/L2/L3/L5/L6; retain volume bindings in L4/L7. Save the changes without settings-reset or clearing pairing.
+
+## Previous update — hold for precision movement (2026-11-08)
 
 L1 Mouse left 41 is left row 4 / column 1 (one-based), global position 36 / RC(3,0), the Base Ctrl position. Only that source binding changes. The new zero-parameter Studio behavior temporarily uses one quarter of the mouse processor's normal DYA scaling; release restores the current normal RAM baseline, including memory-only settings. It changes scaling only, preserves rotation/scroll settings and writes no settings. Multiple assignments do not compound the reduction and restore only after the last key is released. The key creates no work timers or periodic polling. Existing automatic-layer lifetime handling keeps L1 active while it is held and resumes the normal 1200 ms timeout on release. Base Ctrl, matrix/GPIO order, eight layers, LED policy, radio, sleep/wake, dependencies and both unlocked Studios are preserved.
 

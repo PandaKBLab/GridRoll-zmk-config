@@ -37,8 +37,8 @@ for layer in ["base","mouse","lower","nav","raise","scroll","wireless","system"]
 assert 'status = "reserved"' not in keymap
 assert len(re.findall(r'sensor-bindings = <&encoder_',keymap))==8
 assert 'layers = <SCROLL>;' in keymap
-assert 'cw-binding = <&wheel_down>;' in keymap
-assert 'ccw-binding = <&wheel_up>;' in keymap
+assert 'cw-binding = <&wheel_up>;' in keymap
+assert 'ccw-binding = <&wheel_down>;' in keymap
 assert 'temp-layer-enabled;' in keymap and 'temp-layer = <MOUSE>;' in keymap
 assert 'temp-layer-activation-delay-ms = <200>;' in keymap
 assert 'temp-layer-deactivation-delay-ms = <1200>;' in keymap
@@ -50,10 +50,12 @@ mouse=re.search(r'\bmouse\s*\{(.*?)\n\s*\};',layers,re.S).group(1)
 mouse_bindings=re.search(r'\bbindings\s*=\s*<(.*?)>;',mouse,re.S).group(1)
 mouse_items=[re.sub(r'\s+',' ', '&'+b+p).strip() for b,p in re.findall(r'&(\w+)([^&]*)',mouse_bindings)]
 assert mouse_items[19]=='&mkp LCLK' and mouse_items[20]=='&mkp RCLK'
-assert mapping[36] == (3, 0) and mouse_items[36] == '&precision_quarter', 'L1 left 41 precision key'
+assert mapping[41] == (3, 5) and mouse_items[41] == '&precision_quarter', 'L1 left 46 precision key'
+assert mouse_items[36] == '&trans', 'L1 left 41 returns to Base Ctrl'
 base=re.search(r'\bbase\s*\{(.*?)\n\s*\};',layers,re.S).group(1)
 base_items=re.findall(r'&(\w+)([^&]*)',re.search(r'\bbindings\s*=\s*<(.*?)>;',base,re.S).group(1))
 assert re.sub(r'\s+', ' ', '&'+''.join(base_items[36])).strip() == '&kp LCTRL'
+assert re.sub(r'\s+', ' ', '&'+''.join(base_items[41])).strip() == '&kp SPACE'
 right_overlay=(ROOT/'boards/shields/gridroll/gridroll_right.overlay').read_text()
 for wheel in ['wheel_down','wheel_up','wheel_left','wheel_right']:
     assert f'device = <&{wheel}>;' in right_overlay, f'Missing wheel input listener: {wheel}'

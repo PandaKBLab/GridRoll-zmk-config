@@ -16,7 +16,9 @@
 
 固件提供 mouse、scroll 两个运行时处理器；仅 Scroll 5 将球 XY 转为滚动。mouse 默认开启临时 Mouse 1，打字保护 200ms，无操作退出 1200ms。首次有效运动在保护窗口之外立即激活，不要求连续运动 200ms。拨球、离散滚轮、鼠标／修饰键释放续时，按住期间保护拖拽，普通透明打字键立即退出。固定模块的 `patches/runtime-temp-layer.patch` 修复单帧不退层、按键续时、多键拖拽和手动层归属；CI 提取实际修补函数进行主机回归测试。DYA 的自动层时间仍可调整，保存结构和协议未更改。
 
-旋钮首层不用短暂 &msc 模拟，改为 wheel_down／wheel_up 离散行为，每个 sensor trigger 一刻度；它们通过独立 input listener 进入正常 USB／BLE 指针输出。DYA cormoran_rsr 仍可按层修改。若存在旧保存值，在 DYA 将 Base CW=wheel down、CCW=wheel up，并将 mouse Temp-layer enabled / layer 1 / activation 200 / deactivation 1200 后保存；仅恢复 Studio 键位不会清掉这些参数，也无需清配对。
+旋钮首层不用短暂 &msc 模拟，改为 wheel_up／wheel_down 离散行为，每个 sensor trigger 一刻度；它们通过独立 input listener 进入正常 USB／BLE 指针输出。DYA cormoran_rsr 仍可按层修改。滚轮方向现为 CW 上、CCW 下；若存在旧保存值，在 DYA 将滚轮层 L0/L1/L2/L3/L5/L6 设为 CW=wheel up、CCW=wheel down 后保存，音量层 L4/L7 保留。mouse Temp-layer 保持 enabled / layer 1 / activation 200 / deactivation 1200；仅恢复 Studio 键位不会清掉这些参数，也无需清配对。
+
+L1 精细移动在左手第 4 行第 6 列（左空格位置），按住为正常 DYA 速度的 1/4，松开恢复。旧 Studio 布局需将此处设为 Precision 0.25x (hold)，原第 4 行第 1 列恢复透明；基础层空格／Ctrl 不改。
 
 GridRoll 的 PAW3222 安装方向在驱动输出时固定校正为 `X=-rawY`、`Y=rawX`，先完成安装方向校正，再进入 DYA 处理器；鼠标和滚动两种模式使用相同的校正输入。该修改对应用户报告的“上→左、下→右、左→下、右→上”，新固件应使四个方向与实际拨球一致，仍需烧录后实测。若之前在 DYA 手动补偿过方向，请将 mouse 和 scroll 的额外旋转恢复为 0、X/Y 反向关闭并保存，避免重复补偿；可以保留已调好的速度和键位。
 

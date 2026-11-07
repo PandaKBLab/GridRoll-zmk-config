@@ -144,5 +144,5 @@
 <g><title>46: &amp;trans</title><rect x="984" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="1022" y="294" font-size="13">TRNS</text>
 <text x="993" y="323" font-size="8" fill="#79879b">46</text></g>
-<text x="550" y="365" font-size="14">Encoder CW: Wheel down · CCW: Wheel up | hold = momentary; TRNS = lower active layer</text>
+<text x="550" y="365" font-size="14">Encoder CW: Wheel up · CCW: Wheel down | hold = momentary; TRNS = lower active layer</text>
 </g></svg>

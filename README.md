@@ -25,7 +25,7 @@ With the stock Planck-style keymap, hold **Lower + Raise** to enter System: top-
 
 For [ZMK Studio](https://zmk.studio/) or [DYA Studio](https://studio.dya.cormoran.works/), connect the **right half by USB**, select USB output and choose its serial port. **Studio editing is unlocked by default: no unlock key is required, and idle or disconnect does not relock it.** Close other pages using the same serial port and save your changes. Updates preserve Studio/DYA settings. If you previously compensated the trackball rotation in DYA, remove that extra compensation: mounting correction runs before both pointer and scroll processing.
 
-Both interfaces support keymap editing; DYA also exposes mouse/scroll settings and **per-layer encoder clockwise/counter-clockwise bindings** through `cormoran_rsr`. Base rotation defaults to mouse-wheel scrolling: clockwise down, counter-clockwise up. CI checks all three pinned DYA extension protocols and the compiled unlocked configuration. Sensor imaging and other unimplemented hardware features are not included.
+Both interfaces support keymap editing; DYA also exposes mouse/scroll settings and **per-layer encoder clockwise/counter-clockwise bindings** through `cormoran_rsr`. Base rotation defaults to mouse-wheel scrolling: clockwise up, counter-clockwise down. CI checks all three pinned DYA extension protocols and the compiled unlocked configuration. Sensor imaging and other unimplemented hardware features are not included.
 
 ## Eight default layers
 
@@ -70,10 +70,10 @@ The default is a conventional **Planck-style QWERTY / Lower / Raise** layout ada
 - First nonzero ball movement activates Mouse immediately when no key was pressed in the preceding **200 ms**; this is a typing guard, not a movement-duration requirement.
 - Mouse exits **1200 ms** after the last ball movement, discrete wheel step or mouse/modifier release. A held mouse button/modifier protects dragging, including multiple buttons. Ordinary transparent typing keys exit immediately; Esc returns to Base.
 - **J = left click, K = right click, H = middle click, L = Back, semicolon = Forward. U/I = wheel up/down; O/P = horizontal left/right.** Hold M for trackball scrolling. Hold right Space for a manual Mouse layer; tap still sends Space.
-- Base encoder defaults now use **one discrete wheel step per sensor trigger**, clockwise down and counter-clockwise up. The previous 20 ms / 10 steps-per-second emulation could round down to no wheel movement.
-- **Saved DYA settings are separate from the saved keymap.** If old values remain, enable the mouse processor's Temp-layer with layer 1 / activation guard 200 ms / deactivation 1200 ms, and set Base encoder CW to **wheel down**, CCW to **wheel up**. Save those settings. Restoring only the Studio keymap does not clear old processor or encoder settings; no settings-reset flash is needed.
+- Wheel layers use **one discrete wheel step per sensor trigger**, clockwise up and counter-clockwise down. Volume layers keep their direction. The previous 20 ms / 10 steps-per-second emulation could round down to no wheel movement.
+- **Saved DYA settings are separate from the saved keymap.** Keep the mouse processor's Temp-layer enabled with layer 1 / activation guard 200 ms / deactivation 1200 ms. If old encoder values remain, set CW to **wheel up**, CCW to **wheel down** on wheel layers L0/L1/L2/L3/L5/L6 and save; leave volume layers L4/L7 unchanged. Restoring only the Studio keymap does not clear old processor or encoder settings; no settings-reset flash is needed.
 
-In **L1 Mouse**, hold **left 41 (row 4, column 1: bottom-left, Base Ctrl position)** for one quarter of your normal DYA mouse speed; release restores normal speed. Base Ctrl, pointer direction and scrolling stay unchanged. With a Studio-saved layout, assign **Precision 0.25x (hold)** to that L1 position and save; no full-layout restore or settings-reset is needed.
+In **L1 Mouse**, hold **left 46 (row 4, column 6: bottom-right on the left half, Base Space position)** for one quarter of your normal DYA mouse speed; release restores normal speed. Base Space/Ctrl and pointer direction stay unchanged. With a Studio-saved layout, assign **Precision 0.25x (hold)** to L1 left 46, restore left 41 to transparent, and save; no full-layout restore or settings-reset is needed.
 
 ## LEDs and battery
 
