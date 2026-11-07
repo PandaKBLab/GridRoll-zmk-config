@@ -43,6 +43,11 @@ jobs:
           west manifest --freeze > "$GITHUB_WORKSPACE/artifacts/west-frozen.yml"
       - name: Check pinned DYA Studio extension wire compatibility
         run: python3 scripts/check_studio_protocols.py --workspace /tmp/gridroll-workspace
+      - name: Apply and test temporary mouse-layer lifetime fixes
+        run: |
+          git -C /tmp/gridroll-workspace/zmk-module-runtime-input-processor apply --check "$GITHUB_WORKSPACE/patches/runtime-temp-layer.patch"
+          git -C /tmp/gridroll-workspace/zmk-module-runtime-input-processor apply "$GITHUB_WORKSPACE/patches/runtime-temp-layer.patch"
+          python3 scripts/test_mouse_lifetimes.py --source /tmp/gridroll-workspace/zmk-module-runtime-input-processor/src/pointing/input_processor_runtime.c
       - name: Build left, right, diagnostic and settings-reset firmware
         run: python3 scripts/build_firmware.py --workspace /tmp/gridroll-workspace --out artifacts
       - name: Prepare three-file firmware package

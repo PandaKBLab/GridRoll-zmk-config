@@ -21,7 +21,7 @@ Artifacts are retained for 30 days. A successful build is software validation, n
 
 Pair your computer with **GridRoll on the right half**. If it is invisible, select an unused Bluetooth profile or clear the selected profile and forget the old pairing on your computer. Normal updates preserve saved bonds.
 
-With the stock keymap, hold the **top-left Tab** key to enter System: top-row **Q** selects profile 0, **Backspace** clears it, **Y** selects USB and **U** selects BLE. A newly enumerated right USB connection automatically selects USB, even with a saved BLE preference. Charge-only connections do not force USB; unplugging falls back to a connected BLE host. You can manually select BLE until the next USB connection. Saved layouts may differ.
+With the stock Planck-style keymap, hold **Lower + Raise** to enter System: top-row Q selects profile 0, Backspace clears it, Y selects USB and U selects BLE. A new computer USB connection automatically selects USB, even with a saved BLE preference. Charge-only connections do not force USB; unplugging falls back to a connected BLE host. You can manually choose BLE until the next USB connection. Saved layouts may differ.
 
 For [ZMK Studio](https://zmk.studio/) or [DYA Studio](https://studio.dya.cormoran.works/), connect the **right half by USB**, select USB output and choose its serial port. **Studio editing is unlocked by default: no unlock key is required, and idle or disconnect does not relock it.** Close other pages using the same serial port and save your changes. Updates preserve Studio/DYA settings. If you previously compensated the trackball rotation in DYA, remove that extra compensation: mounting correction runs before both pointer and scroll processing.
 
@@ -29,9 +29,9 @@ Both interfaces support keymap editing; DYA also exposes mouse/scroll settings a
 
 ## Eight default layers
 
-Seven layers are adapted from the [LiNEA40 reference](https://github.com/keyfreaks/zmk-config-LiNEA40/blob/6953ccb2e2d6256ed57887fde692bcb1959f9052/config/LiNEA40.keymap), plus GridRoll's System layer. All eight are enabled. See [every exact binding, layer access, encoder defaults and combos](docs/keymap.md). Diagrams are generated from source and checked by CI.
+The default is a conventional **Planck-style QWERTY / Lower / Raise** layout adapted to GridRoll's 47 keys, with Mouse, Navigation, Scroll, Wireless and System for eight enabled layers. Tab/Esc/Shift/punctuation/Enter are ordinary keys; Lower + Raise opens System. Previous LiNEA40 typing combos are removed. See [all exact bindings, layer access and encoder defaults](docs/keymap.md). Source-generated diagrams are checked by CI.
 
-**Normal updates preserve Studio-saved layouts.** To adopt these defaults, export your old layout and use Studio's restore-defaults operation; do not flash settings-reset just to change keymaps. Japanese-layout symbol codes from the reference are retained; actual characters depend on the computer's keyboard layout.
+**Normal updates preserve Studio-saved layouts.** To adopt these defaults, export your old layout and use Studio's restore-defaults operation; do not flash settings-reset just to change keymaps. Symbols use the usual US-style keycodes; actual characters depend on the computer's keyboard layout.
 
 ### L0 Base
 
@@ -41,17 +41,17 @@ Seven layers are adapted from the [LiNEA40 reference](https://github.com/keyfrea
 
 ![L1 Mouse](docs/keymap/layer-1.svg)
 
-### L2 Symbol
+### L2 Lower
 
-![L2 Symbol](docs/keymap/layer-2.svg)
+![L2 Lower](docs/keymap/layer-2.svg)
 
 ### L3 Navigation
 
 ![L3 Navigation](docs/keymap/layer-3.svg)
 
-### L4 Function
+### L4 Raise
 
-![L4 Function](docs/keymap/layer-4.svg)
+![L4 Raise](docs/keymap/layer-4.svg)
 
 ### L5 Scroll
 
@@ -64,6 +64,14 @@ Seven layers are adapted from the [LiNEA40 reference](https://github.com/keyfrea
 ### L7 System
 
 ![L7 System](docs/keymap/layer-7.svg)
+
+## Automatic Mouse layer and wheel
+
+- First nonzero ball movement activates Mouse immediately when no key was pressed in the preceding **200 ms**; this is a typing guard, not a movement-duration requirement.
+- Mouse exits **1200 ms** after the last ball movement, discrete wheel step or mouse/modifier release. A held mouse button/modifier protects dragging, including multiple buttons. Ordinary transparent typing keys exit immediately; Esc returns to Base.
+- **J = left click, K = right click, H = middle click, L = Back, semicolon = Forward. U/I = wheel up/down; O/P = horizontal left/right.** Hold M for trackball scrolling. Hold right Space for a manual Mouse layer; tap still sends Space.
+- Base encoder defaults now use **one discrete wheel step per sensor trigger**, clockwise down and counter-clockwise up. The previous 20 ms / 10 steps-per-second emulation could round down to no wheel movement.
+- **Saved DYA settings are separate from the saved keymap.** If old values remain, enable the mouse processor's Temp-layer with layer 1 / activation guard 200 ms / deactivation 1200 ms, and set Base encoder CW to **wheel down**, CCW to **wheel up**. Save those settings. Restoring only the Studio keymap does not clear old processor or encoder settings; no settings-reset flash is needed.
 
 ## Power and wake
 

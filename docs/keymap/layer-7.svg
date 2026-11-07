@@ -119,8 +119,8 @@
 <g><title>38: &amp;trans</title><rect x="192" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="230" y="294" font-size="13">TRNS</text>
 <text x="201" y="323" font-size="8" fill="#79879b">38</text></g>
-<g><title>39: &amp;kp C_MUTE</title><rect x="276" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="314" y="294" font-size="13">Mute</text>
+<g><title>39: &amp;mkp MCLK</title><rect x="276" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="314" y="294" font-size="8.1">Middle click</text>
 <text x="285" y="323" font-size="8" fill="#79879b">39</text></g>
 <g><title>40: &amp;trans</title><rect x="360" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="398" y="294" font-size="13">TRNS</text>

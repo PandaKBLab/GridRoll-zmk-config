@@ -1,4 +1,9 @@
 # SPDX-License-Identifier: MIT
+config GRIDROLL_WHEEL_STEP
+    bool "Discrete encoder wheel steps"
+    depends on ZMK_POINTING && ZMK_RUNTIME_INPUT_PROCESSOR && ZMK_SPLIT_ROLE_CENTRAL
+    default y if DT_HAS_GRIDROLL_BEHAVIOR_WHEEL_STEP_ENABLED
+
 config GRIDROLL_USB_AUTO_OUTPUT
     bool "Prefer USB when the computer enumerates the keyboard"
     depends on ZMK_USB && ZMK_BLE && ZMK_SPLIT_ROLE_CENTRAL

@@ -1,0 +1,131 @@
+--- a/src/pointing/input_processor_runtime.c
++++ b/src/pointing/input_processor_runtime.c
+@@ -214,6 +214,7 @@
+     struct k_work_delayable temp_layer_deactivation_work;
+     bool temp_layer_layer_active;
+     bool temp_layer_keep_active; // Set by behavior to prevent deactivation
++    uint64_t temp_layer_held_positions; // Physical mouse/modifier keys, not persisted
+     int64_t last_input_timestamp;
+     int64_t last_keypress_timestamp;
+ };
+@@ -234,6 +235,17 @@
+             data->sin_val);
+ }
+ 
++// Mouse buttons and discrete encoder wheel events also renew the one-shot timeout.
++void zmk_input_processor_runtime_note_activity(const struct device *dev) {
++    struct runtime_processor_data *data = dev->data;
++    data->last_input_timestamp = k_uptime_get();
++    if (data->temp_layer_layer_active && !data->temp_layer_keep_active &&
++        data->temp_layer_held_positions == 0) {
++        k_work_reschedule(&data->temp_layer_deactivation_work,
++                          K_MSEC(data->temp_layer_deactivation_delay_ms));
++    }
++}
++
+ // Temp-layer layer work handlers
+ static void temp_layer_activation_work_handler(struct k_work *work) {
+     struct k_work_delayable *dwork = k_work_delayable_from_work(work);
+@@ -244,10 +256,16 @@
+         return;
+     }
+ 
++    // Do not take ownership of a layer held manually with &mo.
++    if (zmk_keymap_layer_active(data->temp_layer_layer)) {
++        return;
++    }
+     // Activate the temp-layer layer
+     int ret = zmk_keymap_layer_activate(data->temp_layer_layer, false);
+     if (ret == 0) {
+         data->temp_layer_layer_active = true;
++        // Even a single motion frame must arm an expiry timer.
++        zmk_input_processor_runtime_note_activity(data->dev);
+         LOG_INF("Temp-layer layer %d activated", data->temp_layer_layer);
+     } else {
+         LOG_ERR("Failed to activate temp-layer layer %d: %d", data->temp_layer_layer, ret);
+@@ -259,10 +277,18 @@
+     struct runtime_processor_data *data =
+         CONTAINER_OF(dwork, struct runtime_processor_data, temp_layer_deactivation_work);
+ 
+-    if (!data->temp_layer_layer_active || data->temp_layer_keep_active) {
++    if (!data->temp_layer_layer_active || data->temp_layer_keep_active ||
++        data->temp_layer_held_positions != 0) {
+         return;
+     }
+ 
++    // A queued expiry must not win over newer pointer/button activity.
++    int64_t remaining = data->temp_layer_deactivation_delay_ms -
++                        (k_uptime_get() - data->last_input_timestamp);
++    if (remaining > 0) {
++        k_work_reschedule(&data->temp_layer_deactivation_work, K_MSEC(remaining));
++        return;
++    }
+     // Deactivate the temp-layer layer
+     int ret = zmk_keymap_layer_deactivate(data->temp_layer_layer, false);
+     if (ret == 0) {
+@@ -2069,11 +2095,6 @@
+         return ZMK_EV_EVENT_BUBBLE;
+     }
+ 
+-    // Only handle key presses
+-    if (!ev->state) {
+-        return ZMK_EV_EVENT_BUBBLE;
+-    }
+-
+     // Check temp-layer deactivation for all processors
+     for (size_t i = 0; i < runtime_processors_count; i++) {
+         const struct device *dev = runtime_processors[i];
+@@ -2108,6 +2129,9 @@
+             }
+ 
+             if (!is_transparent) {
++                data->temp_layer_held_positions |= bit;
++                data->last_input_timestamp = k_uptime_get();
++                k_work_cancel_delayable(&data->temp_layer_deactivation_work);
+                 LOG_DBG("Temp-layer layer has non-transparent binding at position "
+                         "%d, not deactivating",
+                         ev->position);
+@@ -2188,6 +2212,9 @@
+                 }
+ 
+                 if (should_keep) {
++                    data->temp_layer_held_positions |= bit;
++                    data->last_input_timestamp = k_uptime_get();
++                    k_work_cancel_delayable(&data->temp_layer_deactivation_work);
+                     LOG_DBG("Resolved binding is keep keycode, not deactivating "
+                             "temp-layer layer");
+                     continue;
+@@ -2223,6 +2250,12 @@
+ 
+     for (size_t i = 0; i < runtime_processors_count; i++) {
+         struct runtime_processor_data *data = runtime_processors[i]->data;
++        if (ev->layer == data->temp_layer_layer) {
++            data->temp_layer_layer_active = false;
++            data->temp_layer_held_positions = 0;
++            k_work_cancel_delayable(&data->temp_layer_activation_work);
++            k_work_cancel_delayable(&data->temp_layer_deactivation_work);
++        }
+         if (data->inertia_active && !is_processor_active_for_current_layers(data->active_layers)) {
+             LOG_DBG("Inertia stopped after active layer deactivation");
+             inertia_stop(data, ZMK_INPUT_PROCESSOR_INERTIA_STOP_REASON_LAYER_INACTIVE);
+@@ -2664,7 +2697,7 @@
+     // If releasing keep_active and layer is still active, deactivate
+     // immediately
+     if (!keep_active && data->temp_layer_enabled && data->temp_layer_layer_active) {
+-        k_work_reschedule(&data->temp_layer_deactivation_work, K_NO_WAIT);
++        zmk_input_processor_runtime_note_activity(dev);
+     }
+ }
+ 
+--- a/include/zmk/pointing/input_processor_runtime.h
++++ b/include/zmk/pointing/input_processor_runtime.h
+@@ -440,6 +440,9 @@
+ /** Enable or disable inertia transition notifications in RAM only. */
+ int zmk_input_processor_runtime_set_inertia_notifications(const struct device *dev, bool enabled);
+ 
++/** Renew an active temporary layer after a mouse/encoder action; never activate it. */
++void zmk_input_processor_runtime_note_activity(const struct device *dev);
++
+ #if IS_ENABLED(CONFIG_ZMK_RUNTIME_INPUT_PROCESSOR_TEST)
+ /** @brief Test-only: apply a v1 blob from main. */
+ int zmk_input_processor_runtime_test_apply_legacy_v1(const struct device *dev);

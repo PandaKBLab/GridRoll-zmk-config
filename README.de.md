@@ -21,7 +21,7 @@ Artefakte werden 30 Tage gespeichert. Ein erfolgreicher Build bestätigt Softwar
 
 Koppeln Sie den Computer mit **GridRoll auf der rechten Hälfte**. Wenn die Tastatur unsichtbar ist, wählen Sie ein freies Bluetooth-Profil oder löschen Sie das aktuelle Profil und die alte Kopplung am Computer. Normale Updates erhalten gespeicherte Kopplungen.
 
-Halten Sie **Tab oben links** für System: **Q** oben wählt Profil 0, **Backspace** löscht es, **Y** wählt USB und **U** BLE. Sobald der PC die rechte USB-Hälfte erkennt, wird USB auch bei gespeicherter BLE-Präferenz bevorzugt. Reine Ladeverbindungen erzwingen keinen Wechsel; nach dem Abziehen ist ein verbundener BLE-Host verfügbar. Eine manuelle BLE-Auswahl bleibt bis zur nächsten USB-Verbindung erhalten. Gespeicherte Belegungen können abweichen.
+In der Planck-Standardbelegung öffnet **Lower + Raise** die System-Ebene: Q wählt Profil 0, Backspace löscht es, Y wählt USB und U BLE. Sobald der PC die rechte Hälfte erkennt, wird USB bevorzugt. Nach dem Abziehen wird ein verbundener BLE-Host verwendet. Reines Laden erzwingt keinen Wechsel; manuelle BLE-Auswahl bleibt möglich. Gespeicherte Belegungen können abweichen.
 
 Für [ZMK Studio](https://zmk.studio/) oder [DYA Studio](https://studio.dya.cormoran.works/) verbinden Sie die **rechte Hälfte per USB** und wählen USB-Ausgabe sowie den seriellen Anschluss. **Die Bearbeitung ist standardmäßig entsperrt; eine Entsperrtaste ist nicht nötig. Leerlauf und Trennen sperren sie nicht erneut.** Schließen Sie andere Seiten mit demselben Anschluss und speichern Sie Änderungen. Updates erhalten Studio/DYA-Einstellungen. Entfernen Sie eine zuvor in DYA eingestellte Drehkorrektur: Die feste Montagekorrektur erfolgt vor der Zeiger- und Scrollverarbeitung.
 
@@ -29,9 +29,17 @@ Beide Oberflächen unterstützen die Tastenbelegung; DYA bietet mouse-/scroll-Ei
 
 ## Acht Standardebenen
 
-Sieben LiNEA40-Ebenen dienen als Vorlage für GridRolls 47 Tasten; hinzu kommt System. Alle acht sind aktiviert. [Alle Tastenwerte, Diagramme, Ebenenzugriffe und Drehgeberfunktionen](docs/keymap.md) sind dokumentiert. Die englische Startseite zeigt alle Diagramme, aus dem Quell-Keymap erzeugt und in CI abgeglichen.
+Die Standardbelegung verwendet **Planck QWERTY / Lower / Raise** für 47 Tasten, ergänzt um Mouse, Navigation, Scroll, Wireless und System: acht aktive Ebenen. Tab/Esc/Shift/Satzzeichen/Enter sind normale Tasten; Lower + Raise öffnet System. Alte LiNEA40-Tippkombinationen entfallen. [Alle Tastenwerte und Diagramme](docs/keymap.md) werden aus dem Quelltext erzeugt und in CI geprüft.
 
-Normale Updates behalten Studio-Belegungen. Für neue Standardwerte zuerst exportieren und dann in Studio die Standardbelegung wiederherstellen. settings-reset ist dafür unnötig. Japanische Symbol-Keycodes bleiben erhalten; Zeichen hängen vom PC-Tastaturlayout ab.
+## Automatische Maus-Ebene und Rad
+
+Die erste gültige Ballbewegung aktiviert Mouse sofort, sofern in den letzten **200 ms** keine Taste gedrückt wurde. Diese Zeit schützt beim Tippen. **1200 ms** nach Bewegung, Radschritt oder Loslassen einer Maus-/Modifikatortaste endet Mouse. Gehaltene Tasten schützen das Ziehen; normale transparente Buchstabentasten oder Esc beenden die Ebene sofort.
+
+**J=Linksklick, K=Rechtsklick, H=Mittelklick, L=Zurück, Semikolon=Vorwärts; U/I=Rad hoch/runter, O/P=horizontal.** M halten scrollt mit dem Ball; rechte Leertaste halten aktiviert Mouse manuell. Der Basis-Drehgeber sendet pro Sensorereignis einen diskreten Radschritt, statt der bisherigen zu kurzen 20-ms-Simulation.
+
+Gespeicherte DYA-Werte bleiben unabhängig erhalten: gegebenenfalls mouse Temp-layer aktivieren, Ebene 1, Aktivierungsschutz 200 ms, Deaktivierung 1200 ms sowie Basis-CW=wheel down und CCW=wheel up speichern. Das Zurücksetzen des Studio-Keymaps löscht diese Werte nicht; settings-reset ist unnötig.
+
+Normale Updates behalten Studio-Belegungen. Für neue Standardwerte zuerst exportieren und dann in Studio die Standardbelegung wiederherstellen. settings-reset ist dafür unnötig. Symbole verwenden übliche US-Keycodes; ausgegebene Zeichen hängen vom PC-Tastaturlayout ab.
 
 ## Energiesparen und Aufwachen
 

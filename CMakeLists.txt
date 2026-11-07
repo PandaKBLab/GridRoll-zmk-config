@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: MIT
 zephyr_library()
+zephyr_library_sources_ifdef(CONFIG_GRIDROLL_WHEEL_STEP drivers/input/wheel_step.c)
 zephyr_library_sources_ifdef(CONFIG_GRIDROLL_USB_AUTO_OUTPUT drivers/usb/usb_output.c)
 zephyr_library_sources_ifdef(CONFIG_GRIDROLL_PAW3222 drivers/input/paw3222.c drivers/input/paw3222_sdio.c)
 if(CONFIG_GRIDROLL_PAW3222 OR CONFIG_GRIDROLL_USB_AUTO_OUTPUT)

@@ -6,13 +6,13 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = ["base", "mouse", "symbol", "nav", "function", "scroll", "wireless", "system"]
-PURPOSE = ["Typing / 基础输入", "Mouse buttons / 鼠标按键", "Symbols / 符号",
-           "Navigation and numbers / 导航与数字", "Function and shortcuts / 功能与快捷键",
+EXPECTED = ["base", "mouse", "lower", "nav", "raise", "scroll", "wireless", "system"]
+PURPOSE = ["Planck-style QWERTY / 基础输入", "Automatic mouse buttons / 自动鼠标层", "Symbols and F keys / 符号与功能键",
+           "Navigation / 导航", "Numbers and F keys / 数字与功能键",
            "Trackball scrolling / 轨迹球滚动", "Bluetooth profiles / 蓝牙槽位", "Output and recovery / 输出与恢复"]
-ACCESS = ["Power-on default", "Hold left outer middle-row key", "Hold bottom-row Tab or Backspace",
-          "Hold right outer middle-row key", "Hold bottom-row Space", "Hold Enter or Minus",
-          "Hold bottom-row ]", "Hold top-left Tab"]
+ACCESS = ["Power-on default", "Move ball; or hold right Space", "Hold Lower (left of left Space)",
+          "Lower + bottom-left Ctrl position", "Hold Raise (right of right Space)", "Mouse + M; or Lower + right Space",
+          "Raise + left Shift position", "Hold Lower + Raise"]
 CW_CCW = {"encoder_scroll": ("Wheel down", "Wheel up"),
           "encoder_volume": ("Volume up", "Volume down"),
           "encoder_arrows": ("Down arrow", "Up arrow"),
@@ -77,7 +77,10 @@ def label(binding):
         return [{"OUT_USB": "USB", "OUT_BLE": "BLE", "OUT_TOG": "Toggle output"}[args[0]]]
     if behavior == "&mkp":
         return [{"MB1": "Left click", "MB2": "Right click", "MB3": "Middle click",
+                 "LCLK": "Left click", "RCLK": "Right click", "MCLK": "Middle click",
                  "MB4": "Mouse 4", "MB5": "Mouse 5"}.get(args[0], args[0])]
+    if behavior.startswith("&wheel_"):
+        return [behavior[1:].replace("_", " ").title()]
     return [{"&bootloader": "Bootloader", "&sys_reset": "Reboot"}.get(behavior, binding)]
 
 
@@ -112,12 +115,15 @@ def outputs():
     doc = ["# Eight-layer default keymap / 八层默认键位", "",
            "These are firmware source defaults, not a readback of a Studio-saved layout. Normal updates preserve saved keymaps. Export your layout before using Studio's restore-defaults operation if you want these defaults; a settings-reset flash is unnecessary and also clears pairing.", "",
            "这是源码默认键位，普通更新不会覆盖 Studio 已保存的布局。需要采用本页八层时，先导出旧布局，再使用 Studio 恢复默认；无需刷 reset 清除配对。", "",
-           "Reference: [LiNEA40's seven-layer keymap](https://github.com/keyfreaks/zmk-config-LiNEA40/blob/6953ccb2e2d6256ed57887fde692bcb1959f9052/config/LiNEA40.keymap). Its inner 5+5 columns and bottom eleven bindings are adapted to GridRoll's existing 47 positions. Six outer keys provide Tab/System, Mouse, Shift, Backspace, Navigation and Enter. L7 is GridRoll's additional System layer. The original Japanese-keycode symbols are retained; emitted characters depend on the computer's keyboard layout. The original auto mouse layer, hardware driver and wheel acceleration are not imported.", "",
-           "Tap-hold keys: tap sends the displayed key; hold activates the indicated layer/modifier. `&trans` resolves to a lower active layer. Every layer is enabled and editable in both Studios. The trackball scrolls in L5; the encoder uses DYA runtime sensor rotation on all eight layers. Encoder press is position 39 (bottom-left half, column 3), default Insert.", "",
+           "The conventional Planck QWERTY/Lower/Raise arrangement is adapted to GridRoll's existing 47 positions. No QMK implementation code is imported. Tab, Esc, Shift, punctuation and Enter are ordinary keys. Bottom row: Ctrl, Alt, GUI, encoder middle-click, Lower, Space, Space/Mouse, Raise, trackball opening, Left, Down, Right. Up is available on the navigation layers. Lower + Raise opens System. Previous LiNEA40 combos and Japanese-specific symbols are removed.", "",
+           "Tap-hold keys: right Space taps Space and holds Mouse. `&trans` resolves to a lower active layer. Every layer is enabled and editable in both Studios. The trackball scrolls only in L5. Encoder press is position 39 (bottom-left half, column 3), default middle click. Rotation in Base uses discrete wheel events, one step per sensor trigger; it does not use a short timed mouse-scroll hold.", "",
+           "Auto Mouse defaults: the first nonzero ball movement activates L1 immediately if no key was pressed during the last 200 ms. This 200 ms is a typing guard, not a required movement duration. The owned automatic layer exits 1200 ms after the last movement, wheel step or mouse/modifier release. Holding one or several mouse buttons/modifiers prevents timeout during dragging. A normal transparent typing key exits immediately; Esc also returns to Base. A manually held Mouse layer is not timed out by the automatic controller. There is no periodic idle polling.", "",
+           "默认自动鼠标层：有效拨球立即进入 L1；最近 200ms 内按过键时暂不触发，避免打字误碰。停止拨球、滚轮及鼠标操作 1200ms 后退出；拖拽按住不退出。普通打字键立即退出，Esc 回基础层。J=左键、K=右键、H=中键、L=后退、分号=前进；U/I=滚轮上/下，O/P=横向左/右；按住 M 把轨迹球转为滚动。", "",
+           "Saved DYA values override firmware defaults independently of the saved keymap. For this update, set mouse Temp-layer enabled / layer 1 / activation guard 200 / deactivation 1200, and set Base encoder CW to wheel down and CCW to wheel up if older bindings remain. Save each change. Restoring only the Studio keymap does not reset DYA processor or encoder settings. Keep your speed/rotation settings and Bluetooth pairing.", "",
            "| Layer | Purpose | Access from Base | Encoder CW / CCW |", "|---|---|---|---|"]
     for index, (name, bindings, sensor) in enumerate(all_layers):
         doc.append(f"| L{index} {name.title()} | {PURPOSE[index]} | {ACCESS[index]} | {' / '.join(CW_CCW[sensor])} |")
-    doc += ["", "Right USB enumerated by a computer selects USB automatically, including after loading a saved BLE preference. A charge-only cable does not force USB. You can manually choose BLE while plugged in: hold top-left Tab (L7), press top-row U; Y selects USB and I toggles output. A new USB connection prefers USB again. Unplugging falls back to BLE when a host is connected.", ""]
+    doc += ["", "Right USB enumerated by a computer selects USB automatically. A charge-only cable does not force USB. You can manually choose BLE while plugged in: hold Lower + Raise (L7), press top-row U; Y selects USB and I toggles output. A new USB connection prefers USB again. Unplugging falls back to BLE when a host is connected.", ""]
     for index, (name, bindings, sensor) in enumerate(all_layers):
         path = f"docs/keymap/layer-{index}.svg"
         result[path] = diagram(index, name, bindings, sensor)
@@ -136,11 +142,8 @@ def outputs():
                     pos += 1
             doc.append("| " + str(row) + " | " + " | ".join(cells) + " |")
         doc.append("")
-    doc += ["## Base-layer combos / 首层组合键", "",
-            "LiNEA40 combos are remapped to GridRoll positions and limited to L0, with a 30 ms chord window:", "",
-            "| Keys | Action |", "|---|---|", "| S + D | Grave / backtick |", "| I + O | Delete |",
-            "| U + I | Insert |", "| J + K | Middle click |", "| K + L | Right click |",
-            "| Comma + Period | Mouse button 4 |", "| M + Comma | Mouse button 5 |", "",
+    doc += ["## Layer and settings notes", "",
+            "The stock layout has no typing combos. J and K remain ordinary letters on Base; they become mouse buttons only in Mouse/Scroll. Saved layouts and DYA settings remain user-controlled across updates.", "",
             "Studio can change layer names/bindings, but the trackball scroll override still targets compiled layer 5. Keep layer indices stable when using that override. Actual encoder direction, DYA save/reconnect, USB switching, sleep/wake and host-layout characters require device verification.", ""]
     result["docs/keymap.md"] = "\n".join(doc)
     return result

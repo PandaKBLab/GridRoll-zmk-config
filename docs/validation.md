@@ -1,6 +1,10 @@
 # Validation status
 
-## Current update — encoder, USB preference and eight layers
+## Current update — Planck defaults, automatic Mouse and discrete wheel
+
+The current source replaces LiNEA40 defaults with conventional Planck-style QWERTY/Lower/Raise and eight enabled layers. J/K in Mouse are left/right click. Mouse activates on the first valid ball event outside a 200 ms typing guard; idle expiry is 1200 ms after pointer/wheel/button activity, with held mouse/modifier protection and immediate ordinary-typing exit. A scoped patch to the pinned runtime processor arms expiry after even a single frame and handles release/multiple-button activity without idle polling. Base encoder defaults use discrete input wheel events instead of 20 ms timed scrolling. New compilation and device checks are pending; the download below remains the previous verified build until the new run finishes. Saved keymap, processor and encoder overrides are separate and intentionally preserved.
+
+## Previous encoder/USB update
 
 This update enables cormoran_rsr runtime encoder rotation, eight fully populated LiNEA40-inspired layers, Base wheel scrolling, and automatic USB preference after HID enumeration / settings load. Manual BLE, charge-only use, sleep/wake and unlocked Studio remain available. Generated diagrams and all 376 bindings pass local consistency checks. A third DYA schema and encoder read/write samples are added to CI. [Actions run 42381214356](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42381214356) passed: USB policy regression, generated diagrams, all three DYA extension schemas, encoder sensor/eight-layer read/write cross-decoding, four firmware builds, compiled flags/layers, address checks and bootloader regressions. Runtime sensor rotation adds 14 messages / 30 checked fields. The production right image links 356,496 bytes of FLASH (43.96%) and 121,064 bytes of RAM (46.18% of 256 KiB). Physical DYA edits/save/reconnect, clockwise direction, automatic USB switching and sleep/wake tests remain pending. Static allocations do not measure peak stack use.
 

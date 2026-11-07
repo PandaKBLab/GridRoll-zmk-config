@@ -23,23 +23,23 @@
 <g><title>6: &amp;trans</title><rect x="564" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="602" y="75" font-size="13">TRNS</text>
 <text x="573" y="104" font-size="8" fill="#79879b">6</text></g>
-<g><title>7: &amp;trans</title><rect x="648" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="686" y="75" font-size="13">TRNS</text>
+<g><title>7: &amp;wheel_up</title><rect x="648" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="686" y="75" font-size="12.1">Wheel Up</text>
 <text x="657" y="104" font-size="8" fill="#79879b">7</text></g>
-<g><title>8: &amp;trans</title><rect x="732" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="770" y="75" font-size="13">TRNS</text>
+<g><title>8: &amp;wheel_down</title><rect x="732" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="770" y="75" font-size="9.7">Wheel Down</text>
 <text x="741" y="104" font-size="8" fill="#79879b">8</text></g>
-<g><title>9: &amp;trans</title><rect x="816" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="854" y="75" font-size="13">TRNS</text>
+<g><title>9: &amp;wheel_left</title><rect x="816" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="854" y="75" font-size="9.7">Wheel Left</text>
 <text x="825" y="104" font-size="8" fill="#79879b">9</text></g>
-<g><title>10: &amp;trans</title><rect x="900" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="938" y="75" font-size="13">TRNS</text>
+<g><title>10: &amp;wheel_right</title><rect x="900" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="938" y="75" font-size="8.8">Wheel Right</text>
 <text x="909" y="104" font-size="8" fill="#79879b">10</text></g>
 <g><title>11: &amp;trans</title><rect x="984" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="1022" y="75" font-size="13">TRNS</text>
 <text x="993" y="104" font-size="8" fill="#79879b">11</text></g>
-<g><title>12: &amp;trans</title><rect x="24" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="62" y="148" font-size="13">TRNS</text>
+<g><title>12: &amp;to BASE</title><rect x="24" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="62" y="148" font-size="13">Go L0</text>
 <text x="33" y="177" font-size="8" fill="#79879b">12</text></g>
 <g><title>13: &amp;trans</title><rect x="108" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="146" y="148" font-size="13">TRNS</text>
@@ -56,20 +56,20 @@
 <g><title>17: &amp;trans</title><rect x="444" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="482" y="148" font-size="13">TRNS</text>
 <text x="453" y="177" font-size="8" fill="#79879b">17</text></g>
-<g><title>18: &amp;trans</title><rect x="564" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="602" y="148" font-size="13">TRNS</text>
+<g><title>18: &amp;mkp MCLK</title><rect x="564" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="602" y="148" font-size="8.1">Middle click</text>
 <text x="573" y="177" font-size="8" fill="#79879b">18</text></g>
-<g><title>19: &amp;mkp MB1</title><rect x="648" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<g><title>19: &amp;mkp LCLK</title><rect x="648" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="686" y="148" font-size="9.7">Left click</text>
 <text x="657" y="177" font-size="8" fill="#79879b">19</text></g>
-<g><title>20: &amp;trans</title><rect x="732" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="770" y="148" font-size="13">TRNS</text>
+<g><title>20: &amp;mkp RCLK</title><rect x="732" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="770" y="148" font-size="8.8">Right click</text>
 <text x="741" y="177" font-size="8" fill="#79879b">20</text></g>
-<g><title>21: &amp;trans</title><rect x="816" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="854" y="148" font-size="13">TRNS</text>
+<g><title>21: &amp;mkp MB4</title><rect x="816" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="854" y="148" font-size="13">Mouse 4</text>
 <text x="825" y="177" font-size="8" fill="#79879b">21</text></g>
-<g><title>22: &amp;trans</title><rect x="900" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="938" y="148" font-size="13">TRNS</text>
+<g><title>22: &amp;mkp MB5</title><rect x="900" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="938" y="148" font-size="13">Mouse 5</text>
 <text x="909" y="177" font-size="8" fill="#79879b">22</text></g>
 <g><title>23: &amp;trans</title><rect x="984" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="1022" y="148" font-size="13">TRNS</text>
@@ -95,8 +95,8 @@
 <g><title>30: &amp;trans</title><rect x="564" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="602" y="221" font-size="13">TRNS</text>
 <text x="573" y="250" font-size="8" fill="#79879b">30</text></g>
-<g><title>31: &amp;trans</title><rect x="648" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="686" y="221" font-size="13">TRNS</text>
+<g><title>31: &amp;mo SCROLL</title><rect x="648" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="686" y="221" font-size="13">Hold L5</text>
 <text x="657" y="250" font-size="8" fill="#79879b">31</text></g>
 <g><title>32: &amp;trans</title><rect x="732" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="770" y="221" font-size="13">TRNS</text>

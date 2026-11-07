@@ -30,17 +30,29 @@ assert mapping.count((3,3))==1
 assert len(re.findall(r"&key_physical_attrs",layout))==47
 keymap=(ROOT/"config/gridroll.keymap").read_text()
 layers=keymap.split('compatible = "zmk,keymap";',1)[1]
-for layer in ["base","mouse","symbol","nav","function","scroll","wireless","system"]:
+for layer in ["base","mouse","lower","nav","raise","scroll","wireless","system"]:
     content=re.search(rf"\b{layer}\s*\{{(.*?)\n\s*\}};",layers,re.S).group(1)
     bindings=re.search(r"\bbindings\s*=\s*<(.*?)>;",content,re.S).group(1)
     assert len(re.findall(r"&\w+",bindings))==47, layer
 assert 'status = "reserved"' not in keymap
 assert len(re.findall(r'sensor-bindings = <&encoder_',keymap))==8
 assert 'layers = <SCROLL>;' in keymap
-assert 'cw-binding = <&msc SCRL_DOWN>;' in keymap
-assert 'ccw-binding = <&msc SCRL_UP>;' in keymap
-assert '&lt SYSTEM TAB' in keymap and '&mo MOUSE' in keymap and '&mo NAV' in keymap
-assert all(f'&lt {layer} ' in keymap for layer in ['SYMBOL', 'FUNCTION', 'SCROLL', 'WIRELESS'])
+assert 'cw-binding = <&wheel_down>;' in keymap
+assert 'ccw-binding = <&wheel_up>;' in keymap
+assert 'temp-layer-enabled;' in keymap and 'temp-layer = <MOUSE>;' in keymap
+assert 'temp-layer-activation-delay-ms = <200>;' in keymap
+assert 'temp-layer-deactivation-delay-ms = <1200>;' in keymap
+assert 'if-layers = <LOWER RAISE>;' in keymap and 'then-layer = <SYSTEM>;' in keymap
+assert '&lt MOUSE SPACE' in keymap
+assert all(f'&mo {layer}' in keymap for layer in ['LOWER','RAISE','NAV','SCROLL','WIRELESS'])
+assert 'combos {' not in keymap
+mouse=re.search(r'\bmouse\s*\{(.*?)\n\s*\};',layers,re.S).group(1)
+mouse_bindings=re.search(r'\bbindings\s*=\s*<(.*?)>;',mouse,re.S).group(1)
+mouse_items=[re.sub(r'\s+',' ', '&'+b+p).strip() for b,p in re.findall(r'&(\w+)([^&]*)',mouse_bindings)]
+assert mouse_items[19]=='&mkp LCLK' and mouse_items[20]=='&mkp RCLK'
+right_overlay=(ROOT/'boards/shields/gridroll/gridroll_right.overlay').read_text()
+for wheel in ['wheel_down','wheel_up','wheel_left','wheel_right']:
+    assert f'device = <&{wheel}>;' in right_overlay, f'Missing wheel input listener: {wheel}'
 assert 'diode-direction = "col2row"' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
 assert 'wakeup-source;' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
 print("GPIO order/flags, pin reservations/conflicts, 47-key transform, physical layout and 8 layers passed")

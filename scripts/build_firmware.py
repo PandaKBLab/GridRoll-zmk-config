@@ -39,7 +39,7 @@ for name,entry in TARGETS.items():
             assert flag in config.splitlines(), f"{name}: missing {flag}"
     if name in ("right","right-diagnostics"):
         dts=(build/"zephyr/zephyr.dts").read_text()
-        for layer in ["Base", "Mouse", "Symbol", "Navigation", "Function", "Scroll", "Wireless", "System"]:
+        for layer in ["Base", "Mouse", "Lower", "Navigation", "Raise", "Scroll", "Wireless", "System"]:
             assert f'display-name = "{layer}";' in dts, f"{name}: missing compiled layer {layer}"
         assert 'compatible = "zmk,behavior-runtime-sensor-rotate";' in dts
         for flag in ["CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y","CONFIG_ZMK_STUDIO=y",
@@ -50,6 +50,7 @@ for name,entry in TARGETS.items():
                      "CONFIG_ZMK_RUNTIME_SENSOR_ROTATE=y",
                      "CONFIG_ZMK_RUNTIME_SENSOR_ROTATE_STUDIO_RPC=y",
                      "CONFIG_GRIDROLL_USB_AUTO_OUTPUT=y",
+                     "CONFIG_GRIDROLL_WHEEL_STEP=y",
                      "CONFIG_ZMK_LOW_PRIORITY_THREAD_STACK_SIZE=4096",
                      "CONFIG_ZMK_STUDIO_RPC_THREAD_STACK_SIZE=6144",
                      "CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE=4096",

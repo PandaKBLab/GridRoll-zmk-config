@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
-// Layer defaults adapted for GridRoll from keyfreaks/zmk-config-LiNEA40,
-// config/LiNEA40.keymap at 6953ccb2e2d6256ed57887fde692bcb1959f9052.
-// Keep GridRoll's 47-key physical order; see docs/keymap.md for the adaptation.
+// Conventional Planck-style QWERTY / Lower / Raise, adapted to GridRoll's
+// existing 47-key order. No QMK implementation code is included.
 #include <behaviors.dtsi>
 #include <behaviors/runtime-sensor-rotate.dtsi>
 #include <dt-bindings/zmk/keys.h>
@@ -12,94 +11,88 @@
 #include <input/processors/runtime-input-processor.dtsi>
 #define BASE 0
 #define MOUSE 1
-#define SYMBOL 2
+#define LOWER 2
 #define NAV 3
-#define FUNCTION 4
+#define RAISE 4
 #define SCROLL 5
 #define WIRELESS 6
 #define SYSTEM 7
 / {
-    combos {
-        compatible = "zmk,combos";
-        combo_grave { bindings = <&kp GRAVE>; key-positions = <14 15>; timeout-ms = <30>; layers = <BASE>; };
-        combo_delete { bindings = <&kp DEL>; key-positions = <8 9>; timeout-ms = <30>; layers = <BASE>; };
-        combo_insert { bindings = <&kp INS>; key-positions = <7 8>; timeout-ms = <30>; layers = <BASE>; };
-        combo_middle_click { bindings = <&mkp MB3>; key-positions = <20 19>; timeout-ms = <30>; layers = <BASE>; };
-        combo_right_click { bindings = <&mkp MB2>; key-positions = <21 20>; timeout-ms = <30>; layers = <BASE>; };
-        combo_mouse_button4 { bindings = <&mkp MB4>; key-positions = <32 33>; timeout-ms = <30>; layers = <BASE>; };
-        combo_mouse_button5 { bindings = <&mkp MB5>; key-positions = <31 32>; timeout-ms = <30>; layers = <BASE>; };
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        system { if-layers = <LOWER RAISE>; then-layer = <SYSTEM>; };
     };
     keymap {
         compatible = "zmk,keymap";
         base {
             display-name = "Base";
             bindings = <
-                &lt SYSTEM TAB &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P &kp BSPC
-                &mo MOUSE &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &lt SCROLL MINUS &mo NAV
-                &kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp N &kp M &kp COMMA &kp DOT &mt RIGHT_SHIFT BACKSPACE &kp RET
-                &mt LCTRL ESC &kp LEFT_WIN &mt LEFT_ALT GRAVE &kp INS &lt SCROLL ENTER &lt SYMBOL TAB &lt SYMBOL BACKSPACE &lt FUNCTION SPACE &lt WIRELESS RIGHT_BRACKET &kp BACKSLASH &mt RIGHT_SHIFT SLASH
+                &kp TAB &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P &kp BSPC
+                &kp ESC &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &kp SEMI &kp SQT
+                &kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp N &kp M &kp COMMA &kp DOT &kp FSLH &kp RET
+                &kp LCTRL &kp LALT &kp LGUI &mkp MCLK &mo LOWER &kp SPACE &lt MOUSE SPACE &mo RAISE &kp LEFT &kp DOWN &kp RIGHT
             >;
             sensor-bindings = <&encoder_scroll>;
         };
         mouse {
             display-name = "Mouse";
             bindings = <
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &mkp MB1 &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans &trans &wheel_up &wheel_down &wheel_left &wheel_right &trans
+                &to BASE &trans &trans &trans &trans &trans &mkp MCLK &mkp LCLK &mkp RCLK &mkp MB4 &mkp MB5 &trans
+                &trans &trans &trans &trans &trans &trans &trans &mo SCROLL &trans &trans &trans &trans
                 &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&encoder_scroll>;
         };
-        symbol {
-            display-name = "Symbol";
+        lower {
+            display-name = "Lower";
             bindings = <
-                &trans &kp EXCLAMATION &kp AT &kp HASH &kp DOLLAR &kp PERCENT &kp CARET &kp AMPERSAND &kp ASTERISK &kp LEFT_PARENTHESIS &kp LBKT &trans
-                &trans &kp SLASH &kp KP_NUMBER_4 &kp KP_NUMBER_5 &kp SEMICOLON &kp SEMICOLON &kp C_MUTE &kp LS(LBKT) &kp RIGHT_BRACKET &kp BACKSLASH &kp EQUAL &trans
-                &trans &mt LEFT_SHIFT KP_NUMBER_0 &kp KP_NUMBER_1 &kp KP_NUMBER_2 &kp APOS &kp SQT &kp KP_EQUAL &kp INT3 &kp LS(RIGHT_BRACKET) &kp LS(BACKSLASH) &kp LS(INT1) &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &kp ASTERISK &kp LEFT_PARENTHESIS &kp LS(QUESTION)
+                &kp TILDE &kp EXCL &kp AT &kp HASH &kp DOLLAR &kp PRCNT &kp CARET &kp AMPS &kp ASTRK &kp LPAR &kp RPAR &kp BSPC
+                &kp DEL &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &kp UNDER &kp PLUS &kp LBRC &kp RBRC &kp PIPE
+                &trans &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &kp HOME &kp PG_DN &kp UP &kp PG_UP &kp END
+                &mo NAV &trans &trans &trans &trans &trans &mo SCROLL &trans &kp C_PREV &kp C_VOL_DN &kp C_VOL_UP
             >;
-            sensor-bindings = <&encoder_volume>;
+            sensor-bindings = <&encoder_scroll>;
         };
         nav {
             display-name = "Navigation";
             bindings = <
-                &trans &trans &kp LC(LG(LEFT_ARROW)) &kp UP_ARROW &kp LC(LG(RIGHT_ARROW)) &trans &kp KP_MULTIPLY &kp NUMBER_7 &kp NUMBER_8 &kp NUMBER_9 &kp KP_PLUS &trans
-                &trans &trans &kp LEFT_ARROW &kp DOWN &kp RIGHT_ARROW &trans &kp KP_SLASH &kp NUMBER_4 &kp NUMBER_5 &kp NUMBER_6 &kp KP_MINUS &trans
-                &trans &kp HOME &kp PAGE_DOWN &kp END &kp PAGE_UP &trans &kp UNDER &kp NUMBER_1 &kp NUMBER_2 &kp NUMBER_3 &kp ENTER &trans
-                &trans &trans &trans &trans &trans &trans &kp ENTER &kp NUMBER_0 &kp DOT &kp ENTER &kp QUESTION
-            >;
-            sensor-bindings = <&encoder_scroll>;
-        };
-        function {
-            display-name = "Function";
-            bindings = <
-                &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &trans &trans &kp LA(PRINTSCREEN) &trans &kp LC(LA(DELETE)) &trans
-                &trans &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &trans &trans &kp LS(LG(S)) &trans &kp LC(LS(ESCAPE)) &trans
-                &trans &trans &trans &trans &kp F11 &kp F12 &kp C_MUTE &trans &trans &trans &kp LC(LA(INS)) &trans
+                &trans &trans &trans &trans &trans &trans &kp HOME &kp PG_DN &kp UP &kp PG_UP &kp END &kp BSPC
+                &trans &trans &trans &trans &trans &trans &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp DEL &kp INS
+                &trans &trans &trans &trans &trans &trans &kp LC(LEFT) &kp LC(DOWN) &kp LC(UP) &kp LC(RIGHT) &kp HOME &kp END
                 &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&encoder_scroll>;
         };
+        raise {
+            display-name = "Raise";
+            bindings = <
+                &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp BSPC
+                &kp DEL &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH
+                &mo WIRELESS &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans
+                &trans &trans &trans &trans &trans &trans &trans &trans &kp C_NEXT &kp C_VOL_DN &kp C_VOL_UP
+            >;
+            sensor-bindings = <&encoder_volume>;
+        };
         scroll {
             display-name = "Scroll";
             bindings = <
-                &trans &trans &kp LC(LG(LEFT_ARROW)) &kp UP_ARROW &kp LC(LG(RIGHT_ARROW)) &trans &kp KP_MULTIPLY &kp NUMBER_7 &kp NUMBER_8 &kp NUMBER_9 &kp KP_PLUS &trans
-                &trans &trans &kp LEFT_ARROW &kp DOWN &kp RIGHT_ARROW &trans &kp KP_SLASH &kp NUMBER_4 &kp NUMBER_5 &kp NUMBER_6 &kp KP_MINUS &trans
-                &trans &kp HOME &kp PAGE_DOWN &kp END &kp PAGE_UP &trans &kp UNDER &kp NUMBER_1 &kp NUMBER_2 &kp NUMBER_3 &kp ENTER &trans
-                &trans &trans &trans &trans &trans &trans &trans &kp NUMBER_0 &kp NUMBER_0 &kp DOT &kp QUESTION
+                &trans &trans &trans &trans &trans &trans &trans &wheel_up &wheel_down &wheel_left &wheel_right &trans
+                &trans &trans &trans &trans &trans &trans &mkp MCLK &mkp LCLK &mkp RCLK &mkp MB4 &mkp MB5 &trans
+                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
-            sensor-bindings = <&encoder_arrows>;
+            sensor-bindings = <&encoder_scroll>;
         };
         wireless {
             display-name = "Wireless";
             bindings = <
-                &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &trans
+                &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bt BT_CLR
                 &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &bt BT_CLR &trans
-                &trans &trans &trans &trans &trans &trans &bootloader &studio_unlock &trans &trans &bt BT_CLR_ALL
+                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
-            sensor-bindings = <&encoder_horizontal>;
+            sensor-bindings = <&encoder_scroll>;
         };
         system {
             display-name = "System";
@@ -107,18 +100,46 @@
                 &to BASE &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &out OUT_USB &out OUT_BLE &out OUT_TOG &trans &trans &bt BT_CLR
                 &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
                 &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &bootloader &sys_reset &trans &kp C_MUTE &trans &trans &trans &trans &trans &sys_reset &bootloader
+                &bootloader &sys_reset &trans &mkp MCLK &trans &trans &trans &trans &trans &sys_reset &bootloader
             >;
             sensor-bindings = <&encoder_volume>;
         };
     };
     behaviors {
+        wheel_down: wheel_down {
+            compatible = "gridroll,behavior-wheel-step";
+            #binding-cells = <0>;
+            display-name = "wheel down";
+            input-code = <INPUT_REL_WHEEL>;
+            step = <(-1)>;
+        };
+        wheel_up: wheel_up {
+            compatible = "gridroll,behavior-wheel-step";
+            #binding-cells = <0>;
+            display-name = "wheel up";
+            input-code = <INPUT_REL_WHEEL>;
+            step = <(1)>;
+        };
+        wheel_left: wheel_left {
+            compatible = "gridroll,behavior-wheel-step";
+            #binding-cells = <0>;
+            display-name = "wheel left";
+            input-code = <INPUT_REL_HWHEEL>;
+            step = <(-1)>;
+        };
+        wheel_right: wheel_right {
+            compatible = "gridroll,behavior-wheel-step";
+            #binding-cells = <0>;
+            display-name = "wheel right";
+            input-code = <INPUT_REL_HWHEEL>;
+            step = <(1)>;
+        };
         encoder_scroll: encoder_scroll {
             compatible = "zmk,behavior-runtime-sensor-rotate";
             #sensor-binding-cells = <0>;
-            tap-ms = <20>;
-            cw-binding = <&msc SCRL_DOWN>;
-            ccw-binding = <&msc SCRL_UP>;
+            tap-ms = <5>;
+            cw-binding = <&wheel_down>;
+            ccw-binding = <&wheel_up>;
         };
         encoder_volume: encoder_volume {
             compatible = "zmk,behavior-runtime-sensor-rotate";
@@ -127,22 +148,7 @@
             cw-binding = <&kp C_VOL_UP>;
             ccw-binding = <&kp C_VOL_DN>;
         };
-        encoder_arrows: encoder_arrows {
-            compatible = "zmk,behavior-runtime-sensor-rotate";
-            #sensor-binding-cells = <0>;
-            tap-ms = <5>;
-            cw-binding = <&kp DOWN>;
-            ccw-binding = <&kp UP>;
-        };
-        encoder_horizontal: encoder_horizontal {
-            compatible = "zmk,behavior-runtime-sensor-rotate";
-            #sensor-binding-cells = <0>;
-            tap-ms = <5>;
-            cw-binding = <&kp RIGHT>;
-            ccw-binding = <&kp LEFT>;
-        };
     };
-    // Discoverable DYA processors; scroll mode follows LiNEA40's Scroll layer.
     gridroll_scroll: gridroll_scroll {
         compatible = "zmk,input-processor-runtime";
         processor-label = "scroll";
@@ -155,6 +161,13 @@
         xy-to-scroll-enabled;
         #input-processor-cells = <0>;
     };
+};
+&mouse_runtime_input_processor {
+    temp-layer-enabled;
+    temp-layer = <MOUSE>;
+    // Typing guard, not a requirement to keep moving for this duration.
+    temp-layer-activation-delay-ms = <200>;
+    temp-layer-deactivation-delay-ms = <1200>;
 };
 &trackball_listener {
     input-processors = <&mouse_runtime_input_processor>;

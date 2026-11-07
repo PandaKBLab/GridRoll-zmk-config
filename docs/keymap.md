@@ -4,22 +4,28 @@ These are firmware source defaults, not a readback of a Studio-saved layout. Nor
 
 这是源码默认键位，普通更新不会覆盖 Studio 已保存的布局。需要采用本页八层时，先导出旧布局，再使用 Studio 恢复默认；无需刷 reset 清除配对。
 
-Reference: [LiNEA40's seven-layer keymap](https://github.com/keyfreaks/zmk-config-LiNEA40/blob/6953ccb2e2d6256ed57887fde692bcb1959f9052/config/LiNEA40.keymap). Its inner 5+5 columns and bottom eleven bindings are adapted to GridRoll's existing 47 positions. Six outer keys provide Tab/System, Mouse, Shift, Backspace, Navigation and Enter. L7 is GridRoll's additional System layer. The original Japanese-keycode symbols are retained; emitted characters depend on the computer's keyboard layout. The original auto mouse layer, hardware driver and wheel acceleration are not imported.
+The conventional Planck QWERTY/Lower/Raise arrangement is adapted to GridRoll's existing 47 positions. No QMK implementation code is imported. Tab, Esc, Shift, punctuation and Enter are ordinary keys. Bottom row: Ctrl, Alt, GUI, encoder middle-click, Lower, Space, Space/Mouse, Raise, trackball opening, Left, Down, Right. Up is available on the navigation layers. Lower + Raise opens System. Previous LiNEA40 combos and Japanese-specific symbols are removed.
 
-Tap-hold keys: tap sends the displayed key; hold activates the indicated layer/modifier. `&trans` resolves to a lower active layer. Every layer is enabled and editable in both Studios. The trackball scrolls in L5; the encoder uses DYA runtime sensor rotation on all eight layers. Encoder press is position 39 (bottom-left half, column 3), default Insert.
+Tap-hold keys: right Space taps Space and holds Mouse. `&trans` resolves to a lower active layer. Every layer is enabled and editable in both Studios. The trackball scrolls only in L5. Encoder press is position 39 (bottom-left half, column 3), default middle click. Rotation in Base uses discrete wheel events, one step per sensor trigger; it does not use a short timed mouse-scroll hold.
+
+Auto Mouse defaults: the first nonzero ball movement activates L1 immediately if no key was pressed during the last 200 ms. This 200 ms is a typing guard, not a required movement duration. The owned automatic layer exits 1200 ms after the last movement, wheel step or mouse/modifier release. Holding one or several mouse buttons/modifiers prevents timeout during dragging. A normal transparent typing key exits immediately; Esc also returns to Base. A manually held Mouse layer is not timed out by the automatic controller. There is no periodic idle polling.
+
+默认自动鼠标层：有效拨球立即进入 L1；最近 200ms 内按过键时暂不触发，避免打字误碰。停止拨球、滚轮及鼠标操作 1200ms 后退出；拖拽按住不退出。普通打字键立即退出，Esc 回基础层。J=左键、K=右键、H=中键、L=后退、分号=前进；U/I=滚轮上/下，O/P=横向左/右；按住 M 把轨迹球转为滚动。
+
+Saved DYA values override firmware defaults independently of the saved keymap. For this update, set mouse Temp-layer enabled / layer 1 / activation guard 200 / deactivation 1200, and set Base encoder CW to wheel down and CCW to wheel up if older bindings remain. Save each change. Restoring only the Studio keymap does not reset DYA processor or encoder settings. Keep your speed/rotation settings and Bluetooth pairing.
 
 | Layer | Purpose | Access from Base | Encoder CW / CCW |
 |---|---|---|---|
-| L0 Base | Typing / 基础输入 | Power-on default | Wheel down / Wheel up |
-| L1 Mouse | Mouse buttons / 鼠标按键 | Hold left outer middle-row key | Wheel down / Wheel up |
-| L2 Symbol | Symbols / 符号 | Hold bottom-row Tab or Backspace | Volume up / Volume down |
-| L3 Nav | Navigation and numbers / 导航与数字 | Hold right outer middle-row key | Wheel down / Wheel up |
-| L4 Function | Function and shortcuts / 功能与快捷键 | Hold bottom-row Space | Wheel down / Wheel up |
-| L5 Scroll | Trackball scrolling / 轨迹球滚动 | Hold Enter or Minus | Down arrow / Up arrow |
-| L6 Wireless | Bluetooth profiles / 蓝牙槽位 | Hold bottom-row ] | Right arrow / Left arrow |
-| L7 System | Output and recovery / 输出与恢复 | Hold top-left Tab | Volume up / Volume down |
+| L0 Base | Planck-style QWERTY / 基础输入 | Power-on default | Wheel down / Wheel up |
+| L1 Mouse | Automatic mouse buttons / 自动鼠标层 | Move ball; or hold right Space | Wheel down / Wheel up |
+| L2 Lower | Symbols and F keys / 符号与功能键 | Hold Lower (left of left Space) | Wheel down / Wheel up |
+| L3 Nav | Navigation / 导航 | Lower + bottom-left Ctrl position | Wheel down / Wheel up |
+| L4 Raise | Numbers and F keys / 数字与功能键 | Hold Raise (right of right Space) | Volume up / Volume down |
+| L5 Scroll | Trackball scrolling / 轨迹球滚动 | Mouse + M; or Lower + right Space | Wheel down / Wheel up |
+| L6 Wireless | Bluetooth profiles / 蓝牙槽位 | Raise + left Shift position | Wheel down / Wheel up |
+| L7 System | Output and recovery / 输出与恢复 | Hold Lower + Raise | Volume up / Volume down |
 
-Right USB enumerated by a computer selects USB automatically, including after loading a saved BLE preference. A charge-only cable does not force USB. You can manually choose BLE while plugged in: hold top-left Tab (L7), press top-row U; Y selects USB and I toggles output. A new USB connection prefers USB again. Unplugging falls back to BLE when a host is connected.
+Right USB enumerated by a computer selects USB automatically. A charge-only cable does not force USB. You can manually choose BLE while plugged in: hold Lower + Raise (L7), press top-row U; Y selects USB and I toggles output. A new USB connection prefers USB again. Unplugging falls back to BLE when a host is connected.
 
 ## L0 Base
 
@@ -29,10 +35,10 @@ Exact source bindings, viewed from the typing side; `—` is the trackball openi
 
 | Row | Left 0 | Left 1 | Left 2 | Left 3 | Left 4 | Left 5 | Right 0 | Right 1 | Right 2 | Right 3 | Right 4 | Right 5 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | `&lt SYSTEM TAB` | `&kp Q` | `&kp W` | `&kp E` | `&kp R` | `&kp T` | `&kp Y` | `&kp U` | `&kp I` | `&kp O` | `&kp P` | `&kp BSPC` |
-| 1 | `&mo MOUSE` | `&kp A` | `&kp S` | `&kp D` | `&kp F` | `&kp G` | `&kp H` | `&kp J` | `&kp K` | `&kp L` | `&lt SCROLL MINUS` | `&mo NAV` |
-| 2 | `&kp LSHFT` | `&kp Z` | `&kp X` | `&kp C` | `&kp V` | `&kp B` | `&kp N` | `&kp M` | `&kp COMMA` | `&kp DOT` | `&mt RIGHT_SHIFT BACKSPACE` | `&kp RET` |
-| 3 | `&mt LCTRL ESC` | `&kp LEFT_WIN` | `&mt LEFT_ALT GRAVE` | `&kp INS` | `&lt SCROLL ENTER` | `&lt SYMBOL TAB` | `&lt SYMBOL BACKSPACE` | `&lt FUNCTION SPACE` | — | `&lt WIRELESS RIGHT_BRACKET` | `&kp BACKSLASH` | `&mt RIGHT_SHIFT SLASH` |
+| 0 | `&kp TAB` | `&kp Q` | `&kp W` | `&kp E` | `&kp R` | `&kp T` | `&kp Y` | `&kp U` | `&kp I` | `&kp O` | `&kp P` | `&kp BSPC` |
+| 1 | `&kp ESC` | `&kp A` | `&kp S` | `&kp D` | `&kp F` | `&kp G` | `&kp H` | `&kp J` | `&kp K` | `&kp L` | `&kp SEMI` | `&kp SQT` |
+| 2 | `&kp LSHFT` | `&kp Z` | `&kp X` | `&kp C` | `&kp V` | `&kp B` | `&kp N` | `&kp M` | `&kp COMMA` | `&kp DOT` | `&kp FSLH` | `&kp RET` |
+| 3 | `&kp LCTRL` | `&kp LALT` | `&kp LGUI` | `&mkp MCLK` | `&mo LOWER` | `&kp SPACE` | `&lt MOUSE SPACE` | `&mo RAISE` | — | `&kp LEFT` | `&kp DOWN` | `&kp RIGHT` |
 
 ## L1 Mouse
 
@@ -42,23 +48,23 @@ Exact source bindings, viewed from the typing side; `—` is the trackball openi
 
 | Row | Left 0 | Left 1 | Left 2 | Left 3 | Left 4 | Left 5 | Right 0 | Right 1 | Right 2 | Right 3 | Right 4 | Right 5 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` |
-| 1 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&mkp MB1` | `&trans` | `&trans` | `&trans` | `&trans` |
-| 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` |
+| 0 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&wheel_up` | `&wheel_down` | `&wheel_left` | `&wheel_right` | `&trans` |
+| 1 | `&to BASE` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&mkp MCLK` | `&mkp LCLK` | `&mkp RCLK` | `&mkp MB4` | `&mkp MB5` | `&trans` |
+| 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&mo SCROLL` | `&trans` | `&trans` | `&trans` | `&trans` |
 | 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&trans` | `&trans` |
 
-## L2 Symbol
+## L2 Lower
 
-![L2 symbol keymap](keymap/layer-2.svg)
+![L2 lower keymap](keymap/layer-2.svg)
 
 Exact source bindings, viewed from the typing side; `—` is the trackball opening.
 
 | Row | Left 0 | Left 1 | Left 2 | Left 3 | Left 4 | Left 5 | Right 0 | Right 1 | Right 2 | Right 3 | Right 4 | Right 5 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | `&trans` | `&kp EXCLAMATION` | `&kp AT` | `&kp HASH` | `&kp DOLLAR` | `&kp PERCENT` | `&kp CARET` | `&kp AMPERSAND` | `&kp ASTERISK` | `&kp LEFT_PARENTHESIS` | `&kp LBKT` | `&trans` |
-| 1 | `&trans` | `&kp SLASH` | `&kp KP_NUMBER_4` | `&kp KP_NUMBER_5` | `&kp SEMICOLON` | `&kp SEMICOLON` | `&kp C_MUTE` | `&kp LS(LBKT)` | `&kp RIGHT_BRACKET` | `&kp BACKSLASH` | `&kp EQUAL` | `&trans` |
-| 2 | `&trans` | `&mt LEFT_SHIFT KP_NUMBER_0` | `&kp KP_NUMBER_1` | `&kp KP_NUMBER_2` | `&kp APOS` | `&kp SQT` | `&kp KP_EQUAL` | `&kp INT3` | `&kp LS(RIGHT_BRACKET)` | `&kp LS(BACKSLASH)` | `&kp LS(INT1)` | `&trans` |
-| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&kp ASTERISK` | `&kp LEFT_PARENTHESIS` | `&kp LS(QUESTION)` |
+| 0 | `&kp TILDE` | `&kp EXCL` | `&kp AT` | `&kp HASH` | `&kp DOLLAR` | `&kp PRCNT` | `&kp CARET` | `&kp AMPS` | `&kp ASTRK` | `&kp LPAR` | `&kp RPAR` | `&kp BSPC` |
+| 1 | `&kp DEL` | `&kp F1` | `&kp F2` | `&kp F3` | `&kp F4` | `&kp F5` | `&kp F6` | `&kp UNDER` | `&kp PLUS` | `&kp LBRC` | `&kp RBRC` | `&kp PIPE` |
+| 2 | `&trans` | `&kp F7` | `&kp F8` | `&kp F9` | `&kp F10` | `&kp F11` | `&kp F12` | `&kp HOME` | `&kp PG_DN` | `&kp UP` | `&kp PG_UP` | `&kp END` |
+| 3 | `&mo NAV` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&mo SCROLL` | `&trans` | — | `&kp C_PREV` | `&kp C_VOL_DN` | `&kp C_VOL_UP` |
 
 ## L3 Nav
 
@@ -68,23 +74,23 @@ Exact source bindings, viewed from the typing side; `—` is the trackball openi
 
 | Row | Left 0 | Left 1 | Left 2 | Left 3 | Left 4 | Left 5 | Right 0 | Right 1 | Right 2 | Right 3 | Right 4 | Right 5 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | `&trans` | `&trans` | `&kp LC(LG(LEFT_ARROW))` | `&kp UP_ARROW` | `&kp LC(LG(RIGHT_ARROW))` | `&trans` | `&kp KP_MULTIPLY` | `&kp NUMBER_7` | `&kp NUMBER_8` | `&kp NUMBER_9` | `&kp KP_PLUS` | `&trans` |
-| 1 | `&trans` | `&trans` | `&kp LEFT_ARROW` | `&kp DOWN` | `&kp RIGHT_ARROW` | `&trans` | `&kp KP_SLASH` | `&kp NUMBER_4` | `&kp NUMBER_5` | `&kp NUMBER_6` | `&kp KP_MINUS` | `&trans` |
-| 2 | `&trans` | `&kp HOME` | `&kp PAGE_DOWN` | `&kp END` | `&kp PAGE_UP` | `&trans` | `&kp UNDER` | `&kp NUMBER_1` | `&kp NUMBER_2` | `&kp NUMBER_3` | `&kp ENTER` | `&trans` |
-| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&kp ENTER` | `&kp NUMBER_0` | — | `&kp DOT` | `&kp ENTER` | `&kp QUESTION` |
+| 0 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&kp HOME` | `&kp PG_DN` | `&kp UP` | `&kp PG_UP` | `&kp END` | `&kp BSPC` |
+| 1 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&kp LEFT` | `&kp DOWN` | `&kp UP` | `&kp RIGHT` | `&kp DEL` | `&kp INS` |
+| 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&kp LC(LEFT)` | `&kp LC(DOWN)` | `&kp LC(UP)` | `&kp LC(RIGHT)` | `&kp HOME` | `&kp END` |
+| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&trans` | `&trans` |
 
-## L4 Function
+## L4 Raise
 
-![L4 function keymap](keymap/layer-4.svg)
+![L4 raise keymap](keymap/layer-4.svg)
 
 Exact source bindings, viewed from the typing side; `—` is the trackball opening.
 
 | Row | Left 0 | Left 1 | Left 2 | Left 3 | Left 4 | Left 5 | Right 0 | Right 1 | Right 2 | Right 3 | Right 4 | Right 5 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | `&trans` | `&kp F1` | `&kp F2` | `&kp F3` | `&kp F4` | `&kp F5` | `&trans` | `&trans` | `&kp LA(PRINTSCREEN)` | `&trans` | `&kp LC(LA(DELETE))` | `&trans` |
-| 1 | `&trans` | `&kp F6` | `&kp F7` | `&kp F8` | `&kp F9` | `&kp F10` | `&trans` | `&trans` | `&kp LS(LG(S))` | `&trans` | `&kp LC(LS(ESCAPE))` | `&trans` |
-| 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&kp F11` | `&kp F12` | `&kp C_MUTE` | `&trans` | `&trans` | `&trans` | `&kp LC(LA(INS))` | `&trans` |
-| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&trans` | `&trans` |
+| 0 | `&kp GRAVE` | `&kp N1` | `&kp N2` | `&kp N3` | `&kp N4` | `&kp N5` | `&kp N6` | `&kp N7` | `&kp N8` | `&kp N9` | `&kp N0` | `&kp BSPC` |
+| 1 | `&kp DEL` | `&kp F1` | `&kp F2` | `&kp F3` | `&kp F4` | `&kp F5` | `&kp F6` | `&kp MINUS` | `&kp EQUAL` | `&kp LBKT` | `&kp RBKT` | `&kp BSLH` |
+| 2 | `&mo WIRELESS` | `&kp F7` | `&kp F8` | `&kp F9` | `&kp F10` | `&kp F11` | `&kp F12` | `&kp LEFT` | `&kp DOWN` | `&kp UP` | `&kp RIGHT` | `&trans` |
+| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&kp C_NEXT` | `&kp C_VOL_DN` | `&kp C_VOL_UP` |
 
 ## L5 Scroll
 
@@ -94,10 +100,10 @@ Exact source bindings, viewed from the typing side; `—` is the trackball openi
 
 | Row | Left 0 | Left 1 | Left 2 | Left 3 | Left 4 | Left 5 | Right 0 | Right 1 | Right 2 | Right 3 | Right 4 | Right 5 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | `&trans` | `&trans` | `&kp LC(LG(LEFT_ARROW))` | `&kp UP_ARROW` | `&kp LC(LG(RIGHT_ARROW))` | `&trans` | `&kp KP_MULTIPLY` | `&kp NUMBER_7` | `&kp NUMBER_8` | `&kp NUMBER_9` | `&kp KP_PLUS` | `&trans` |
-| 1 | `&trans` | `&trans` | `&kp LEFT_ARROW` | `&kp DOWN` | `&kp RIGHT_ARROW` | `&trans` | `&kp KP_SLASH` | `&kp NUMBER_4` | `&kp NUMBER_5` | `&kp NUMBER_6` | `&kp KP_MINUS` | `&trans` |
-| 2 | `&trans` | `&kp HOME` | `&kp PAGE_DOWN` | `&kp END` | `&kp PAGE_UP` | `&trans` | `&kp UNDER` | `&kp NUMBER_1` | `&kp NUMBER_2` | `&kp NUMBER_3` | `&kp ENTER` | `&trans` |
-| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&kp NUMBER_0` | — | `&kp NUMBER_0` | `&kp DOT` | `&kp QUESTION` |
+| 0 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&wheel_up` | `&wheel_down` | `&wheel_left` | `&wheel_right` | `&trans` |
+| 1 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&mkp MCLK` | `&mkp LCLK` | `&mkp RCLK` | `&mkp MB4` | `&mkp MB5` | `&trans` |
+| 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` |
+| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&trans` | `&trans` |
 
 ## L6 Wireless
 
@@ -107,10 +113,10 @@ Exact source bindings, viewed from the typing side; `—` is the trackball openi
 
 | Row | Left 0 | Left 1 | Left 2 | Left 3 | Left 4 | Left 5 | Right 0 | Right 1 | Right 2 | Right 3 | Right 4 | Right 5 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | `&trans` | `&bt BT_SEL 0` | `&bt BT_SEL 1` | `&bt BT_SEL 2` | `&bt BT_SEL 3` | `&bt BT_SEL 4` | `&bt BT_SEL 0` | `&bt BT_SEL 1` | `&bt BT_SEL 2` | `&bt BT_SEL 3` | `&bt BT_SEL 4` | `&trans` |
+| 0 | `&trans` | `&bt BT_SEL 0` | `&bt BT_SEL 1` | `&bt BT_SEL 2` | `&bt BT_SEL 3` | `&bt BT_SEL 4` | `&bt BT_SEL 0` | `&bt BT_SEL 1` | `&bt BT_SEL 2` | `&bt BT_SEL 3` | `&bt BT_SEL 4` | `&bt BT_CLR` |
 | 1 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` |
-| 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&bt BT_CLR` | `&trans` |
-| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&bootloader` | `&studio_unlock` | — | `&trans` | `&trans` | `&bt BT_CLR_ALL` |
+| 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` |
+| 3 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&trans` | `&trans` |
 
 ## L7 System
 
@@ -123,20 +129,10 @@ Exact source bindings, viewed from the typing side; `—` is the trackball openi
 | 0 | `&to BASE` | `&bt BT_SEL 0` | `&bt BT_SEL 1` | `&bt BT_SEL 2` | `&bt BT_SEL 3` | `&bt BT_SEL 4` | `&out OUT_USB` | `&out OUT_BLE` | `&out OUT_TOG` | `&trans` | `&trans` | `&bt BT_CLR` |
 | 1 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` |
 | 2 | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` | `&trans` |
-| 3 | `&bootloader` | `&sys_reset` | `&trans` | `&kp C_MUTE` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&sys_reset` | `&bootloader` |
+| 3 | `&bootloader` | `&sys_reset` | `&trans` | `&mkp MCLK` | `&trans` | `&trans` | `&trans` | `&trans` | — | `&trans` | `&sys_reset` | `&bootloader` |
 
-## Base-layer combos / 首层组合键
+## Layer and settings notes
 
-LiNEA40 combos are remapped to GridRoll positions and limited to L0, with a 30 ms chord window:
-
-| Keys | Action |
-|---|---|
-| S + D | Grave / backtick |
-| I + O | Delete |
-| U + I | Insert |
-| J + K | Middle click |
-| K + L | Right click |
-| Comma + Period | Mouse button 4 |
-| M + Comma | Mouse button 5 |
+The stock layout has no typing combos. J and K remain ordinary letters on Base; they become mouse buttons only in Mouse/Scroll. Saved layouts and DYA settings remain user-controlled across updates.
 
 Studio can change layer names/bindings, but the trackball scroll override still targets compiled layer 5. Keep layer indices stable when using that override. Actual encoder direction, DYA save/reconnect, USB switching, sleep/wake and host-layout characters require device verification.

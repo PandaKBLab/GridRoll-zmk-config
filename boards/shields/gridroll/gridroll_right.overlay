@@ -15,6 +15,10 @@
 &gridroll_transform { col-offset = <6>; };
 
 / {
+    wheel_down_listener { compatible = "zmk,input-listener"; device = <&wheel_down>; };
+    wheel_up_listener { compatible = "zmk,input-listener"; device = <&wheel_up>; };
+    wheel_left_listener { compatible = "zmk,input-listener"; device = <&wheel_left>; };
+    wheel_right_listener { compatible = "zmk,input-listener"; device = <&wheel_right>; };
     trackball: paw3222 {
         compatible = "pandakb,paw3222-sdio";
         sclk-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;

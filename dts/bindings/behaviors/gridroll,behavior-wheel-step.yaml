@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: MIT
+description: One discrete wheel step on each press; release does not repeat
+compatible: "gridroll,behavior-wheel-step"
+include: zero_param.yaml
+properties:
+  input-code:
+    type: int
+    required: true
+  step:
+    type: int
+    required: true
+    enum: [-1, 1]

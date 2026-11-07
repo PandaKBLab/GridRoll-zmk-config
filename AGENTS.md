@@ -6,6 +6,9 @@
 - Preserve both standard ZMK Studio keymap editing and DYA Studio mouse/scroll
   settings plus runtime encoder rotation. Keep eight enabled default layers and
   automatic USB preference on a new enumerated connection; allow manual BLE.
+  Default to Planck-style QWERTY/Lower/Raise, Mouse J=left/K=right, a 200 ms
+  typing guard and 1200 ms auto-Mouse inactivity timeout. Protect held drags;
+  use discrete encoder wheel events. Preserve saved settings; document overrides.
   Generate keymap diagrams/tables from source and keep them checked in CI.
   Verify extension wire compatibility against pinned source snapshots;
   do not claim every DYA-specific hardware feature is implemented.
