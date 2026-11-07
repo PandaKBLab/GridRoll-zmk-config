@@ -2,7 +2,7 @@
 
 ## Current update — encoder, USB preference and eight layers
 
-This update enables cormoran_rsr runtime encoder rotation, eight fully populated LiNEA40-inspired layers, Base wheel scrolling, and automatic USB preference after HID enumeration / settings load. Manual BLE, charge-only use, sleep/wake and unlocked Studio remain available. Generated diagrams and all 376 bindings pass local consistency checks. A third DYA schema and encoder read/write samples are added to CI. New firmware compilation and physical tests are pending; the package below is the previous verified build until the new run completes.
+This update enables cormoran_rsr runtime encoder rotation, eight fully populated LiNEA40-inspired layers, Base wheel scrolling, and automatic USB preference after HID enumeration / settings load. Manual BLE, charge-only use, sleep/wake and unlocked Studio remain available. Generated diagrams and all 376 bindings pass local consistency checks. A third DYA schema and encoder read/write samples are added to CI. [Actions run 42381214356](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42381214356) passed: USB policy regression, generated diagrams, all three DYA extension schemas, encoder sensor/eight-layer read/write cross-decoding, four firmware builds, compiled flags/layers, address checks and bootloader regressions. Runtime sensor rotation adds 14 messages / 30 checked fields. The production right image links 356,496 bytes of FLASH (43.96%) and 121,064 bytes of RAM (46.18% of 256 KiB). Physical DYA edits/save/reconnect, clockwise direction, automatic USB switching and sleep/wake tests remain pending. Static allocations do not measure peak stack use.
 
 ## Previous stability update — 2026-11-07
 
@@ -32,14 +32,14 @@ Each successful Actions run publishes exactly one **GridRoll-firmware** ZIP. It 
 
 Diagnostic images, bootloader images, HEX files, logs, device trees and build configurations are not uploaded in the standard package. The upload runs only after all application builds and package-content checks succeed. Build diagnostics remain in the Actions job logs.
 
-Verified [push-triggered Actions run 42374382787](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42374382787), built from commit **0cb0524c3b1839760d43d60105948eff7e05c5dc**, completed successfully. All motion/SDIO/GPIO unit tests, DYA protocol and cross-decoding checks, four application builds, compiled-configuration assertions, application address checks and the separate bootloader regression job passed. It created exactly one artifact: [GridRoll-firmware.zip](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42374382787/artifacts/13575246585).
+Verified [push-triggered Actions run 42381214356](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42381214356), built from commit **bf9add8e0134f0ea7fafafa3530e0d97a88502e8**, completed successfully. All motion/SDIO/GPIO unit tests, DYA protocol and cross-decoding checks, four application builds, compiled-configuration assertions, application address checks and the separate bootloader regression job passed. It created exactly one artifact: [GridRoll-firmware.zip](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42381214356/artifacts/13577568687).
 
-The ZIP was downloaded and inspected: exactly the three files listed above, no directories or extra files; ZIP integrity, nRF52840 UF2 headers, block counts and application address bounds passed. Its SHA-256 matches GitHub's artifact digest: **47faae596ea75e03df1f5412a7da957ece2979989f1167320d3320ae3017e3a7**. The left and settings-reset image hashes match the previous successful build (da512166c82086f4e31c96ca10fb22dd27ddd6a2); the right image changed. Existing users can flash only GridRoll-right.uf2 without clearing settings. These checks validate the software and package, not physical BLE smoothness or current draw.
+The ZIP was downloaded and inspected: exactly the three files listed above, no directories or extra files; ZIP integrity, nRF52840 UF2 headers, block counts and application address bounds passed. Its SHA-256 matches GitHub's artifact digest: **285c32e323b0afaa7865081f62146b6d999e798cdbe6c10bac71c099fc03d02c**. The left and settings-reset image hashes match the previous successful build (0cb0524c3b1839760d43d60105948eff7e05c5dc); the right image changed. Existing users can flash only GridRoll-right.uf2 without clearing settings. Normal updates preserve saved layouts: export an existing Studio layout before using Studio's restore-defaults operation to adopt the new eight-layer mapping; do not use settings-reset just to change keymaps. These checks validate the software and package, not physical BLE smoothness or current draw.
 
 | File | UF2 SHA-256 |
 |---|---|
 | GridRoll-left.uf2 | 83988b091d57b19b6f2f23f48b8696a3b45eeb76d29611a64e6629397ec0bdbd |
-| GridRoll-right.uf2 | cf65f71c0d2b8caf6c680a36d694814563ced41c57262175964c7b9924a0033e |
+| GridRoll-right.uf2 | 216faeaa9acc76ece524eed628809152d3b143e4a9c3357ea712c691e1bb5752 |
 | GridRoll-settings-reset.uf2 | 57fdc42869a3c7a2dead79a461b1134f7c1bdf2ec981c08fb2593c5459c3e575 |
 
 Internal circuit and module-pad tables have been removed from current documentation. Existing Git history has not been rewritten.
@@ -56,14 +56,14 @@ During host-discovery troubleshooting, the user powered off the left half and re
 | Encoder | Correct rotation and press behavior | Pending |
 | Trackball | Up/down/left/right match physical movement | USB input user-reported working; direction test pending |
 | Scroll layer (L5) | Consistent horizontal and vertical trackball scrolling | Pending |
-| Encoder runtime RPC | DYA lists the encoder, reads eight layers and saves both directions | Pending new build and physical test |
-| USB default output | USB overrides saved BLE; charger retains BLE; manual BLE survives resume | Host policy test added; physical test pending |
+| Encoder runtime RPC | DYA lists the encoder, reads eight layers and saves both directions | Compiled RPC, sensor enumeration/eight-layer wire samples passed; physical edit/save test pending |
+| USB default output | USB overrides saved BLE; charger retains BLE; manual BLE survives resume | Battery/charger/startup/manual-BLE/resume/reconnect policy tests and compiled configuration passed; physical test pending |
 | Bluetooth discovery | Phone discovers the right half as GridRoll, with the left off and on | User-reported working after right reset |
 | Bluetooth host input | Pair a computer and use both halves on battery | Battery-powered host connection user-reported; complete input test pending |
 | BLE trackball latency | Compare continuous motion, stop response and scrolling with USB | Previous build stutter user-reported; new software checks passed, flash/physical test pending |
 | Split | Both halves reconnect after power cycling and sleep | Basic split input user-reported working; cycle/sleep tests pending |
 | ZMK Studio | Right USB connects; edit/save without unlock and reconnect without relocking | Compiled unlocked policy, transports and RPC checks passed; physical test pending |
-| DYA | Keymap and mouse/scroll RPC work without unlock; saved values survive restart | Extension schema, read/write cross-decoding and compiled RPC checks passed; physical test pending |
+| DYA | Keymap, mouse/scroll and encoder RPC work without unlock; saved values survive restart | Extension schema, read/write cross-decoding and compiled RPC checks passed; physical test pending |
 | Power | Measure active, idle and battery deep-sleep current | Pending |
 | Wake | Press keys on each sleeping half; verify reconnect and input | Pending |
 | USB | USB-powered half stays awake during Studio use | Pending |

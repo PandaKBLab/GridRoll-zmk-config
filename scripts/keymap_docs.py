@@ -37,14 +37,16 @@ def layers():
 ALIASES = {"BACKSPACE": "Bksp", "BSPC": "Bksp", "RIGHT_SHIFT": "RShift",
            "LSHFT": "LShift", "LEFT_SHIFT": "LShift", "LCTRL": "Ctrl", "LEFT_ALT": "Alt",
            "LEFT_WIN": "Win", "ESC": "Esc", "SPACE": "Space", "ENTER": "Enter", "RET": "Enter",
-           "TAB": "Tab", "LEFT_ARROW": "Left", "RIGHT_ARROW": "Right", "UP_ARROW": "Up",
-           "DOWN_ARROW": "Down", "PAGE_DOWN": "PgDn", "PAGE_UP": "PgUp", "HOME": "Home",
+           "TAB": "Tab", "LEFT_ARROW": "←", "RIGHT_ARROW": "→", "UP_ARROW": "↑",
+           "DOWN_ARROW": "↓", "PAGE_DOWN": "PgDn", "PAGE_UP": "PgUp", "HOME": "Home",
            "END": "End", "DEL": "Delete", "INS": "Insert", "SLASH": "/", "FSLH": "/",
            "BACKSLASH": "\\", "BSLH": "\\", "COMMA": ",", "DOT": ".", "SQT": "'", "APOS": "'",
            "MINUS": "-", "EQUAL": "=", "EXCLAMATION": "!", "AT": "@", "HASH": "#", "DOLLAR": "$",
            "PERCENT": "%", "CARET": "^", "AMPERSAND": "&", "ASTERISK": "*", "UNDER": "_",
            "LEFT_PARENTHESIS": "(", "QUESTION": "?", "LBKT": "[", "RIGHT_BRACKET": "]",
-           "SEMICOLON": ";", "GRAVE": "`", "C_MUTE": "Mute"}
+           "SEMICOLON": ";", "GRAVE": "`", "C_MUTE": "Mute", "DELETE": "Del",
+           "ESCAPE": "Esc", "PRINTSCREEN": "PrtSc", "KP_MULTIPLY": "Num *",
+           "KP_SLASH": "Num /", "KP_PLUS": "Num +", "KP_MINUS": "Num -", "KP_EQUAL": "Num ="}
 
 
 def code_label(code):
@@ -68,7 +70,7 @@ def label(binding):
     if behavior in ("&mo", "&to"):
         return [("Hold " if behavior == "&mo" else "Go ") + "L" + str(EXPECTED.index(args[0].lower()))]
     if behavior == "&trans":
-        return ["TRANSPARENT"]
+        return ["TRNS"]
     if behavior == "&bt":
         return ["BT " + args[1] if args[0] == "BT_SEL" else "Clear profile"]
     if behavior == "&out":
@@ -94,12 +96,12 @@ def diagram(index, name, bindings, sensor):
             binding = bindings[position]
             svg.append(f'<g><title>{escape(str(position)+": "+binding)}</title><rect x="{x}" y="{y}" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>')
             for line_index, line in enumerate(label(binding)):
-                size = 10 if len(line) > 12 else 13
+                size = round(min(13, 66 / max(1, len(line)) / 0.68), 1)
                 svg.append(f'<text x="{x+38}" y="{y+26+line_index*17}" font-size="{size}">{escape(line)}</text>')
             svg.append(f'<text x="{x+9}" y="{y+55}" font-size="8" fill="#79879b">{position}</text></g>')
             position += 1
     cw, ccw = CW_CCW[sensor]
-    svg += [f'<text x="550" y="365" font-size="14">Encoder CW: {cw} · CCW: {ccw} | hold = momentary; TRANSPARENT = lower active layer</text>',
+    svg += [f'<text x="550" y="365" font-size="14">Encoder CW: {cw} · CCW: {ccw} | hold = momentary; TRNS = lower active layer</text>',
             '</g></svg>\n']
     return "\n".join(svg)
 
