@@ -63,7 +63,7 @@
      // Deactivate the temp-layer layer
      int ret = zmk_keymap_layer_deactivate(data->temp_layer_layer, false);
      if (ret == 0) {
-@@ -2069,11 +2095,6 @@
+@@ -2069,17 +2095,22 @@
          return ZMK_EV_EVENT_BUBBLE;
      }
  
@@ -75,7 +75,23 @@
      // Check temp-layer deactivation for all processors
      for (size_t i = 0; i < runtime_processors_count; i++) {
          const struct device *dev = runtime_processors[i];
-@@ -2108,6 +2129,9 @@
+         const struct runtime_processor_config *cfg = dev->config;
+         struct runtime_processor_data *data = dev->data;
+ 
++        uint64_t bit = ev->position < 64 ? (UINT64_C(1) << ev->position) : 0;
++        if (!ev->state) {
++            if (data->temp_layer_held_positions & bit) {
++                data->temp_layer_held_positions &= ~bit;
++                zmk_input_processor_runtime_note_activity(dev);
++            }
++            continue;
++        }
++        data->last_keypress_timestamp = k_uptime_get();
++        k_work_cancel_delayable(&data->temp_layer_activation_work);
+         // Check if temp-layer layer should be deactivated
+         if (!data->temp_layer_enabled || !data->temp_layer_layer_active ||
+             data->temp_layer_keep_active) {
+@@ -2108,6 +2139,9 @@
              }
  
              if (!is_transparent) {
@@ -85,7 +101,7 @@
                  LOG_DBG("Temp-layer layer has non-transparent binding at position "
                          "%d, not deactivating",
                          ev->position);
-@@ -2188,6 +2212,9 @@
+@@ -2188,6 +2222,9 @@
                  }
  
                  if (should_keep) {
@@ -95,7 +111,7 @@
                      LOG_DBG("Resolved binding is keep keycode, not deactivating "
                              "temp-layer layer");
                      continue;
-@@ -2223,6 +2250,12 @@
+@@ -2223,6 +2260,12 @@
  
      for (size_t i = 0; i < runtime_processors_count; i++) {
          struct runtime_processor_data *data = runtime_processors[i]->data;
@@ -108,7 +124,7 @@
          if (data->inertia_active && !is_processor_active_for_current_layers(data->active_layers)) {
              LOG_DBG("Inertia stopped after active layer deactivation");
              inertia_stop(data, ZMK_INPUT_PROCESSOR_INERTIA_STOP_REASON_LAYER_INACTIVE);
-@@ -2664,7 +2697,7 @@
+@@ -2664,7 +2707,7 @@
      // If releasing keep_active and layer is still active, deactivate
      // immediately
      if (!keep_active && data->temp_layer_enabled && data->temp_layer_layer_active) {
