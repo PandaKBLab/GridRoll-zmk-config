@@ -138,6 +138,10 @@ int main(void) {
     now=7200; expire(); assert(!layer_active[1]); /* two buttons / long drag */
     reset(); move(); activate(); key(36,true); now=5000; expire(); assert(layer_active[1]);
     key(36,false); assert(data0.temp_layer_deactivation_work.deadline==6200); /* modifier drag */
+    reset(); bindings[1][36].behavior_dev="precision"; move(); activate(); key(36,true);
+    now=7000; expire(); assert(layer_active[1]); /* explicit L1 left 41 precision hold */
+    key(36,false); assert(data0.temp_layer_deactivation_work.deadline==8200);
+    now=8200; expire(); assert(!layer_active[1]); /* release resumes normal timeout */
     reset(); move(); activate(); key(10,true); assert(!layer_active[1]); /* normal typing exits */
     reset(); layer_active[1]=true; move(); activate(); assert(!data0.temp_layer_layer_active);
     assert(!data0.temp_layer_deactivation_work.pending); /* manual layer is not owned */

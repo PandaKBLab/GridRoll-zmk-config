@@ -24,6 +24,7 @@ jobs:
         run: |
           python3 scripts/check_hardware.py
           python3 scripts/keymap_docs.py --check
+          python3 scripts/test_precision.py
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/status tests/test_status_policy.c -o /tmp/test-status-policy
           /tmp/test-status-policy
           cc -Wall -Wextra -Werror -std=c11 -Idrivers/usb tests/test_usb_output.c -o /tmp/test-usb-output

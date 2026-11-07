@@ -110,8 +110,9 @@
 <g><title>35: &amp;trans</title><rect x="984" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="1022" y="221" font-size="13">TRNS</text>
 <text x="993" y="250" font-size="8" fill="#79879b">35</text></g>
-<g><title>36: &amp;trans</title><rect x="24" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="62" y="294" font-size="13">TRNS</text>
+<g><title>36: &amp;precision_quarter</title><rect x="24" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="62" y="294" font-size="10.8">Precision</text>
+<text x="62" y="311" font-size="9.7">hold 0.25x</text>
 <text x="33" y="323" font-size="8" fill="#79879b">36</text></g>
 <g><title>37: &amp;trans</title><rect x="108" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="146" y="294" font-size="13">TRNS</text>

@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: MIT
+description: Hold for one quarter of the normal runtime mouse speed; release restores it
+compatible: "gridroll,behavior-precision"
+include: zero_param.yaml
+properties:
+  processor-name:
+    type: string
+    required: true

@@ -41,6 +41,8 @@ Gespeicherte DYA-Werte bleiben unabhängig erhalten: gegebenenfalls mouse Temp-l
 
 Normale Updates behalten Studio-Belegungen. Für neue Standardwerte zuerst exportieren und dann in Studio die Standardbelegung wiederherstellen. settings-reset ist dafür unnötig. Symbole verwenden übliche US-Keycodes; ausgegebene Zeichen hängen vom PC-Tastaturlayout ab.
 
+In **L1 Mouse** hält **links 41 (Zeile 4, Spalte 1: unten links, Ctrl auf Base)** die Zeigergeschwindigkeit auf einem Viertel des normalen DYA-Werts; Loslassen stellt den normalen Wert wieder her. Base-Ctrl, Richtung und Scroll-Einstellungen bleiben erhalten. Bei einer in Studio gespeicherten Belegung dieser L1-Position **Precision 0.25x (hold)** zuweisen und speichern; weder die ganze Belegung noch settings-reset zurücksetzen.
+
 ## LEDs und Akku
 
 Rechts zeigt die rote LED die ausgewählte PC-Bluetooth-Verbindung: wartend 100 ms alle 2 s für höchstens 30 s; verbunden 2 s an, danach aus. Links zeigt sie nur den eigenen Akkustand, nicht die PC-Verbindung. Unter 15% geschätztem Akkustand leuchtet jede Seite 100 ms alle 30 s; ab 20% endet die Warnung. USB-Strom unterdrückt die Akkuwarnung. Im Leerlauf/Tiefschlaf ist Rot aus. Das Ende des Blinkfensters beendet keine Bluetooth-Werbung; normale USB-Ausgabe zeigt kein unnötiges Bluetooth-Warten.

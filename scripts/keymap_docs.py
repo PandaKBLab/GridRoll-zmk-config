@@ -81,6 +81,8 @@ def label(binding):
                  "MB4": "Mouse 4", "MB5": "Mouse 5"}.get(args[0], args[0])]
     if behavior.startswith("&wheel_"):
         return [behavior[1:].replace("_", " ").title()]
+    if behavior == "&precision_quarter":
+        return ["Precision", "hold 0.25x"]
     return [{"&bootloader": "Bootloader", "&sys_reset": "Reboot"}.get(behavior, binding)]
 
 
@@ -119,6 +121,8 @@ def outputs():
            "Tap-hold keys: right Space taps Space and holds Mouse. `&trans` resolves to a lower active layer. Every layer is enabled and editable in both Studios. The trackball scrolls only in L5. Encoder press is position 39 (bottom-left half, column 3), default middle click. Rotation in Base uses discrete wheel events, one step per sensor trigger; it does not use a short timed mouse-scroll hold.", "",
            "Auto Mouse defaults: the first nonzero ball movement activates L1 immediately if no key was pressed during the last 200 ms. This 200 ms is a typing guard, not a required movement duration. The owned automatic layer exits 1200 ms after the last movement, wheel step or mouse/modifier release. Holding one or several mouse buttons/modifiers prevents timeout during dragging. A normal transparent typing key exits immediately; Esc also returns to Base. A manually held Mouse layer is not timed out by the automatic controller. There is no periodic idle polling.", "",
            "默认自动鼠标层：有效拨球立即进入 L1；最近 200ms 内按过键时暂不触发，避免打字误碰。停止拨球、滚轮及鼠标操作 1200ms 后退出；拖拽按住不退出。普通打字键立即退出，Esc 回基础层。J=左键、K=右键、H=中键、L=后退、分号=前进；U/I=滚轮上/下，O/P=横向左/右；按住 M 把轨迹球转为滚动。", "",
+           "L1 Mouse left 41 means left row 4 / column 1 (one-based), the bottom-left Ctrl position, global position 36 / RC(3,0). Hold it for one quarter of the mouse processor's normal DYA speed; release restores normal speed. Base Ctrl is unchanged. Only mouse scaling changes: direction, scrolling, saved settings and sleep policy remain intact. The key adds no timer or flash writes; holding it protects the automatic Mouse layer from timeout.", "",
+           "L1 左手 41（第 4 行第 1 列，最下排最左、基础层 Ctrl 位置）：按住为正常速度的 1/4，松开恢复；基础层仍是 Ctrl。已有 Studio 布局不会被刷机覆盖：在 L1 的这个位置选择 `Precision 0.25x (hold)` 并保存即可，无需恢复整套布局或刷 reset。", "",
            "Saved DYA values override firmware defaults independently of the saved keymap. For this update, set mouse Temp-layer enabled / layer 1 / activation guard 200 / deactivation 1200, and set Base encoder CW to wheel down and CCW to wheel up if older bindings remain. Save each change. Restoring only the Studio keymap does not reset DYA processor or encoder settings. Keep your speed/rotation settings and Bluetooth pairing.", "",
            "| Layer | Purpose | Access from Base | Encoder CW / CCW |", "|---|---|---|---|"]
     for index, (name, bindings, sensor) in enumerate(all_layers):

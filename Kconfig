@@ -1,4 +1,13 @@
 # SPDX-License-Identifier: MIT
+config GRIDROLL_PRECISION
+    bool "Hold for quarter-speed trackball movement"
+    depends on ZMK_POINTING && ZMK_RUNTIME_INPUT_PROCESSOR && ZMK_SPLIT_ROLE_CENTRAL
+    default y if DT_HAS_GRIDROLL_BEHAVIOR_PRECISION_ENABLED
+    help
+      Temporarily use one quarter of the mouse processor's normal DYA scaling.
+      Release restores its current normal scaling, including memory-only edits.
+      No settings writes, rotation changes, polling or new work timers.
+
 config GRIDROLL_STATUS_LED
     bool "GridRoll low-battery and host Bluetooth status"
     depends on ZMK_BATTERY_REPORTING && GPIO && SOC_NRF52840

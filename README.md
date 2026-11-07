@@ -73,6 +73,8 @@ The default is a conventional **Planck-style QWERTY / Lower / Raise** layout ada
 - Base encoder defaults now use **one discrete wheel step per sensor trigger**, clockwise down and counter-clockwise up. The previous 20 ms / 10 steps-per-second emulation could round down to no wheel movement.
 - **Saved DYA settings are separate from the saved keymap.** If old values remain, enable the mouse processor's Temp-layer with layer 1 / activation guard 200 ms / deactivation 1200 ms, and set Base encoder CW to **wheel down**, CCW to **wheel up**. Save those settings. Restoring only the Studio keymap does not clear old processor or encoder settings; no settings-reset flash is needed.
 
+In **L1 Mouse**, hold **left 41 (row 4, column 1: bottom-left, Base Ctrl position)** for one quarter of your normal DYA mouse speed; release restores normal speed. Base Ctrl, pointer direction and scrolling stay unchanged. With a Studio-saved layout, assign **Precision 0.25x (hold)** to that L1 position and save; no full-layout restore or settings-reset is needed.
+
 ## LEDs and battery
 
 | State | Red LED |

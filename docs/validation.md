@@ -1,6 +1,12 @@
 # Validation status
 
-## Current update — battery and status LEDs (2026-11-08)
+## Current update — hold for precision movement (2026-11-08)
+
+L1 Mouse left 41 is left row 4 / column 1 (one-based), global position 36 / RC(3,0), the Base Ctrl position. Only that source binding changes. The new zero-parameter Studio behavior temporarily uses one quarter of the mouse processor's normal DYA scaling; release restores the current normal RAM baseline, including memory-only settings. It changes scaling only, preserves rotation/scroll settings and writes no settings. Multiple assignments do not compound the reduction and restore only after the last key is released. The key creates no work timers or periodic polling. Existing automatic-layer lifetime handling keeps L1 active while it is held and resumes the normal 1200 ms timeout on release. Base Ctrl, matrix/GPIO order, eight layers, LED policy, radio, sleep/wake, dependencies and both unlocked Studios are preserved.
+
+Source and generated keymap checks pass locally. The actual behavior functions have a host regression harness for relative quarter speed, restoration, DYA baseline edits, multiple/duplicate key events, direction preservation and error handling; actual patched-layer lifetime tests also cover the precision hold. Full Actions build and hardware tests are pending for this update. Normal updates preserve saved Studio keymaps: if a previous layout overrides L1 left 41, assign **Precision 0.25x (hold)** to just that position and save, without clearing settings or pairing.
+
+## Previous battery and status LED update (2026-11-08)
 
 This update enables each half's existing switched battery sensing through the native ZMK sampler, once per 60 seconds while active, and the agreed red-LED policy. Right waiting flashes last at most 30 seconds; selected host connection lights for 2 seconds; local low battery uses 15%/20% hysteresis and 100 ms per 30 seconds. Real sample callbacks distinguish genuine/unchanged 0% from an uninitialized cache, errors and stale data. Idle/sleep cancels LED work synchronously; LED activity does not wake or keep the keyboard awake. The left retains its peripheral role and no USB data stack. Both halves recognize hardware VBUS for charging suppression and USB-powered sleep policy. Blue charging is unchanged and no software full-charge indication is inferred.
 

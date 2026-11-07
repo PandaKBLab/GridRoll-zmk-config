@@ -50,6 +50,10 @@ mouse=re.search(r'\bmouse\s*\{(.*?)\n\s*\};',layers,re.S).group(1)
 mouse_bindings=re.search(r'\bbindings\s*=\s*<(.*?)>;',mouse,re.S).group(1)
 mouse_items=[re.sub(r'\s+',' ', '&'+b+p).strip() for b,p in re.findall(r'&(\w+)([^&]*)',mouse_bindings)]
 assert mouse_items[19]=='&mkp LCLK' and mouse_items[20]=='&mkp RCLK'
+assert mapping[36] == (3, 0) and mouse_items[36] == '&precision_quarter', 'L1 left 41 precision key'
+base=re.search(r'\bbase\s*\{(.*?)\n\s*\};',layers,re.S).group(1)
+base_items=re.findall(r'&(\w+)([^&]*)',re.search(r'\bbindings\s*=\s*<(.*?)>;',base,re.S).group(1))
+assert re.sub(r'\s+', ' ', '&'+''.join(base_items[36])).strip() == '&kp LCTRL'
 right_overlay=(ROOT/'boards/shields/gridroll/gridroll_right.overlay').read_text()
 for wheel in ['wheel_down','wheel_up','wheel_left','wheel_right']:
     assert f'device = <&{wheel}>;' in right_overlay, f'Missing wheel input listener: {wheel}'

@@ -40,7 +40,7 @@
                 &trans &trans &trans &trans &trans &trans &trans &wheel_up &wheel_down &wheel_left &wheel_right &trans
                 &to BASE &trans &trans &trans &trans &trans &mkp MCLK &mkp LCLK &mkp RCLK &mkp MB4 &mkp MB5 &trans
                 &trans &trans &trans &trans &trans &trans &trans &mo SCROLL &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                &precision_quarter &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&encoder_scroll>;
         };
@@ -106,6 +106,12 @@
         };
     };
     behaviors {
+        precision_quarter: precision_quarter {
+            compatible = "gridroll,behavior-precision";
+            #binding-cells = <0>;
+            display-name = "Precision 0.25x (hold)";
+            processor-name = "mouse";
+        };
         wheel_down: wheel_down {
             compatible = "gridroll,behavior-wheel-step";
             #binding-cells = <0>;
