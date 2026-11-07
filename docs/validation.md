@@ -2,7 +2,7 @@
 
 ## Current update — Planck defaults, automatic Mouse and discrete wheel
 
-The current source replaces LiNEA40 defaults with conventional Planck-style QWERTY/Lower/Raise and eight enabled layers. J/K in Mouse are left/right click. Mouse activates on the first valid ball event outside a 200 ms typing guard; idle expiry is 1200 ms after pointer/wheel/button activity, with held mouse/modifier protection and immediate ordinary-typing exit. A scoped patch to the pinned runtime processor arms expiry after even a single frame and handles release/multiple-button activity without idle polling. Base encoder defaults use discrete input wheel events instead of 20 ms timed scrolling. New compilation and device checks are pending; the download below remains the previous verified build until the new run finishes. Saved keymap, processor and encoder overrides are separate and intentionally preserved.
+The current source replaces LiNEA40 defaults with conventional Planck-style QWERTY/Lower/Raise and eight enabled layers. J/K in Mouse are left/right click. Mouse activates on the first valid ball event outside a 200 ms typing guard; idle expiry is 1200 ms after pointer/wheel/button activity, with held mouse/modifier protection and immediate ordinary-typing exit. A scoped patch to the pinned runtime processor arms expiry after even a single frame and handles release/multiple-button activity without idle polling. Base encoder defaults use discrete input wheel events instead of 20 ms timed scrolling. [Actions run 42384855102](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42384855102) passed all application and bootloader builds, GPIO/layout and generated-diagram checks, USB/motion regressions, three DYA protocol checks, and actual patched-function lifetime/wheel tests. The latter cover a single motion frame, typing guard, stale expiry, held/multiple buttons, modifier dragging, ordinary-typing exit, manual-layer ownership, explicit exit/re-entry, wheel renewal, and 1001 discrete downward steps with release producing no extra event. The production right image links 355,460 bytes of FLASH (43.83%) and 120,528 bytes of RAM (45.98% of 256 KiB); static allocations are not measured peak stack use. Device auto-layer, drag, wheel, Studio save/reconnect and power tests remain pending. Saved keymap, processor and encoder overrides are separate and intentionally preserved.
 
 ## Previous encoder/USB update
 
@@ -36,14 +36,14 @@ Each successful Actions run publishes exactly one **GridRoll-firmware** ZIP. It 
 
 Diagnostic images, bootloader images, HEX files, logs, device trees and build configurations are not uploaded in the standard package. The upload runs only after all application builds and package-content checks succeed. Build diagnostics remain in the Actions job logs.
 
-Verified [push-triggered Actions run 42381214356](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42381214356), built from commit **bf9add8e0134f0ea7fafafa3530e0d97a88502e8**, completed successfully. All motion/SDIO/GPIO unit tests, DYA protocol and cross-decoding checks, four application builds, compiled-configuration assertions, application address checks and the separate bootloader regression job passed. It created exactly one artifact: [GridRoll-firmware.zip](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42381214356/artifacts/13577568687).
+Verified [push-triggered Actions run 42384855102](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42384855102), built from commit **f0d20d3afeb08ef753f64df610ec4d7e32f6e2c0**, completed successfully. All motion/SDIO/GPIO unit tests, DYA protocol and cross-decoding checks, four application builds, compiled-configuration assertions, application address checks and the separate bootloader regression job passed. It created exactly one artifact: [GridRoll-firmware.zip](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/runs/42384855102/artifacts/13579585228).
 
-The ZIP was downloaded and inspected: exactly the three files listed above, no directories or extra files; ZIP integrity, nRF52840 UF2 headers, block counts and application address bounds passed. Its SHA-256 matches GitHub's artifact digest: **285c32e323b0afaa7865081f62146b6d999e798cdbe6c10bac71c099fc03d02c**. The left and settings-reset image hashes match the previous successful build (0cb0524c3b1839760d43d60105948eff7e05c5dc); the right image changed. Existing users can flash only GridRoll-right.uf2 without clearing settings. Normal updates preserve saved layouts: export an existing Studio layout before using Studio's restore-defaults operation to adopt the new eight-layer mapping; do not use settings-reset just to change keymaps. These checks validate the software and package, not physical BLE smoothness or current draw.
+The ZIP was downloaded and inspected: exactly the three files listed above, no directories or extra files; ZIP integrity, nRF52840 UF2 headers, block counts and application address bounds passed. Its SHA-256 matches GitHub's artifact digest: **07c5c09665e4c2fce859931eb8d3163f263a0c76eed043e64ca31ccfc0bf1a81**. The left and settings-reset image hashes match the previous successful build (bf9add8e0134f0ea7fafafa3530e0d97a88502e8); the right image changed. Existing users can flash only GridRoll-right.uf2 without clearing settings. Normal updates preserve saved layouts: export an existing Studio layout before using Studio's restore-defaults operation to adopt the new eight-layer mapping; do not use settings-reset just to change keymaps. These checks validate the software and package, not physical BLE smoothness or current draw.
 
 | File | UF2 SHA-256 |
 |---|---|
 | GridRoll-left.uf2 | 83988b091d57b19b6f2f23f48b8696a3b45eeb76d29611a64e6629397ec0bdbd |
-| GridRoll-right.uf2 | 216faeaa9acc76ece524eed628809152d3b143e4a9c3357ea712c691e1bb5752 |
+| GridRoll-right.uf2 | dee251953181030d3cc8048c1195c781abc904a2a2e7c6c16470344dfa4cad13 |
 | GridRoll-settings-reset.uf2 | 57fdc42869a3c7a2dead79a461b1134f7c1bdf2ec981c08fb2593c5459c3e575 |
 
 Internal circuit and module-pad tables have been removed from current documentation. Existing Git history has not been rewritten.
@@ -57,7 +57,8 @@ During host-discovery troubleshooting, the user powered off the left half and re
 | Check | Required observation | Status |
 |---|---|---|
 | Keys | Input on both halves, right USB and left battery | User-reported working; duplicate-press test pending |
-| Encoder | Correct rotation and press behavior | Pending |
+| Encoder | Base wheel down/up is one step per trigger; middle press works | Actual wheel function regression and compiled listener wiring passed; physical test pending |
+| Automatic Mouse | First motion outside 200 ms typing guard enables Mouse; J/K click; idle 1200 ms exits; held/multiple mouse keys do not time out | Actual patched-function regression passed; physical movement/drag/save test pending |
 | Trackball | Up/down/left/right match physical movement | USB input user-reported working; direction test pending |
 | Scroll layer (L5) | Consistent horizontal and vertical trackball scrolling | Pending |
 | Encoder runtime RPC | DYA lists the encoder, reads eight layers and saves both directions | Compiled RPC, sensor enumeration/eight-layer wire samples passed; physical edit/save test pending |
