@@ -107,8 +107,8 @@
 <g><title>34: &amp;kp FSLH</title><rect x="900" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="938" y="221" font-size="13">/</text>
 <text x="909" y="250" font-size="8" fill="#79879b">34</text></g>
-<g><title>35: &amp;kp RET</title><rect x="984" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="1022" y="221" font-size="13">Enter</text>
+<g><title>35: &amp;kp RSHFT</title><rect x="984" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="1022" y="221" font-size="13">RShift</text>
 <text x="993" y="250" font-size="8" fill="#79879b">35</text></g>
 <g><title>36: &amp;kp LCTRL</title><rect x="24" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="62" y="294" font-size="13">Ctrl</text>
@@ -122,18 +122,17 @@
 <g><title>39: &amp;mkp MCLK</title><rect x="276" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="314" y="294" font-size="8.1">Middle click</text>
 <text x="285" y="323" font-size="8" fill="#79879b">39</text></g>
-<g><title>40: &amp;mo LOWER</title><rect x="360" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<g><title>40: &amp;mo SYMBOLS</title><rect x="360" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="398" y="294" font-size="13">Hold L2</text>
 <text x="369" y="323" font-size="8" fill="#79879b">40</text></g>
 <g><title>41: &amp;kp SPACE</title><rect x="444" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
 <text x="482" y="294" font-size="13">Space</text>
 <text x="453" y="323" font-size="8" fill="#79879b">41</text></g>
-<g><title>42: &amp;lt MOUSE SPACE</title><rect x="564" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="602" y="294" font-size="13">Space</text>
-<text x="602" y="311" font-size="13">hold L1</text>
+<g><title>42: &amp;kp RET</title><rect x="564" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="602" y="294" font-size="13">Enter</text>
 <text x="573" y="323" font-size="8" fill="#79879b">42</text></g>
-<g><title>43: &amp;mo RAISE</title><rect x="648" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="686" y="294" font-size="13">Hold L4</text>
+<g><title>43: &amp;mo FUNCTION</title><rect x="648" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="686" y="294" font-size="13">Hold L3</text>
 <text x="657" y="323" font-size="8" fill="#79879b">43</text></g>
 <circle cx="770" cy="299" r="28" fill="#d8e1ed"/><text x="770" y="303" font-size="10">TRACKBALL</text>
 <g><title>44: &amp;kp LEFT</title><rect x="816" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>

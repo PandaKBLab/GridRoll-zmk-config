@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: MIT
+description: Open a bounded BLE Studio discovery window without an edit lock
+compatible: "gridroll,behavior-studio-ble"
+include: zero_param.yaml

@@ -11,17 +11,9 @@
 #include <input/processors/runtime-input-processor.dtsi>
 #define BASE 0
 #define MOUSE 1
-#define LOWER 2
-#define NAV 3
-#define RAISE 4
-#define SCROLL 5
-#define WIRELESS 6
-#define SYSTEM 7
+#define SYMBOLS 2
+#define FUNCTION 3
 / {
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-        system { if-layers = <LOWER RAISE>; then-layer = <SYSTEM>; };
-    };
     keymap {
         compatible = "zmk,keymap";
         base {
@@ -29,8 +21,8 @@
             bindings = <
                 &kp TAB &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P &kp BSPC
                 &kp ESC &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &kp SEMI &kp SQT
-                &kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp N &kp M &kp COMMA &kp DOT &kp FSLH &kp RET
-                &kp LCTRL &kp LALT &kp LGUI &mkp MCLK &mo LOWER &kp SPACE &lt MOUSE SPACE &mo RAISE &kp LEFT &kp DOWN &kp RIGHT
+                &kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp N &kp M &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+                &kp LCTRL &kp LALT &kp LGUI &mkp MCLK &mo SYMBOLS &kp SPACE &kp RET &mo FUNCTION &kp LEFT &kp DOWN &kp RIGHT
             >;
             sensor-bindings = <&encoder_scroll>;
         };
@@ -39,73 +31,85 @@
             bindings = <
                 &trans &trans &trans &trans &trans &trans &trans &wheel_up &wheel_down &wheel_left &wheel_right &trans
                 &to BASE &trans &trans &trans &trans &trans &mkp MCLK &mkp LCLK &mkp RCLK &mkp MB4 &mkp MB5 &trans
-                &trans &trans &trans &trans &trans &trans &trans &mo SCROLL &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans &trans &mo FUNCTION &trans &trans &trans &trans
                 &trans &trans &trans &trans &trans &precision_quarter &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&encoder_scroll>;
         };
-        lower {
-            display-name = "Lower";
+        symbols {
+            display-name = "Symbols";
             bindings = <
-                &kp TILDE &kp EXCL &kp AT &kp HASH &kp DOLLAR &kp PRCNT &kp CARET &kp AMPS &kp ASTRK &kp LPAR &kp RPAR &kp BSPC
-                &kp DEL &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &kp UNDER &kp PLUS &kp LBRC &kp RBRC &kp PIPE
-                &trans &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &kp HOME &kp PG_DN &kp UP &kp PG_UP &kp END
-                &mo NAV &trans &trans &trans &trans &trans &mo SCROLL &trans &kp C_PREV &kp C_VOL_DN &kp C_VOL_UP
-            >;
-            sensor-bindings = <&encoder_scroll>;
-        };
-        nav {
-            display-name = "Navigation";
-            bindings = <
-                &trans &trans &trans &trans &trans &trans &kp HOME &kp PG_DN &kp UP &kp PG_UP &kp END &kp BSPC
-                &trans &trans &trans &trans &trans &trans &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp DEL &kp INS
-                &trans &trans &trans &trans &trans &trans &kp LC(LEFT) &kp LC(DOWN) &kp LC(UP) &kp LC(RIGHT) &kp HOME &kp END
+                &kp TILDE &kp EXCL &kp AT &kp HASH &kp DOLLAR &kp PRCNT &kp CARET &kp AMPS &kp ASTRK &kp LPAR &kp RPAR &trans
+                &kp DEL &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp GRAVE
+                &trans &kp LBKT &kp RBKT &kp LBRC &kp RBRC &kp PIPE &kp MINUS &kp EQUAL &kp PLUS &kp UNDER &kp BSLH &trans
                 &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&encoder_scroll>;
         };
-        raise {
-            display-name = "Raise";
+        function {
+            display-name = "Function";
             bindings = <
-                &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp BSPC
-                &kp DEL &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH
-                &mo WIRELESS &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &kp C_NEXT &kp C_VOL_DN &kp C_VOL_UP
+                &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
+                &to BASE &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &mkp MCLK &mkp LCLK &mkp RCLK &mkp MB4 &mkp MB5 &kp DEL
+                &trans &bt BT_CLR &out OUT_USB &out OUT_BLE &studio_ble &to MOUSE &kp HOME &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp END
+                &trans &trans &trans &kp C_MUTE &trans &trans &trans &trans &kp C_PREV &kp C_VOL_DN &kp C_VOL_UP
             >;
             sensor-bindings = <&encoder_volume>;
         };
-        scroll {
-            display-name = "Scroll";
+        empty4 {
+            display-name = "Empty 4";
             bindings = <
-                &trans &trans &trans &trans &trans &trans &trans &wheel_up &wheel_down &wheel_left &wheel_right &trans
-                &trans &trans &trans &trans &trans &trans &mkp MCLK &mkp LCLK &mkp RCLK &mkp MB4 &mkp MB5 &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none
             >;
-            sensor-bindings = <&encoder_scroll>;
+            sensor-bindings = <&encoder_none>;
         };
-        wireless {
-            display-name = "Wireless";
+        empty5 {
+            display-name = "Empty 5";
             bindings = <
-                &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bt BT_CLR
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none
             >;
-            sensor-bindings = <&encoder_scroll>;
+            sensor-bindings = <&encoder_none>;
         };
-        system {
-            display-name = "System";
+        empty6 {
+            display-name = "Empty 6";
             bindings = <
-                &to BASE &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &out OUT_USB &out OUT_BLE &out OUT_TOG &trans &trans &bt BT_CLR
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &bootloader &sys_reset &trans &mkp MCLK &trans &trans &trans &trans &trans &sys_reset &bootloader
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none
             >;
-            sensor-bindings = <&encoder_volume>;
+            sensor-bindings = <&encoder_none>;
+        };
+        empty7 {
+            display-name = "Empty 7";
+            bindings = <
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none &none
+                &none &none &none &none &none &none &none &none &none &none &none
+            >;
+            sensor-bindings = <&encoder_none>;
         };
     };
     behaviors {
+        studio_ble: studio_ble {
+            compatible = "gridroll,behavior-studio-ble";
+            #binding-cells = <0>;
+            display-name = "Studio BLE discover (60s)";
+        };
+        encoder_none: encoder_none {
+            compatible = "zmk,behavior-runtime-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            tap-ms = <5>;
+            cw-binding = <&none>;
+            ccw-binding = <&none>;
+        };
         precision_quarter: precision_quarter {
             compatible = "gridroll,behavior-precision";
             #binding-cells = <0>;
@@ -178,7 +182,7 @@
 &trackball_listener {
     input-processors = <&mouse_runtime_input_processor>;
     scroll_layer {
-        layers = <SCROLL>;
+        layers = <FUNCTION>;
         input-processors = <&gridroll_scroll>;
     };
 };

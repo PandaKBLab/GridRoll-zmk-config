@@ -4,9 +4,11 @@
   unlock key, idle relocking or relocking after disconnect unless the user
   explicitly requests locking. Keep this policy in compiled-config checks.
 - Preserve both standard ZMK Studio keymap editing and DYA Studio mouse/scroll
-  settings plus runtime encoder rotation. Keep eight enabled default layers and
+  settings plus runtime encoder rotation. Keep four populated default layers
+  (Base/Mouse/Symbols/Function) and four empty editable slots. Keep
   automatic USB preference on a new enumerated connection; allow manual BLE.
-  Default to Planck-style QWERTY/Lower/Raise, Mouse J=left/K=right, a 200 ms
+  Default to QWERTY, Base left bottom-right Space/right bottom-left Enter,
+  native 798 CPI (about 800 DPI), Mouse J=left/K=right, a 200 ms
   typing guard and 1200 ms auto-Mouse inactivity timeout. Protect held drags;
   use discrete encoder wheel events. Preserve saved settings; document overrides.
   Generate keymap diagrams/tables from source and keep them checked in CI.
@@ -24,3 +26,8 @@
 - This repository is firmware only. Do not add PCB projects, schematics,
   routing, netlists or internal circuit documents. Never claim hardware tests
   were performed from a successful build or protocol test alone.
+- Preserve bounded Studio BLE discovery without reintroducing an edit lock:
+  reconnect/selection opens at most 60 s on active BLE output; Function+V opens
+  another window. Idle, USB output, disconnect or timeout closes extra advertising.
+  Keep the Studio UUID in scan response. Never advertise continuously just to
+  make the web device picker list an already-connected keyboard.

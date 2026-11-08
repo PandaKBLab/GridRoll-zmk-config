@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
-"""Render the eight source-default layers; --check rejects stale GitHub diagrams."""
+"""Render four functional layers and four empty editable slots from source."""
 import argparse
 from html import escape
 from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = ["base", "mouse", "lower", "nav", "raise", "scroll", "wireless", "system"]
-PURPOSE = ["Planck-style QWERTY / 基础输入", "Automatic mouse buttons / 自动鼠标层", "Symbols and F keys / 符号与功能键",
-           "Navigation / 导航", "Numbers and F keys / 数字与功能键",
-           "Trackball scrolling / 轨迹球滚动", "Bluetooth profiles / 蓝牙槽位", "Output and recovery / 输出与恢复"]
-ACCESS = ["Power-on default", "Move ball; or hold right Space", "Hold Lower (left of left Space)",
-          "Lower + bottom-left Ctrl position", "Hold Raise (right of right Space)", "Mouse + M; or Lower + right Space",
-          "Raise + left Shift position", "Hold Lower + Raise"]
+EXPECTED = ["base", "mouse", "symbols", "function", "empty4", "empty5", "empty6", "empty7"]
+PURPOSE = ["QWERTY / 基础输入", "Mouse and precision / 鼠标与精细移动",
+           "Numbers and symbols / 数字符号", "Function, wireless and ball scroll / 功能与滚动"] + ["Empty / 空层"] * 4
+ACCESS = ["Power-on default", "Move ball; or Function + B", "Hold Symbols, left of left Space",
+          "Hold Fn, right of right Enter; or Mouse + M"] + ["Studio custom use only"] * 4
 CW_CCW = {"encoder_scroll": ("Wheel up", "Wheel down"),
           "encoder_volume": ("Volume up", "Volume down"),
+          "encoder_none": ("No action", "No action"),
           "encoder_arrows": ("Down arrow", "Up arrow"),
           "encoder_horizontal": ("Right arrow", "Left arrow")}
 
@@ -35,7 +34,7 @@ def layers():
 
 
 ALIASES = {"BACKSPACE": "Bksp", "BSPC": "Bksp", "RIGHT_SHIFT": "RShift",
-           "LSHFT": "LShift", "LEFT_SHIFT": "LShift", "LCTRL": "Ctrl", "LEFT_ALT": "Alt",
+           "LSHFT": "LShift", "RSHFT": "RShift", "LEFT_SHIFT": "LShift", "LCTRL": "Ctrl", "LEFT_ALT": "Alt",
            "LEFT_WIN": "Win", "ESC": "Esc", "SPACE": "Space", "ENTER": "Enter", "RET": "Enter",
            "TAB": "Tab", "LEFT_ARROW": "←", "RIGHT_ARROW": "→", "UP_ARROW": "↑",
            "DOWN_ARROW": "↓", "PAGE_DOWN": "PgDn", "PAGE_UP": "PgUp", "HOME": "Home",
@@ -71,6 +70,8 @@ def label(binding):
         return [("Hold " if behavior == "&mo" else "Go ") + "L" + str(EXPECTED.index(args[0].lower()))]
     if behavior == "&trans":
         return ["TRNS"]
+    if behavior == "&none":
+        return ["—"]
     if behavior == "&bt":
         return ["BT " + args[1] if args[0] == "BT_SEL" else "Clear profile"]
     if behavior == "&out":
@@ -83,6 +84,8 @@ def label(binding):
         return [behavior[1:].replace("_", " ").title()]
     if behavior == "&precision_quarter":
         return ["Precision", "hold 0.25x"]
+    if behavior == "&studio_ble":
+        return ["Studio BLE", "discover 60s"]
     return [{"&bootloader": "Bootloader", "&sys_reset": "Reboot"}.get(behavior, binding)]
 
 
@@ -114,20 +117,37 @@ def diagram(index, name, bindings, sensor):
 def outputs():
     result = {}
     all_layers = layers()
-    doc = ["# Eight-layer default keymap / 八层默认键位", "",
-           "These are firmware source defaults, not a readback of a Studio-saved layout. Normal updates preserve saved keymaps. Export your layout before using Studio's restore-defaults operation if you want these defaults; a settings-reset flash is unnecessary and also clears pairing.", "",
-           "这是源码默认键位，普通更新不会覆盖 Studio 已保存的布局。需要采用本页八层时，先导出旧布局，再使用 Studio 恢复默认；无需刷 reset 清除配对。", "",
-           "The conventional Planck QWERTY/Lower/Raise arrangement is adapted to GridRoll's existing 47 positions. No QMK implementation code is imported. Tab, Esc, Shift, punctuation and Enter are ordinary keys. Bottom row: Ctrl, Alt, GUI, encoder middle-click, Lower, Space, Space/Mouse, Raise, trackball opening, Left, Down, Right. Up is available on the navigation layers. Lower + Raise opens System. Previous LiNEA40 combos and Japanese-specific symbols are removed.", "",
-           "Tap-hold keys: right Space taps Space and holds Mouse. `&trans` resolves to a lower active layer. Every layer is enabled and editable in both Studios. The trackball scrolls only in L5. Encoder press is position 39 (bottom-left half, column 3), default middle click. Rotation in Base uses discrete wheel events, one step per sensor trigger; it does not use a short timed mouse-scroll hold.", "",
-           "Auto Mouse defaults: the first nonzero ball movement activates L1 immediately if no key was pressed during the last 200 ms. This 200 ms is a typing guard, not a required movement duration. The owned automatic layer exits 1200 ms after the last movement, wheel step or mouse/modifier release. Holding one or several mouse buttons/modifiers prevents timeout during dragging. A normal transparent typing key exits immediately; Esc also returns to Base. A manually held Mouse layer is not timed out by the automatic controller. There is no periodic idle polling.", "",
-           "默认自动鼠标层：有效拨球立即进入 L1；最近 200ms 内按过键时暂不触发，避免打字误碰。停止拨球、滚轮及鼠标操作 1200ms 后退出；拖拽按住不退出。普通打字键立即退出，Esc 回基础层。J=左键、K=右键、H=中键、L=后退、分号=前进；U/I=滚轮上/下，O/P=横向左/右；按住 M 把轨迹球转为滚动。", "",
-           "L1 Mouse left 46 means left row 4 / column 6 (one-based), the left-half bottom-right Space position, global position 41 / RC(3,5). Hold it for one quarter of the mouse processor's normal DYA speed; release restores normal speed. Base Space and Ctrl are unchanged; L1 left 41 returns to transparent Ctrl. The key adds no timer or flash writes; holding it protects the automatic Mouse layer from timeout. Encoder wheel defaults are reversed: CW up, CCW down in L0/L1/L2/L3/L5/L6; L4/L7 volume direction is unchanged.", "",
-           "L1 左手 46（第 4 行第 6 列，左手最下排最右、基础层空格位置）：按住为正常速度的 1/4，松开恢复；基础层仍是空格，原左手 41 恢复透明 Ctrl。已有 Studio 布局不会被刷机覆盖：将 L1 左手 46 设为 `Precision 0.25x (hold)`，原左手 41 设为透明并保存，无需恢复整套布局或刷 reset。旋钮滚轮默认方向改为 CW 上、CCW 下；音量层方向保留。", "",
-           "Saved DYA values override firmware defaults independently of the saved keymap. Keep mouse Temp-layer enabled / layer 1 / activation guard 200 / deactivation 1200. If older encoder overrides remain, set CW to wheel up and CCW to wheel down on each wheel layer (L0/L1/L2/L3/L5/L6) and save; leave volume layers L4/L7 unchanged. Restoring only the Studio keymap does not reset DYA processor or encoder settings. Keep your speed/rotation settings and Bluetooth pairing.", "",
-           "| Layer | Purpose | Access from Base | Encoder CW / CCW |", "|---|---|---|---|"]
+    doc = [
+        "# Four-layer default keymap / 四层默认键位",
+        "",
+        "Four functional layers (L0–L3) and four empty editable slots (L4–L7). All 47 physical positions and their matrix order are preserved. This page is generated from firmware source, not a readback of a Studio-saved layout.",
+        "",
+        "四个常用层 L0～L3，L4～L7 为空的可编辑预留层。基础层左手右下角是普通空格，右手左下角是普通回车；原第三行右侧回车位置改为右 Shift。左右最下排的层键分别是 Symbols 和 Function。",
+        "",
+        "Base bottom row, viewed while typing: Ctrl, Alt, GUI, encoder middle-click, Symbols, Space | Enter, Function, trackball opening, Left, Down, Right. Base Space/Enter are ordinary key presses, not tap-hold keys.",
+        "",
+        "Default native resolution is 798 CPI (about 800 DPI), the closest allowed 38-CPI step approved by the user. With DYA mouse scaling 1/1, precision is 199.5 effective CPI (about 200). The sensor remains 798 CPI; the precision behavior temporarily scales motion to one quarter of the current normal DYA speed.",
+        "",
+        "Auto Mouse: the first nonzero movement outside the 200 ms typing guard enables L1. Exit is 1200 ms after the last pointer/wheel/button activity; held mouse/modifier/precision keys prevent timeout. Ordinary transparent typing exits automatically; Esc returns to Base. Function+B enters Mouse manually and Esc leaves it. No idle polling is added.",
+        "",
+        "自动鼠标层：拨球进入 L1，打字保护 200ms；停止鼠标操作 1200ms 后退出，按住拖拽或精细键不会超时。J 左键、K 右键、H 中键、L 后退、分号前进；U/I 上下滚轮，O/P 横向滚轮。L1 左手第 4 行第 6 列（左空格位置，位置 41）按住为正常速度的 1/4，松开恢复。按住 M 进入 Function 并让轨迹球滚动；鼠标按键仍可使用。",
+        "",
+        "Symbols (L2): numbers 1–0 on the home row, common shifted symbols on the top row and brackets/operators below. Function (L3): F1–F12 on the top row; A/S/D/F/G select Bluetooth profiles 0–4; X selects USB, C selects BLE, V opens Studio discovery, B enters manual Mouse, Z clears only the selected host profile. The right home row retains mouse buttons, and its lower row provides navigation. The encoder scrolls CW up/CCW down in L0–L2, controls volume in L3, and does nothing in L4–L7.",
+        "",
+        "无线设置：先与当前电脑配对并使用蓝牙输出；Fn+C 选择 BLE，Fn+V 开放最长 60s 的 Studio 发现窗口，再点 DYA 的蓝牙连接并扫描。主机重新连接或从 USB 选择 BLE 也会短暂开放。空闲、USB 输出、断连或到期后关闭额外广播；普通鼠标活动不会反复续期，关闭广播不主动断开已有 GATT 连接。这不是解锁键，两种 Studio 始终免解锁。",
+        "",
+        "BLE discovery does not promise a physical Windows/browser connection result. The pinned firmware previously stopped advertising after the host connected. The fix uses a bounded window and advertises the Studio service in scan response while retaining HID/Battery/name in the primary packet. Normal pairing/reconnect remains available after the window. Keep BLE output selected for wireless Studio; use USB output for wired Studio. No artificial activity is generated to defeat sleep.",
+        "",
+        "Updates intentionally preserve pairing and saved Studio/DYA values. To adopt this full four-layer layout, first export the old layout, then use ZMK Studio's keymap Restore Stock Settings action and save. Do not flash settings-reset. Review DYA encoder assignments separately: L0–L2 wheel up/down, L3 volume up/down, L4–L7 no action; old encoder overrides survive a keymap restore. Keep mouse Temp-layer target 1 / guard 200 / expiry 1200 and normal scale 1/1 for about 800 DPI.",
+        "",
+        "采用新配列时先导出旧布局，再在 ZMK Studio 恢复默认键位并保存；不要刷 reset。DYA 旋钮参数独立保存：L0～L2 为 CW 上滚、CCW 下滚，L3 为音量加减，L4～L7 为无动作。旧参数需单独更新。电池 30s 空闲、15min 深睡与按键唤醒保留；BLE 设置期间也应及时保存，不用灯效或广播伪造活动阻止休眠。",
+        "",
+        "| Layer | Purpose | Access from Base | Encoder CW / CCW |",
+        "|---|---|---|---|"
+    ]
     for index, (name, bindings, sensor) in enumerate(all_layers):
         doc.append(f"| L{index} {name.title()} | {PURPOSE[index]} | {ACCESS[index]} | {' / '.join(CW_CCW[sensor])} |")
-    doc += ["", "Right USB enumerated by a computer selects USB automatically. A charge-only cable does not force USB. You can manually choose BLE while plugged in: hold Lower + Raise (L7), press top-row U; Y selects USB and I toggles output. A new USB connection prefers USB again. Unplugging falls back to BLE when a host is connected.", ""]
+    doc += ["", "Right USB enumerated by a computer selects USB automatically. A charge-only cable does not force USB. Fn+C selects BLE while plugged in; Fn+X selects USB. A new USB connection prefers USB again; unplugging falls back to a connected BLE host.", ""]
     for index, (name, bindings, sensor) in enumerate(all_layers):
         path = f"docs/keymap/layer-{index}.svg"
         result[path] = diagram(index, name, bindings, sensor)
@@ -147,8 +167,8 @@ def outputs():
             doc.append("| " + str(row) + " | " + " | ".join(cells) + " |")
         doc.append("")
     doc += ["## Layer and settings notes", "",
-            "The stock layout has no typing combos. J and K remain ordinary letters on Base; they become mouse buttons only in Mouse/Scroll. Saved layouts and DYA settings remain user-controlled across updates.", "",
-            "Studio can change layer names/bindings, but the trackball scroll override still targets compiled layer 5. Keep layer indices stable when using that override. Actual encoder direction, DYA save/reconnect, USB switching, sleep/wake and host-layout characters require device verification.", ""]
+            "The stock layout has no typing combos. J/K are letters on Base and mouse buttons on Mouse/Function. L4–L7 contain only &none bindings and no-action encoder defaults, not transparent copies of Base. No stock key activates these empty slots.", "",
+            "Studio can edit all eight slots, but automatic Mouse targets compiled layer 1 and the trackball scroll override targets compiled layer 3. Keep those indices stable. Saved settings, physical motion, wireless Studio, sleep/wake and host-layout characters require device verification.", ""]
     result["docs/keymap.md"] = "\n".join(doc)
     return result
 
@@ -164,7 +184,7 @@ def main():
         else:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(content, encoding="utf-8", newline="\n")
-    print("Eight enabled layers: diagrams and all 376 key bindings match source")
+    print("Four functional + four empty layers: diagrams and all 376 bindings match source")
 
 
 if __name__ == "__main__":

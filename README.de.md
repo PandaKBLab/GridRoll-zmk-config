@@ -2,61 +2,40 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · **Deutsch**
 
-ZMK-Firmware für die geteilte PandaKB GridRoll: 47 Tasten, linker Drehgeber, rechter PAW3222-Trackball, USB/Bluetooth, ZMK Studio und DYA Studio.
+ZMK-Firmware für PandaKB GridRoll: 47 Tasten, linker Drehgeber, rechter PAW3222-Trackball, USB/Bluetooth sowie ZMK Studio und DYA Studio. **Rechts verbindet sich mit dem PC, links drahtlos mit rechts.** Der Gerätename ist **GridRoll**. PCB-Projekte, Schaltpläne, Leiterbahnen und interne Schaltungsunterlagen werden nicht verteilt.
 
-Die **rechte Hälfte ist die Zentrale** und verbindet sich mit dem Computer. Die linke Hälfte verbindet sich drahtlos mit ihr. Tastatur-, Bluetooth- und USB-Produktname lauten **GridRoll**.
+## Aktualisieren
 
-Dieses Repository enthält Firmware, Build-Werkzeuge und Anleitungen. PCB-Projekte, Schaltpläne, Leiterbahndaten, Netzlisten und interne Schaltungsunterlagen werden nicht verteilt. Die notwendigen GPIO-Definitionen bleiben im Board-Quellcode.
+Ein erfolgreicher [Actions-Lauf](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/workflows/build.yml) liefert nur **GridRoll-firmware** mit drei UF2-Dateien: links, rechts und settings-reset. Die normalen Dateien auf die entsprechende Hälfte schreiben. **Bei normalen Updates kein settings-reset verwenden**; Kopplungen und gespeicherte Einstellungen bleiben erhalten. Siehe [Erstinstallation](docs/first-flash.md). Artefakte sind 30 Tage verfügbar.
 
-## Download und Aktualisierung
+## Vier Funktionsebenen
 
-1. Öffnen Sie einen erfolgreichen Lauf unter [Build GridRoll firmware](https://github.com/PandaKBLab/GridRoll-zmk-config/actions/workflows/build.yml).
-2. Laden Sie nur die ZIP **GridRoll-firmware** herunter. Sie enthält genau drei Dateien: **GridRoll-left.uf2**, **GridRoll-right.uf2** und **GridRoll-settings-reset.uf2**.
-3. Starten Sie den Bootloader auf beiden Hälften. Kopieren Sie GridRoll-left.uf2 auf die linke und GridRoll-right.uf2 auf die rechte Hälfte. Die Rücksetz-Firmware ist nicht für den normalen Betrieb gedacht.
-4. Ohne installierten GridRoll-Bootloader ist zunächst die [Erstinstallation](docs/first-flash.md) nötig. Das Erstinstallationspaket muss separat gebaut werden und ist nicht in dieser ZIP enthalten.
+| Ebene | Zweck und Zugriff | Drehgeber CW/CCW |
+|---|---|---|
+| L0 Base | QWERTY; linke Leertaste und rechte Eingabetaste als normale Tasten | Rad hoch/runter |
+| L1 Mouse | Automatisch durch Ballbewegung oder manuell Fn+B; Esc beendet | Rad hoch/runter |
+| L2 Symbols | Symbols links neben der linken Leertaste halten | Rad hoch/runter |
+| L3 Function | Fn rechts neben Enter halten; auch Ballscrollen | Lauter/leiser |
+| L4–L7 | Leere editierbare Plätze; Tasten und Drehgeber ohne Aktion | Keine |
 
-Artefakte werden 30 Tage gespeichert. Ein erfolgreicher Build bestätigt Softwareprüfungen, aber keine bestandenen Gerätetests.
+Untere Reihe: Ctrl, Alt, GUI, Mittelklick, Symbols, **Leertaste** | **Enter**, Fn, Trackballöffnung, Links, Unten, Rechts. Der frühere Enter-Platz rechts in Reihe 3 ist jetzt rechte Umschalttaste. [Alle Tastenwerte und Diagramme](docs/keymap.md).
 
-## Bluetooth und Studio
+Gespeicherte Studio-Belegungen überschreiben Quelltextvorgaben. Für die neue Belegung zuerst exportieren, dann **Restore Stock Settings für die Tastenbelegung in ZMK Studio** verwenden und speichern. Kein Kopplungsreset ist nötig. DYA-Drehgeberwerte separat ändern: L0–L2 Rad hoch/runter, L3 Lauter/leiser, L4–L7 keine Aktion.
 
-Koppeln Sie den Computer mit **GridRoll auf der rechten Hälfte**. Wenn die Tastatur unsichtbar ist, wählen Sie ein freies Bluetooth-Profil oder löschen Sie das aktuelle Profil und die alte Kopplung am Computer. Normale Updates erhalten gespeicherte Kopplungen.
+## Trackball und Verbindungen
 
-In der Planck-Standardbelegung öffnet **Lower + Raise** die System-Ebene: Q wählt Profil 0, Backspace löscht es, Y wählt USB und U BLE. Sobald der PC die rechte Hälfte erkennt, wird USB bevorzugt. Nach dem Abziehen wird ein verbundener BLE-Host verwendet. Reines Laden erzwingt keinen Wechsel; manuelle BLE-Auswahl bleibt möglich. Gespeicherte Belegungen können abweichen.
+Standard ist der freigegebene native Wert **798 CPI, ungefähr 800 DPI**, ohne weitere Korrektur. Bei DYA-Skalierung 1/1 hält L1 links Reihe 4/Spalte 6 (Leertastenplatz) ein Viertel der normalen Geschwindigkeit, ungefähr **200 DPI**; Loslassen stellt die normale Geschwindigkeit her. J/K/H sind Links-/Rechts-/Mittelklick, L Zurück, Semikolon Vorwärts, U/I und O/P vertikales/horizontales Rad. M in Mouse oder Fn in Base halten aktiviert Ballscrollen. 200ms Tippschutz, 1200ms Mouse-Auslauf und Ziehschutz bleiben erhalten.
 
-Für [ZMK Studio](https://zmk.studio/) oder [DYA Studio](https://studio.dya.cormoran.works/) verbinden Sie die **rechte Hälfte per USB** und wählen USB-Ausgabe sowie den seriellen Anschluss. **Die Bearbeitung ist standardmäßig entsperrt; eine Entsperrtaste ist nicht nötig. Leerlauf und Trennen sperren sie nicht erneut.** Schließen Sie andere Seiten mit demselben Anschluss und speichern Sie Änderungen. Updates erhalten Studio/DYA-Einstellungen. Entfernen Sie eine zuvor in DYA eingestellte Drehkorrektur: Die feste Montagekorrektur erfolgt vor der Zeiger- und Scrollverarbeitung.
+Fn+A/S/D/F/G wählen BLE-Profile 0–4; Fn+Z löscht bei Bedarf nur die aktuelle Kopplung. Fn+X wählt USB, Fn+C BLE. Neue PC-USB-Erkennung bevorzugt USB automatisch, reines Laden erzwingt keinen Wechsel.
 
-Beide Oberflächen unterstützen die Tastenbelegung; DYA bietet mouse-/scroll-Einstellungen und **Drehgeber-Zuweisungen je Ebene und Drehrichtung**. Auf der Basisebene scrollt der Drehgeber im Uhrzeigersinn nach oben, gegen den Uhrzeigersinn nach unten. CI prüft drei festgeschriebene DYA-Protokolle und die entsperrte Konfiguration. Nicht implementierte Sensorbilder sind nicht enthalten.
+**Beide Studios bleiben entsperrt**, ohne Entsperrtaste oder erneute Sperre im Leerlauf/nach Trennung. Für Kabelbetrieb rechte USB-Buchse, USB-Ausgabe und den richtigen seriellen Port verwenden. Für Funk mit demselben PC gekoppelt bleiben, BLE-Ausgabe wählen und **Fn+V** drücken, dann in DYA erneut suchen.
 
-## Acht Standardebenen
+Das Erkennungsfenster dauert höchstens **60 Sekunden**. Eine neue BLE-Hostverbindung oder Auswahl von BLE nach USB öffnet ebenfalls ein Fenster. Leerlauf, USB-Ausgabe, Trennung oder Ablauf beenden die zusätzliche Werbung. Normale Eingaben verlängern sie nicht endlos; bestehende GATT-Sitzungen werden dabei nicht absichtlich getrennt. Dies ist keine Entsperrtaste. Die Firmware korrigiert die fehlende Werbung bei verbundenem Host und ergänzt die Studio-UUID in der Scan-Antwort. Echte Windows-/Browser-Verbindung und Speichern müssen am Gerät geprüft werden. [Schritte und Grenzen](docs/studio-wireless.md).
 
-Die Standardbelegung verwendet **Planck QWERTY / Lower / Raise** für 47 Tasten, ergänzt um Mouse, Navigation, Scroll, Wireless und System: acht aktive Ebenen. Tab/Esc/Shift/Satzzeichen/Enter sind normale Tasten; Lower + Raise öffnet System. Alte LiNEA40-Tippkombinationen entfallen. [Alle Tastenwerte und Diagramme](docs/keymap.md) werden aus dem Quelltext erzeugt und in CI geprüft.
+## Energie und LEDs
 
-## Automatische Maus-Ebene und Rad
+Nach 30s ohne Eingabe Leerlauf, nach 15min im Akkubetrieb Tiefschlaf. Jede schlafende Hälfte per Taste wecken; Ball-/Drehgeberbewegung ist keine zugesicherte Tiefschlaf-Weckquelle. USB-versorgte Hälften bleiben wach. Drahtlose Studio-Änderungen vor dem Schlaf speichern. Das Erkennungsfenster erzeugt keine künstliche Aktivität, dauerhafte Werbung oder zusätzliche Akkupolling-Schleife.
 
-Die erste gültige Ballbewegung aktiviert Mouse sofort, sofern in den letzten **200 ms** keine Taste gedrückt wurde. Diese Zeit schützt beim Tippen. **1200 ms** nach Bewegung, Radschritt oder Loslassen einer Maus-/Modifikatortaste endet Mouse. Gehaltene Tasten schützen das Ziehen; normale transparente Buchstabentasten oder Esc beenden die Ebene sofort.
+Rot zeigt rechts den PC-Verbindungszustand und auf jeder Seite deren niedrigen Akkustand; im Leerlauf/Schlaf aus. Blau bleibt die Hardware-Ladezyklusanzeige; Dunkelheit allein beweist keinen vollen Akku. [LED-Regeln](docs/led-status.md). Stromverbrauch, Bediengefühl und Aufwachen müssen am Gerät geprüft werden.
 
-**J=Linksklick, K=Rechtsklick, H=Mittelklick, L=Zurück, Semikolon=Vorwärts; U/I=Rad hoch/runter, O/P=horizontal.** M halten scrollt mit dem Ball; rechte Leertaste halten aktiviert Mouse manuell. Der Basis-Drehgeber sendet pro Sensorereignis einen diskreten Radschritt, statt der bisherigen zu kurzen 20-ms-Simulation.
-
-Gespeicherte DYA-Werte bleiben unabhängig erhalten: mouse Temp-layer aktiviert, Ebene 1, Aktivierungsschutz 200 ms und Deaktivierung 1200 ms beibehalten. Alte Drehgeberwerte für L0/L1/L2/L3/L5/L6 gegebenenfalls auf CW=wheel up und CCW=wheel down ändern und speichern; die Lautstärke-Ebenen L4/L7 bleiben unverändert. Das Zurücksetzen des Studio-Keymaps löscht diese Werte nicht; settings-reset ist unnötig.
-
-Normale Updates behalten Studio-Belegungen. Für neue Standardwerte zuerst exportieren und dann in Studio die Standardbelegung wiederherstellen. settings-reset ist dafür unnötig. Symbole verwenden übliche US-Keycodes; ausgegebene Zeichen hängen vom PC-Tastaturlayout ab.
-
-In **L1 Mouse** hält **links 46 (Zeile 4, Spalte 6: unten rechts auf der linken Hälfte, Leertaste auf Base)** die Zeigergeschwindigkeit auf einem Viertel des normalen DYA-Werts; Loslassen stellt den normalen Wert wieder her. Base-Leertaste/Ctrl und Richtung bleiben erhalten. Bei einer in Studio gespeicherten Belegung L1 links 46 **Precision 0.25x (hold)** zuweisen, links 41 wieder auf transparent setzen und speichern; weder die ganze Belegung noch settings-reset zurücksetzen.
-
-## LEDs und Akku
-
-Rechts zeigt die rote LED die ausgewählte PC-Bluetooth-Verbindung: wartend 100 ms alle 2 s für höchstens 30 s; verbunden 2 s an, danach aus. Links zeigt sie nur den eigenen Akkustand, nicht die PC-Verbindung. Unter 15% geschätztem Akkustand leuchtet jede Seite 100 ms alle 30 s; ab 20% endet die Warnung. USB-Strom unterdrückt die Akkuwarnung. Im Leerlauf/Tiefschlaf ist Rot aus. Das Ende des Blinkfensters beendet keine Bluetooth-Werbung; normale USB-Ausgabe zeigt kein unnötiges Bluetooth-Warten.
-
-Blau bleibt die hardwaregesteuerte Ladezyklusanzeige. Nach einem normalen ersten Ladezyklus erlischt sie; Dunkelheit allein bestätigt keinen vollen Akku. Geschätzte 100% erzeugen keine Vollladeanzeige. Siehe [LED-Regeln und Grenzen](docs/led-status.md).
-
-Der vorhandene einzelne Akkusampler läuft aktiv alle 60 s, stoppt im Leerlauf und liefert nach dem Aufwachen einen frischen Wert. LEDs starten keinen zweiten ADC-Poller und erzeugen keine Aktivität gegen den Schlafmodus. Beide Hälften aktualisieren; settings-reset ist unnötig. Kopplungen und Studio-/DYA-Einstellungen bleiben erhalten.
-
-## Energiesparen und Aufwachen
-
-- Nach **30 Sekunden** ohne Eingabe beginnt der Leerlauf; Bluetooth bleibt verfügbar.
-- Im Akkubetrieb beginnt nach **15 Minuten** ohne Eingabe der Tiefschlaf. Drücken Sie auf jeder schlafenden Hälfte eine Taste und warten Sie auf die Bluetooth-Verbindung. Trackball- oder Drehgeberbewegungen sind keine zugesicherten Weckquellen.
-- USB-versorgte Hälften bleiben für USB/Studio wach. Speichern Sie Studio-Änderungen vor dem Schlafmodus, da ungesicherte RAM-Inhalte verloren gehen.
-- Der Trackball nutzt MOTION-Interrupts und vorhandene Ruhemodi des Sensors. Stromaufnahme und Aufwachverhalten müssen am Gerät geprüft werden.
-- Bei BLE werden Bewegungen unter Erhalt der gesamten Strecke zu Berichten mit mindestens **8 ms** Abstand zusammengefasst. USB bleibt unmittelbar. Die rechte Hälfte fordert **7,5 ms** Verbindungsintervall ohne Peripheral Latency an; die tatsächlichen Werte bestimmt der Host. Der Verbrauch im verbundenen Leerlauf kann steigen. Bewegungsqualität und Stromaufnahme müssen noch am Gerät geprüft werden.
-
-Siehe [Wartung](docs/maintenance.md), [Firmware-Kompatibilität](docs/hardware.md) und [Prüfstatus](docs/validation.md). Abhängigkeiten sind in config/west.yml festgeschrieben. Eigener Code steht unter MIT; Lizenzen der Abhängigkeiten stehen in den [Drittanbieterhinweisen](THIRD_PARTY_NOTICES.md).
+[Wartung](docs/maintenance.md) · [Prüfstatus](docs/validation.md). Abhängigkeiten bleiben festgeschrieben. Eigener Code MIT, siehe [Drittanbieterhinweise](THIRD_PARTY_NOTICES.md).

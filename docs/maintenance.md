@@ -4,9 +4,9 @@
 
 `config/gridroll.keymap` 是源码默认值。每层都按全局行优先排列：前三行各 12 键，底行 11 键，省略列 8 的空位。底行旋钮按压只占全局列 3。修改默认键位后提交即可触发 Actions。
 
-键盘已在 Studio 保存键位时，正常 UF2 更新会继续使用保存值。优先在 Studio 中修改并保存；要重新采用源码默认值，使用 Studio 提供的恢复默认操作，或按首次烧录说明把设置清除 UF2 刷到两侧再刷回正常固件。清除操作也会清空蓝牙／DYA 设置。
+键盘已在 Studio 保存键位时，正常 UF2 更新会继续使用保存值。采用这次四层配列前先导出旧布局，再使用 ZMK Studio 的键位恢复默认操作并保存；不应为此刷设置清除 UF2，蓝牙配对和 DYA 参数应保留。
 
-八层为 Base 0、Mouse 1、Lower 2、Navigation 3、Raise 4、Scroll 5、Wireless 6、System 7，采用常规 Planck 风格。Lower + Raise 进入 System，右空格点按 Space／按住 Mouse；Lower+底行 Ctrl 位进 Navigation，Raise+左 Shift 位进 Wireless，Mouse+M 或 Lower+右空格进 Scroll。图表见[keymap.md](keymap.md)，用 `python scripts/keymap_docs.py` 更新。普通更新保留旧键位，采用新默认值前先导出旧布局，再用 Studio 恢复默认。
+四个常用层为 Base 0、Mouse 1、Symbols 2、Function 3；L4～L7 的 47 个按键均为无动作，旋钮也无动作，保留为可编辑空槽。基础层左手右下角是普通空格、右手左下角是普通回车；第三行右端改为右 Shift。按住左空格左边的 Symbols 进入 L2，按住右回车右边的 Fn 进入 L3。轨迹球自动进入 L1，Fn+B 可手动进入、Esc 退出；L1 按住 M 进入 L3 并滚动轨迹球。图表见[keymap.md](keymap.md)，用 `python scripts/keymap_docs.py` 更新。
 
 ## DYA Studio 与轨迹球
 
@@ -14,11 +14,15 @@
 
 后续固件默认 `CONFIG_ZMK_STUDIO_LOCKING=n`。仓库 AGENTS.md 和最终编译配置检查共同固定该要求；只有用户明确要求时才恢复编辑锁。DYA 与标准 ZMK Studio 共用基础键位协议；DYA 轨迹球扩展的字段编号、类型及样例读写由 `scripts/check_studio_protocols.py` 对固定前端快照核对，不能把源码协议检查当成已连接实物。
 
-固件提供 mouse、scroll 两个运行时处理器；仅 Scroll 5 将球 XY 转为滚动。mouse 默认开启临时 Mouse 1，打字保护 200ms，无操作退出 1200ms。首次有效运动在保护窗口之外立即激活，不要求连续运动 200ms。拨球、离散滚轮、鼠标／修饰键释放续时，按住期间保护拖拽，普通透明打字键立即退出。固定模块的 `patches/runtime-temp-layer.patch` 修复单帧不退层、按键续时、多键拖拽和手动层归属；CI 提取实际修补函数进行主机回归测试。DYA 的自动层时间仍可调整，保存结构和协议未更改。
+固件提供 mouse、scroll 两个运行时处理器；Function 3 生效时将球 XY 转为滚动。mouse 默认开启临时 Mouse 1，打字保护 200ms，无操作退出 1200ms。首次有效运动在保护窗口之外立即激活，不要求连续运动 200ms。拨球、离散滚轮、鼠标／修饰键释放续时，按住期间保护拖拽，普通透明打字键立即退出。固定模块的 `patches/runtime-temp-layer.patch` 修复单帧不退层、按键续时、多键拖拽和手动层归属；CI 提取实际修补函数进行主机回归测试。DYA 的自动层时间仍可调整，保存结构和协议未更改。
 
-旋钮首层不用短暂 &msc 模拟，改为 wheel_up／wheel_down 离散行为，每个 sensor trigger 一刻度；它们通过独立 input listener 进入正常 USB／BLE 指针输出。DYA cormoran_rsr 仍可按层修改。滚轮方向现为 CW 上、CCW 下；若存在旧保存值，在 DYA 将滚轮层 L0/L1/L2/L3/L5/L6 设为 CW=wheel up、CCW=wheel down 后保存，音量层 L4/L7 保留。mouse Temp-layer 保持 enabled / layer 1 / activation 200 / deactivation 1200；仅恢复 Studio 键位不会清掉这些参数，也无需清配对。
+旋钮每个 sensor trigger 一刻度，不用短暂 &msc 模拟。DYA 旋钮参数独立保存：采用新配列时，L0/L1/L2 设为 CW=wheel up、CCW=wheel down；L3 设为音量加／减；L4～L7 设为无动作。mouse Temp-layer 保持 enabled / layer 1 / activation 200 / deactivation 1200；仅恢复 Studio 键位不会清掉这些参数，也无需清配对。
 
 L1 精细移动在左手第 4 行第 6 列（左空格位置），按住为正常 DYA 速度的 1/4，松开恢复。旧 Studio 布局需将此处设为 Precision 0.25x (hold)，原第 4 行第 1 列恢复透明；基础层空格／Ctrl 不改。
+
+用户已确认采用原生 798 CPI（约 800 DPI），不做额外补偿。DYA 正常倍率为 1/1 时，精细移动等效 199.5 CPI（约 200）；若保留过自定义倍率，实际速度会随之变化。
+
+无线 Studio：使用当前电脑对应的蓝牙槽，Fn+C 选择 BLE，Fn+V 开放最长 60s 的发现窗口后在 DYA 重新扫描。新主机连接或由 USB 切到 BLE 也会开放一次。空闲、USB 输出、断开或到期关闭额外广播；普通活动不反复续期，不伪造输入阻止休眠，也不主动断开已建立的 GATT 会话。`patches/studio-ble-discovery.patch` 将 Studio UUID 放在扫描响应，保留主广播中的 HID/BAS/名称；保持无锁，不依赖解锁事件。协议和广播策略检查不能代替 Windows/浏览器实机连接测试。
 
 GridRoll 的 PAW3222 安装方向在驱动输出时固定校正为 `X=-rawY`、`Y=rawX`，先完成安装方向校正，再进入 DYA 处理器；鼠标和滚动两种模式使用相同的校正输入。该修改对应用户报告的“上→左、下→右、左→下、右→上”，新固件应使四个方向与实际拨球一致，仍需烧录后实测。若之前在 DYA 手动补偿过方向，请将 mouse 和 scroll 的额外旋转恢复为 0、X/Y 反向关闭并保存，避免重复补偿；可以保留已调好的速度和键位。
 
@@ -54,14 +58,14 @@ GridRoll 的 PAW3222 安装方向在驱动输出时固定校正为 `X=-rawY`、`
 
 ## 蓝牙与输出
 
-右侧与电脑配对，左侧仅与右侧连接。Lower + Raise 进入 System，Q–T 选槽 0–4、Backspace 清当前槽、Y 选 USB、U 选 BLE、I 切换。新 USB 枚举和启动加载设置后优先 USB，纯充电不强制切换，拔线回退已连接的 BLE；插线后手动 BLE 选择保持到下一次重新接入。此策略无周期轮询，保留现有绑定。
+右侧与电脑配对，左侧仅与右侧连接。Fn+A/S/D/F/G 选槽 0～4，Fn+Z 清当前槽，Fn+X 选 USB，Fn+C 选 BLE，Fn+V 开启限时 Studio 发现。新 USB 枚举和启动加载设置后优先 USB，纯充电不强制切换，拔线回退已连接的 BLE；插线后手动 BLE 选择保持到下一次重新接入。此策略无周期轮询，保留现有绑定。
 
 正常应用的键盘名称、蓝牙广播名称和右侧 USB 产品名称均固定默认值为 **GridRoll**；构建脚本检查最终 `.config`，防止配置未实际生效。右侧显式启用 USB／BLE，并关闭 2M PHY 以保持与常见主机的兼容性。原有 `ZMK_BLE_EXPERIMENTAL_CONN` 已间接关闭 2M，本次将该要求写明，不把它当成已经查明的故障原因。普通更新仍保留配对关系，不在每次开机时清除绑定。
 
 搜不到蓝牙时，先按以下顺序检查：
 
 1. 确认右侧安装的是本次成功构建的 `GridRoll-right.uf2` 或诊断版，左侧安装 `GridRoll-left.uf2`；`GridRoll-settings-reset.uf2` 不广播键盘，必须换回正常固件。电脑只与右侧配对，左侧不会作为第二个主机键盘使用。
-2. 默认 Lower + Raise 进入 System，顶行 Q 选槽 0、Backspace 清该槽、U 选 BLE。也可 Raise + 左 Shift 位进入 Wireless 选择槽。先试未配对的槽可保留旧绑定。保存过的布局请按实际位置操作。
+2. 默认 Fn+A 选槽 0，Fn+C 选 BLE；Fn+S/D/F/G 可先尝试其他未配对槽以保留旧绑定。仅在确实需要重配时使用 Fn+Z 清当前槽。保存过的布局请按实际位置操作。
 3. 在电脑或手机中“忽略／删除”旧设备，暂时关闭旧主机的蓝牙，给右侧重新上电，然后添加蓝牙设备并搜索 **GridRoll**。已连接其他主机的当前槽可能停止广播；改名和普通 UF2 更新也不会自动清掉旧绑定或主机缓存。
 4. DYA／Studio 保存过自定义键位时，上述位置可能已有变化；先在右侧 USB Studio 中查看实际的蓝牙槽、BT_CLR 和 BLE 输出键，再操作。不要假设重新刷普通 UF2 会覆盖已保存键位。
 5. 仍搜不到时，先只给右侧正常应用供电，用手机和电脑分别搜索。安装 `GridRoll-right-diagnostics.uf2` 并通过 SWD／RTT 查看 Bluetooth 初始化和 advertising 错误。两台设备均不可见而 USB 正常时，需要这些实物日志才能区分无线供电、射频和初始化问题，不能仅凭配置认定蓝牙已修复。
@@ -118,7 +122,7 @@ python scripts/build_firmware.py --workspace ../gridroll-workspace --out artifac
 
 ## 产品化前
 
-使用正式分配的产品标识后，重新构建并测试 UF2／SWD 恢复、配对与 Studio 连接。电池百分比监测目前未启用，不将缺失的电量报告误判为蓝牙功能失效。真实验收记录保存在 validation 文档中；本仓库不保存内部电路文档。
+使用正式分配的产品标识后，重新构建并测试 UF2／SWD 恢复、配对与 Studio 连接。原生电池采样已启用，但电压／百分比校准和实测电流仍待验证。真实验收记录保存在 validation 文档中；本仓库不保存内部电路文档。
 
 ## 电池采样与红灯
 

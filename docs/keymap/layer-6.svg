@@ -1,148 +1,148 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="392" viewBox="0 0 1100 392">
 <rect width="1100" height="392" rx="12" fill="#f0f3f7"/>
-<text x="24" y="31" font-family="sans-serif" font-size="21" fill="#15243b">L6 · Wireless</text>
+<text x="24" y="31" font-family="sans-serif" font-size="21" fill="#15243b">L6 · Empty6</text>
 <g font-family="sans-serif" fill="#15243b" text-anchor="middle">
-<g><title>0: &amp;trans</title><rect x="24" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="62" y="75" font-size="13">TRNS</text>
+<g><title>0: &amp;none</title><rect x="24" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="62" y="75" font-size="13">—</text>
 <text x="33" y="104" font-size="8" fill="#79879b">0</text></g>
-<g><title>1: &amp;bt BT_SEL 0</title><rect x="108" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="146" y="75" font-size="13">BT 0</text>
+<g><title>1: &amp;none</title><rect x="108" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="146" y="75" font-size="13">—</text>
 <text x="117" y="104" font-size="8" fill="#79879b">1</text></g>
-<g><title>2: &amp;bt BT_SEL 1</title><rect x="192" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="230" y="75" font-size="13">BT 1</text>
+<g><title>2: &amp;none</title><rect x="192" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="230" y="75" font-size="13">—</text>
 <text x="201" y="104" font-size="8" fill="#79879b">2</text></g>
-<g><title>3: &amp;bt BT_SEL 2</title><rect x="276" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="314" y="75" font-size="13">BT 2</text>
+<g><title>3: &amp;none</title><rect x="276" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="314" y="75" font-size="13">—</text>
 <text x="285" y="104" font-size="8" fill="#79879b">3</text></g>
-<g><title>4: &amp;bt BT_SEL 3</title><rect x="360" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="398" y="75" font-size="13">BT 3</text>
+<g><title>4: &amp;none</title><rect x="360" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="398" y="75" font-size="13">—</text>
 <text x="369" y="104" font-size="8" fill="#79879b">4</text></g>
-<g><title>5: &amp;bt BT_SEL 4</title><rect x="444" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="482" y="75" font-size="13">BT 4</text>
+<g><title>5: &amp;none</title><rect x="444" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="482" y="75" font-size="13">—</text>
 <text x="453" y="104" font-size="8" fill="#79879b">5</text></g>
-<g><title>6: &amp;bt BT_SEL 0</title><rect x="564" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="602" y="75" font-size="13">BT 0</text>
+<g><title>6: &amp;none</title><rect x="564" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="602" y="75" font-size="13">—</text>
 <text x="573" y="104" font-size="8" fill="#79879b">6</text></g>
-<g><title>7: &amp;bt BT_SEL 1</title><rect x="648" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="686" y="75" font-size="13">BT 1</text>
+<g><title>7: &amp;none</title><rect x="648" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="686" y="75" font-size="13">—</text>
 <text x="657" y="104" font-size="8" fill="#79879b">7</text></g>
-<g><title>8: &amp;bt BT_SEL 2</title><rect x="732" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="770" y="75" font-size="13">BT 2</text>
+<g><title>8: &amp;none</title><rect x="732" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="770" y="75" font-size="13">—</text>
 <text x="741" y="104" font-size="8" fill="#79879b">8</text></g>
-<g><title>9: &amp;bt BT_SEL 3</title><rect x="816" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="854" y="75" font-size="13">BT 3</text>
+<g><title>9: &amp;none</title><rect x="816" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="854" y="75" font-size="13">—</text>
 <text x="825" y="104" font-size="8" fill="#79879b">9</text></g>
-<g><title>10: &amp;bt BT_SEL 4</title><rect x="900" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="938" y="75" font-size="13">BT 4</text>
+<g><title>10: &amp;none</title><rect x="900" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="938" y="75" font-size="13">—</text>
 <text x="909" y="104" font-size="8" fill="#79879b">10</text></g>
-<g><title>11: &amp;bt BT_CLR</title><rect x="984" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="1022" y="75" font-size="7.5">Clear profile</text>
+<g><title>11: &amp;none</title><rect x="984" y="49" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="1022" y="75" font-size="13">—</text>
 <text x="993" y="104" font-size="8" fill="#79879b">11</text></g>
-<g><title>12: &amp;trans</title><rect x="24" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="62" y="148" font-size="13">TRNS</text>
+<g><title>12: &amp;none</title><rect x="24" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="62" y="148" font-size="13">—</text>
 <text x="33" y="177" font-size="8" fill="#79879b">12</text></g>
-<g><title>13: &amp;trans</title><rect x="108" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="146" y="148" font-size="13">TRNS</text>
+<g><title>13: &amp;none</title><rect x="108" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="146" y="148" font-size="13">—</text>
 <text x="117" y="177" font-size="8" fill="#79879b">13</text></g>
-<g><title>14: &amp;trans</title><rect x="192" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="230" y="148" font-size="13">TRNS</text>
+<g><title>14: &amp;none</title><rect x="192" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="230" y="148" font-size="13">—</text>
 <text x="201" y="177" font-size="8" fill="#79879b">14</text></g>
-<g><title>15: &amp;trans</title><rect x="276" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="314" y="148" font-size="13">TRNS</text>
+<g><title>15: &amp;none</title><rect x="276" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="314" y="148" font-size="13">—</text>
 <text x="285" y="177" font-size="8" fill="#79879b">15</text></g>
-<g><title>16: &amp;trans</title><rect x="360" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="398" y="148" font-size="13">TRNS</text>
+<g><title>16: &amp;none</title><rect x="360" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="398" y="148" font-size="13">—</text>
 <text x="369" y="177" font-size="8" fill="#79879b">16</text></g>
-<g><title>17: &amp;trans</title><rect x="444" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="482" y="148" font-size="13">TRNS</text>
+<g><title>17: &amp;none</title><rect x="444" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="482" y="148" font-size="13">—</text>
 <text x="453" y="177" font-size="8" fill="#79879b">17</text></g>
-<g><title>18: &amp;trans</title><rect x="564" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="602" y="148" font-size="13">TRNS</text>
+<g><title>18: &amp;none</title><rect x="564" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="602" y="148" font-size="13">—</text>
 <text x="573" y="177" font-size="8" fill="#79879b">18</text></g>
-<g><title>19: &amp;trans</title><rect x="648" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="686" y="148" font-size="13">TRNS</text>
+<g><title>19: &amp;none</title><rect x="648" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="686" y="148" font-size="13">—</text>
 <text x="657" y="177" font-size="8" fill="#79879b">19</text></g>
-<g><title>20: &amp;trans</title><rect x="732" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="770" y="148" font-size="13">TRNS</text>
+<g><title>20: &amp;none</title><rect x="732" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="770" y="148" font-size="13">—</text>
 <text x="741" y="177" font-size="8" fill="#79879b">20</text></g>
-<g><title>21: &amp;trans</title><rect x="816" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="854" y="148" font-size="13">TRNS</text>
+<g><title>21: &amp;none</title><rect x="816" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="854" y="148" font-size="13">—</text>
 <text x="825" y="177" font-size="8" fill="#79879b">21</text></g>
-<g><title>22: &amp;trans</title><rect x="900" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="938" y="148" font-size="13">TRNS</text>
+<g><title>22: &amp;none</title><rect x="900" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="938" y="148" font-size="13">—</text>
 <text x="909" y="177" font-size="8" fill="#79879b">22</text></g>
-<g><title>23: &amp;trans</title><rect x="984" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="1022" y="148" font-size="13">TRNS</text>
+<g><title>23: &amp;none</title><rect x="984" y="122" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="1022" y="148" font-size="13">—</text>
 <text x="993" y="177" font-size="8" fill="#79879b">23</text></g>
-<g><title>24: &amp;trans</title><rect x="24" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="62" y="221" font-size="13">TRNS</text>
+<g><title>24: &amp;none</title><rect x="24" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="62" y="221" font-size="13">—</text>
 <text x="33" y="250" font-size="8" fill="#79879b">24</text></g>
-<g><title>25: &amp;trans</title><rect x="108" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="146" y="221" font-size="13">TRNS</text>
+<g><title>25: &amp;none</title><rect x="108" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="146" y="221" font-size="13">—</text>
 <text x="117" y="250" font-size="8" fill="#79879b">25</text></g>
-<g><title>26: &amp;trans</title><rect x="192" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="230" y="221" font-size="13">TRNS</text>
+<g><title>26: &amp;none</title><rect x="192" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="230" y="221" font-size="13">—</text>
 <text x="201" y="250" font-size="8" fill="#79879b">26</text></g>
-<g><title>27: &amp;trans</title><rect x="276" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="314" y="221" font-size="13">TRNS</text>
+<g><title>27: &amp;none</title><rect x="276" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="314" y="221" font-size="13">—</text>
 <text x="285" y="250" font-size="8" fill="#79879b">27</text></g>
-<g><title>28: &amp;trans</title><rect x="360" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="398" y="221" font-size="13">TRNS</text>
+<g><title>28: &amp;none</title><rect x="360" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="398" y="221" font-size="13">—</text>
 <text x="369" y="250" font-size="8" fill="#79879b">28</text></g>
-<g><title>29: &amp;trans</title><rect x="444" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="482" y="221" font-size="13">TRNS</text>
+<g><title>29: &amp;none</title><rect x="444" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="482" y="221" font-size="13">—</text>
 <text x="453" y="250" font-size="8" fill="#79879b">29</text></g>
-<g><title>30: &amp;trans</title><rect x="564" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="602" y="221" font-size="13">TRNS</text>
+<g><title>30: &amp;none</title><rect x="564" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="602" y="221" font-size="13">—</text>
 <text x="573" y="250" font-size="8" fill="#79879b">30</text></g>
-<g><title>31: &amp;trans</title><rect x="648" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="686" y="221" font-size="13">TRNS</text>
+<g><title>31: &amp;none</title><rect x="648" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="686" y="221" font-size="13">—</text>
 <text x="657" y="250" font-size="8" fill="#79879b">31</text></g>
-<g><title>32: &amp;trans</title><rect x="732" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="770" y="221" font-size="13">TRNS</text>
+<g><title>32: &amp;none</title><rect x="732" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="770" y="221" font-size="13">—</text>
 <text x="741" y="250" font-size="8" fill="#79879b">32</text></g>
-<g><title>33: &amp;trans</title><rect x="816" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="854" y="221" font-size="13">TRNS</text>
+<g><title>33: &amp;none</title><rect x="816" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="854" y="221" font-size="13">—</text>
 <text x="825" y="250" font-size="8" fill="#79879b">33</text></g>
-<g><title>34: &amp;trans</title><rect x="900" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="938" y="221" font-size="13">TRNS</text>
+<g><title>34: &amp;none</title><rect x="900" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="938" y="221" font-size="13">—</text>
 <text x="909" y="250" font-size="8" fill="#79879b">34</text></g>
-<g><title>35: &amp;trans</title><rect x="984" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="1022" y="221" font-size="13">TRNS</text>
+<g><title>35: &amp;none</title><rect x="984" y="195" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="1022" y="221" font-size="13">—</text>
 <text x="993" y="250" font-size="8" fill="#79879b">35</text></g>
-<g><title>36: &amp;trans</title><rect x="24" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="62" y="294" font-size="13">TRNS</text>
+<g><title>36: &amp;none</title><rect x="24" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="62" y="294" font-size="13">—</text>
 <text x="33" y="323" font-size="8" fill="#79879b">36</text></g>
-<g><title>37: &amp;trans</title><rect x="108" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="146" y="294" font-size="13">TRNS</text>
+<g><title>37: &amp;none</title><rect x="108" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="146" y="294" font-size="13">—</text>
 <text x="117" y="323" font-size="8" fill="#79879b">37</text></g>
-<g><title>38: &amp;trans</title><rect x="192" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="230" y="294" font-size="13">TRNS</text>
+<g><title>38: &amp;none</title><rect x="192" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="230" y="294" font-size="13">—</text>
 <text x="201" y="323" font-size="8" fill="#79879b">38</text></g>
-<g><title>39: &amp;trans</title><rect x="276" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="314" y="294" font-size="13">TRNS</text>
+<g><title>39: &amp;none</title><rect x="276" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="314" y="294" font-size="13">—</text>
 <text x="285" y="323" font-size="8" fill="#79879b">39</text></g>
-<g><title>40: &amp;trans</title><rect x="360" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="398" y="294" font-size="13">TRNS</text>
+<g><title>40: &amp;none</title><rect x="360" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="398" y="294" font-size="13">—</text>
 <text x="369" y="323" font-size="8" fill="#79879b">40</text></g>
-<g><title>41: &amp;trans</title><rect x="444" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="482" y="294" font-size="13">TRNS</text>
+<g><title>41: &amp;none</title><rect x="444" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="482" y="294" font-size="13">—</text>
 <text x="453" y="323" font-size="8" fill="#79879b">41</text></g>
-<g><title>42: &amp;trans</title><rect x="564" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="602" y="294" font-size="13">TRNS</text>
+<g><title>42: &amp;none</title><rect x="564" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="602" y="294" font-size="13">—</text>
 <text x="573" y="323" font-size="8" fill="#79879b">42</text></g>
-<g><title>43: &amp;trans</title><rect x="648" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="686" y="294" font-size="13">TRNS</text>
+<g><title>43: &amp;none</title><rect x="648" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="686" y="294" font-size="13">—</text>
 <text x="657" y="323" font-size="8" fill="#79879b">43</text></g>
 <circle cx="770" cy="299" r="28" fill="#d8e1ed"/><text x="770" y="303" font-size="10">TRACKBALL</text>
-<g><title>44: &amp;trans</title><rect x="816" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="854" y="294" font-size="13">TRNS</text>
+<g><title>44: &amp;none</title><rect x="816" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="854" y="294" font-size="13">—</text>
 <text x="825" y="323" font-size="8" fill="#79879b">44</text></g>
-<g><title>45: &amp;trans</title><rect x="900" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="938" y="294" font-size="13">TRNS</text>
+<g><title>45: &amp;none</title><rect x="900" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="938" y="294" font-size="13">—</text>
 <text x="909" y="323" font-size="8" fill="#79879b">45</text></g>
-<g><title>46: &amp;trans</title><rect x="984" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
-<text x="1022" y="294" font-size="13">TRNS</text>
+<g><title>46: &amp;none</title><rect x="984" y="268" width="77" height="63" rx="6" fill="white" stroke="#acb9cc"/>
+<text x="1022" y="294" font-size="13">—</text>
 <text x="993" y="323" font-size="8" fill="#79879b">46</text></g>
-<text x="550" y="365" font-size="14">Encoder CW: Wheel up · CCW: Wheel down | hold = momentary; TRNS = lower active layer</text>
+<text x="550" y="365" font-size="14">Encoder CW: No action · CCW: No action | hold = momentary; TRNS = lower active layer</text>
 </g></svg>

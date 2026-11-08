@@ -1,4 +1,13 @@
 # SPDX-License-Identifier: MIT
+config GRIDROLL_STUDIO_BLE_DISCOVERY
+    bool "Bounded Studio Bluetooth discovery while the host is connected"
+    depends on ZMK_STUDIO_TRANSPORT_BLE && ZMK_SPLIT_ROLE_CENTRAL
+    default y if DT_HAS_GRIDROLL_BEHAVIOR_STUDIO_BLE_ENABLED
+    help
+      Open a 60-second discoverable window on a new active BLE host connection
+      or explicit key press. Stop in idle, on USB output or at expiry. This
+      does not unlock/relock Studio or change pairing/settings.
+
 config GRIDROLL_PRECISION
     bool "Hold for quarter-speed trackball movement"
     depends on ZMK_POINTING && ZMK_RUNTIME_INPUT_PROCESSOR && ZMK_SPLIT_ROLE_CENTRAL

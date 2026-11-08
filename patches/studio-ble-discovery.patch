@@ -1,0 +1,39 @@
+--- a/app/src/ble.c
++++ b/app/src/ble.c
+@@ -32,6 +32,9 @@
+ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+ 
+ #include <zmk/ble.h>
++#if IS_ENABLED(CONFIG_ZMK_STUDIO_TRANSPORT_BLE)
++#include "studio/uuid.h"
++#endif
+ #include <zmk/keys.h>
+ #include <zmk/split/bluetooth/uuid.h>
+ #include <zmk/event_manager.h>
+@@ -77,6 +80,17 @@
+                   BT_UUID_16_ENCODE(BT_UUID_BAS_VAL)                        /* Battery Service */
+                   ),
+ };
++
++#if IS_ENABLED(CONFIG_ZMK_STUDIO_TRANSPORT_BLE)
++/* Keep HID/BAS and the name in the primary packet. The 128-bit Studio UUID
++ * fits in scan response; do not overfill legacy advertising's 31-byte limit. */
++static const struct bt_data zmk_ble_sd[] = {
++    BT_DATA_BYTES(BT_DATA_UUID128_ALL, ZMK_STUDIO_BT_SERVICE_UUID),
++};
++#define GRIDROLL_STUDIO_SCAN_RSP zmk_ble_sd, ARRAY_SIZE(zmk_ble_sd)
++#else
++#define GRIDROLL_STUDIO_SCAN_RSP NULL, 0
++#endif
+ 
+ #if IS_ENABLED(CONFIG_ZMK_SPLIT_BLE) && IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+ 
+@@ -168,7 +182,7 @@
+     advertising_status = ZMK_ADV_DIR;
+ 
+ #define CHECKED_OPEN_ADV()                                                                         \
+-    err = bt_le_adv_start(ZMK_ADV_CONN_NAME, zmk_ble_ad, ARRAY_SIZE(zmk_ble_ad), NULL, 0);         \
++    err = bt_le_adv_start(ZMK_ADV_CONN_NAME, zmk_ble_ad, ARRAY_SIZE(zmk_ble_ad), GRIDROLL_STUDIO_SCAN_RSP);         \
+     if (err) {                                                                                     \
+         LOG_ERR("Advertising failed to start (err %d)", err);                                      \
+         return err;                                                                                \

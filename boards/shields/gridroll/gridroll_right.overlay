@@ -25,7 +25,7 @@
         sdio-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
         cs-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
         motion-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        res-cpi = <988>;
+        res-cpi = <798>; // Native 38-CPI step: closest setting to 800 DPI.
         status = "okay";
     };
 };

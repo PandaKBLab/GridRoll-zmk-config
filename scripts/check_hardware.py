@@ -30,21 +30,21 @@ assert mapping.count((3,3))==1
 assert len(re.findall(r"&key_physical_attrs",layout))==47
 keymap=(ROOT/"config/gridroll.keymap").read_text()
 layers=keymap.split('compatible = "zmk,keymap";',1)[1]
-for layer in ["base","mouse","lower","nav","raise","scroll","wireless","system"]:
+for layer in ["base","mouse","symbols","function","empty4","empty5","empty6","empty7"]:
     content=re.search(rf"\b{layer}\s*\{{(.*?)\n\s*\}};",layers,re.S).group(1)
     bindings=re.search(r"\bbindings\s*=\s*<(.*?)>;",content,re.S).group(1)
     assert len(re.findall(r"&\w+",bindings))==47, layer
 assert 'status = "reserved"' not in keymap
 assert len(re.findall(r'sensor-bindings = <&encoder_',keymap))==8
-assert 'layers = <SCROLL>;' in keymap
+assert 'layers = <FUNCTION>;' in keymap
 assert 'cw-binding = <&wheel_up>;' in keymap
 assert 'ccw-binding = <&wheel_down>;' in keymap
 assert 'temp-layer-enabled;' in keymap and 'temp-layer = <MOUSE>;' in keymap
 assert 'temp-layer-activation-delay-ms = <200>;' in keymap
 assert 'temp-layer-deactivation-delay-ms = <1200>;' in keymap
-assert 'if-layers = <LOWER RAISE>;' in keymap and 'then-layer = <SYSTEM>;' in keymap
-assert '&lt MOUSE SPACE' in keymap
-assert all(f'&mo {layer}' in keymap for layer in ['LOWER','RAISE','NAV','SCROLL','WIRELESS'])
+assert 'conditional_layers' not in keymap
+assert '&to MOUSE' in keymap
+assert all(f'&mo {layer}' in keymap for layer in ['SYMBOLS','FUNCTION'])
 assert 'combos {' not in keymap
 mouse=re.search(r'\bmouse\s*\{(.*?)\n\s*\};',layers,re.S).group(1)
 mouse_bindings=re.search(r'\bbindings\s*=\s*<(.*?)>;',mouse,re.S).group(1)
@@ -56,7 +56,15 @@ base=re.search(r'\bbase\s*\{(.*?)\n\s*\};',layers,re.S).group(1)
 base_items=re.findall(r'&(\w+)([^&]*)',re.search(r'\bbindings\s*=\s*<(.*?)>;',base,re.S).group(1))
 assert re.sub(r'\s+', ' ', '&'+''.join(base_items[36])).strip() == '&kp LCTRL'
 assert re.sub(r'\s+', ' ', '&'+''.join(base_items[41])).strip() == '&kp SPACE'
+assert re.sub(r'\s+', ' ', '&'+''.join(base_items[42])).strip() == '&kp RET'
+for layer in ['empty4','empty5','empty6','empty7']:
+    content=re.search(rf'\b{layer}\s*\{{(.*?)\n\s*\}};',layers,re.S).group(1)
+    bindings=re.search(r'\bbindings\s*=\s*<(.*?)>;',content,re.S).group(1)
+    assert re.findall(r'&\w+',bindings)==['&none']*47
+    assert 'sensor-bindings = <&encoder_none>;' in content
 right_overlay=(ROOT/'boards/shields/gridroll/gridroll_right.overlay').read_text()
+assert 'res-cpi = <798>;' in right_overlay
+assert '&studio_ble' in keymap and 'display-name = "Studio BLE discover (60s)"' in keymap
 for wheel in ['wheel_down','wheel_up','wheel_left','wheel_right']:
     assert f'device = <&{wheel}>;' in right_overlay, f'Missing wheel input listener: {wheel}'
 assert 'diode-direction = "col2row"' in (ROOT/"boards/shields/gridroll/gridroll.dtsi").read_text()
@@ -67,4 +75,4 @@ for binding in ['zmk,battery = &vbat;', 'io-channels = <&adc 2>;',
                 'power-gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;',
                 'gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;']:
     assert binding in shield, f'Battery/LED binding missing: {binding}'
-print("GPIO order/flags, pin reservations/conflicts, 47-key transform, physical layout and 8 layers passed")
+print("GPIO/layout, native 798 CPI, Space/Enter, four populated and four empty layers passed")

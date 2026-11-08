@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build and validate all application artifacts with the locked west workspace."""
-import argparse, os, shutil, subprocess, sys
+import argparse, os, re, shutil, subprocess, sys
 import yaml
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -44,10 +44,15 @@ for name,entry in TARGETS.items():
             assert flag in config.splitlines(), f"{name}: missing {flag}"
     if name in ("right","right-diagnostics"):
         dts=(build/"zephyr/zephyr.dts").read_text()
-        for layer in ["Base", "Mouse", "Lower", "Navigation", "Raise", "Scroll", "Wireless", "System"]:
+        for layer in ["Base", "Mouse", "Symbols", "Function", "Empty 4", "Empty 5", "Empty 6", "Empty 7"]:
             assert f'display-name = "{layer}";' in dts, f"{name}: missing compiled layer {layer}"
         assert 'compatible = "zmk,behavior-runtime-sensor-rotate";' in dts
         assert 'compatible = "gridroll,behavior-precision";' in dts
+        assert 'compatible = "gridroll,behavior-studio-ble";' in dts
+        cpi = re.search(r'res-cpi\s*=\s*<\s*(0x[0-9a-fA-F]+|\d+)\s*>;', dts)
+        assert cpi and int(cpi.group(1), 0) == 798
+        max_conn = re.search(r'^CONFIG_BT_MAX_CONN=(\d+)$', config, re.M)
+        assert max_conn and int(max_conn.group(1)) >= 3, 'Host + split + discovery reservation'
         for flag in ["CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y","CONFIG_ZMK_STUDIO=y",
                      "# CONFIG_ZMK_STUDIO_LOCKING is not set",
                      "CONFIG_ZMK_STUDIO_RPC=y", "CONFIG_ZMK_STUDIO_TRANSPORT_UART=y",
@@ -58,6 +63,7 @@ for name,entry in TARGETS.items():
                      "CONFIG_GRIDROLL_USB_AUTO_OUTPUT=y",
                      "CONFIG_GRIDROLL_WHEEL_STEP=y",
                      "CONFIG_GRIDROLL_PRECISION=y",
+                     "CONFIG_GRIDROLL_STUDIO_BLE_DISCOVERY=y",
                      "CONFIG_ZMK_LOW_PRIORITY_THREAD_STACK_SIZE=4096",
                      "CONFIG_ZMK_STUDIO_RPC_THREAD_STACK_SIZE=6144",
                      "CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE=4096",
@@ -76,6 +82,7 @@ for name,entry in TARGETS.items():
         assert not any(line.startswith("CONFIG_ZMK_STUDIO_LOCK_IDLE_TIMEOUT_SEC=")
                        for line in config.splitlines()), f"{name}: Studio idle locking enabled"
     if name=="left":
+        assert "CONFIG_GRIDROLL_STUDIO_BLE_DISCOVERY=y" not in config.splitlines()
         assert "CONFIG_GRIDROLL_PRECISION=y" not in config.splitlines()
         assert "CONFIG_ZMK_LOW_PRIORITY_THREAD_STACK_SIZE=2048" in config.splitlines()
         assert "CONFIG_ZMK_USB=y" not in config.splitlines()

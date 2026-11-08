@@ -1,6 +1,16 @@
 # Validation status
 
-## Current update — precision position and wheel direction (2026-11-08)
+## Current update — about 800 DPI, four layers and wireless discovery (2026-11-08)
+
+The user approved native 798 CPI as the closest 38-CPI step to 800 DPI, without additional compensation. Source now has Base/Mouse/Symbols/Function in L0–L3 and four empty editable slots L4–L7, each with 47 no-action bindings and no-action encoder defaults. Base left bottom-right is ordinary Space, right bottom-left ordinary Enter, and the former third-row Enter becomes right Shift. Precision stays at L1 left row 4 / column 6 and uses one quarter of the current DYA baseline (199.5 effective CPI at 1/1). Function is also the compiled ball-scroll layer (3); Mouse target remains 1. L0–L2 encoder is CW up/CCW down, L3 volume, L4–L7 no action.
+
+The source fixes a specific discovery gap: pinned ZMK stops advertising after the host connects; the disabled edit lock supplies no unlock event to reopen it. Bounded Studio discovery now runs independently of locking: a fresh active BLE host connection/output selection or Fn+V opens at most 60 seconds, and idle/USB/disconnect/expiry closes extra advertising. Routine movement does not reopen or indefinitely renew it. The native BLE patch puts the Studio UUID in scan response while retaining HID/BAS/name in the primary packet. Normal pairing/reconnect and existing GATT encryption remain; no fake activity or permanent connected-host advertising is introduced.
+
+Local checks cover CPI, Space/Enter, layer inventory, diagrams and native patch application/UUID/packet budget. Host tests cover window timing, idle, USB, manual renewal, native connected-host advertising and ordinary pairing/reconnect; full Actions compilation is pending for this update. Physical Windows/browser/DYA discovery, connection, edits/save, current and sleep/wake remain untested. The user's report establishes wired DYA access and wireless HID operation, not the new wireless Studio path.
+
+Normal updates preserve settings and bonds. To adopt the layout, export the saved layout and restore the stock keymap in ZMK Studio without settings-reset. DYA encoder settings are separate: L0–L2 wheel, L3 volume, L4–L7 no action; keep mouse Temp-layer 1/200/1200 and scale 1/1 for about 800 DPI. GPIOs, physical layout, LED/battery policy, radio/motion pacing, USB preference and sleep/key-wake settings are preserved. PCB is outside this firmware update.
+
+## Previous update — precision position and wheel direction (2026-11-08)
 
 L1 precision moves from left row 4 / column 1 to **left row 4 / column 6** (one-based), the left Space position, global position 41 / RC(3,5). The old position becomes transparent Ctrl again. Base Space/Ctrl and the quarter-speed behavior implementation are unchanged. Encoder wheel defaults reverse to CW up / CCW down in L0/L1/L2/L3/L5/L6; L4/L7 volume defaults and the U/I wheel keys are unchanged. GPIOs, trackball direction/scroll processing, LEDs, radio, sleep/key-wake, dependencies and both unlocked Studios are preserved.
 
